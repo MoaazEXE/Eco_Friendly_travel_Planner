@@ -16,6 +16,13 @@ body {
   font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   color: var(--text-dark);
   background-color: var(--earth-cream);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main, .hero-section + section {
+  flex: 1;
 }
 
 /* Navbar */
@@ -64,4 +71,20 @@ footer {
   background-color: var(--green-dark);
   border-color: var(--green-dark);
   color: #fff;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+  min-height: 70vh;
+}
+
+/* Feature Cards */
+.feature-card {
+  border-radius: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
 }
