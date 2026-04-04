@@ -1,0 +1,67 @@
+/* ===== Eco-Friendly Travel Planner — Shared Styles ===== */
+
+:root {
+  --green-dark: #2d6a4f;
+  --green-mid: #40916c;
+  --green-light: #52b788;
+  --green-pale: #b7e4c7;
+  --earth-brown: #6b4226;
+  --earth-sand: #d4a373;
+  --earth-cream: #fefae0;
+  --text-dark: #1b1b1b;
+  --text-muted: #555;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text-dark);
+  background-color: var(--earth-cream);
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--green-dark) !important;
+}
+
+.navbar .nav-link,
+.navbar .navbar-brand {
+  color: #fff !important;
+}
+
+.navbar .nav-link:hover {
+  color: var(--green-pale) !important;
+}
+
+/* Coming-soon placeholder */
+.coming-soon {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.coming-soon h2 {
+  color: var(--green-dark);
+}
+
+/* Footer */
+footer {
+  background-color: var(--green-dark);
+  color: var(--green-pale);
+}
+
+/* Accent button override */
+.btn-eco {
+  background-color: var(--green-mid);
+  border-color: var(--green-mid);
+  color: #fff;
+}
+
+.btn-eco:hover {
+  background-color: var(--green-dark);
+  border-color: var(--green-dark);
+  color: #fff;
+}
