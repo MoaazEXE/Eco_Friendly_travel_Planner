@@ -1,54 +1,979 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather — Eco-Friendly Travel Planner</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">EcoTravel</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-          <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-          <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
-          <li class="nav-item"><a class="nav-link" href="eco-options.html">Eco Options</a></li>
-          <li class="nav-item"><a class="nav-link" href="itinerary.html">Itinerary</a></li>
-          <li class="nav-item"><a class="nav-link active" href="weather.html">Weather</a></li>
-          <li class="nav-item"><a class="nav-link" href="calculator.html">Calculator</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather — Eco-Friendly Travel Planner</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      .weather-page {
+        min-height: calc(100vh - 180px);
+      }
 
-  <main class="container my-5">
-    <div class="row">
-      <div class="col-12">
-        <h1 class="text-center mb-4">Weather</h1>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 placeholder-section">
-        <p>Coming soon &mdash; Weather Forecast</p>
-      </div>
-    </div>
-  </main>
+      .weather-title {
+        color: var(--primary-green);
+        font-weight: 700;
+        letter-spacing: 0.3px;
+      }
 
-  <footer>
-    <div class="container">
-      <p class="mb-0">&copy; 2026 Eco-Friendly Travel Planner &mdash; WIF2003 Web Programming</p>
-    </div>
-  </footer>
+      .weather-subtitle {
+        color: #4f8c61;
+        font-size: 1.1rem;
+      }
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/main.js"></script>
-</body>
+      .weather-search-card {
+        background: #fff;
+        border: 1px solid #d8e7d2;
+        border-radius: 14px;
+        box-shadow: 0 8px 22px rgba(27, 94, 32, 0.08);
+        padding: 1.35rem;
+      }
+
+      .search-input-wrap {
+        position: relative;
+      }
+
+      .search-input-wrap .search-leading-icon {
+        align-items: center;
+        color: var(--primary-green);
+        display: inline-flex;
+        left: 12px;
+        justify-content: center;
+        line-height: 0;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        pointer-events: none;
+      }
+
+      .search-input-wrap .search-leading-icon svg {
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+
+      #cityInput {
+        border: 1px solid #bcd6b3;
+        border-radius: 10px;
+        color: var(--dark-text);
+        min-height: 48px;
+        padding-left: 2.6rem;
+      }
+
+      #cityInput:focus {
+        border-color: var(--secondary-green);
+        box-shadow: 0 0 0 0.2rem rgba(102, 187, 106, 0.2);
+      }
+
+      .weather-search-btn {
+        background-color: var(--primary-green);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        font-weight: 600;
+        min-height: 48px;
+        min-width: 130px;
+        transition: background-color 0.2s ease;
+      }
+
+      .weather-search-btn:hover,
+      .weather-search-btn:focus {
+        background-color: #276b2b;
+        color: #fff;
+      }
+
+      .weather-search-btn:disabled {
+        background-color: #8ab88b;
+        cursor: not-allowed;
+      }
+
+      .popular-label {
+        color: #6c9c76;
+        font-weight: 500;
+        margin-right: 0.5rem;
+      }
+
+      .popular-city-btn {
+        background: #e6f2df;
+        border: 1px solid #d3e8c8;
+        border-radius: 999px;
+        color: var(--primary-green);
+        font-size: 0.95rem;
+        font-weight: 600;
+        line-height: 1;
+        margin: 0.2rem 0.35rem 0.2rem 0;
+        padding: 0.5rem 0.9rem;
+        transition: all 0.2s ease;
+      }
+
+      .popular-city-btn:hover {
+        background: #d7edd0;
+        border-color: #b7d9a7;
+        transform: translateY(-1px);
+      }
+
+      .status-card {
+        background: #fff;
+        border: 1px solid #d8e7d2;
+        border-radius: 14px;
+        box-shadow: 0 8px 22px rgba(27, 94, 32, 0.08);
+        margin-top: 1.4rem;
+        padding: 2.3rem 1rem;
+        text-align: center;
+      }
+
+      .status-card h3 {
+        color: var(--primary-green);
+        font-size: 1.35rem;
+        margin-bottom: 0.45rem;
+      }
+
+      .status-card p {
+        color: #5f8066;
+        margin-bottom: 0;
+      }
+
+      .status-icon {
+        color: #7cab85;
+        height: 54px;
+        margin-bottom: 0.8rem;
+        width: 54px;
+      }
+
+      .weather-result-card {
+        background: #fff;
+        border: 1px solid #d8e7d2;
+        border-radius: 14px;
+        box-shadow: 0 8px 22px rgba(27, 94, 32, 0.08);
+        margin-top: 1.4rem;
+        overflow: hidden;
+      }
+
+      .weather-result-header {
+        background: linear-gradient(
+          130deg,
+          var(--primary-green),
+          var(--secondary-green)
+        );
+        color: #fff;
+        padding: 1.9rem;
+      }
+
+      .weather-city {
+        color: #fff;
+        font-size: 2.4rem;
+        font-weight: 700;
+        margin-bottom: 0.15rem;
+      }
+
+      .weather-date {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.06rem;
+        margin-bottom: 1.6rem;
+      }
+
+      .weather-main {
+        align-items: center;
+        display: flex;
+        gap: 1rem;
+      }
+
+      .weather-main-icon {
+        color: #fff;
+        height: 84px;
+        width: 84px;
+      }
+
+      .weather-main-icon.weather-main-icon-sun {
+        height: 104px;
+        width: 104px;
+      }
+
+      .weather-main-icon.weather-main-icon-sun svg {
+        stroke-width: 1.6;
+      }
+
+      .weather-main-icon svg {
+        height: 100%;
+        width: 100%;
+      }
+
+      .weather-temp {
+        color: #fff;
+        font-size: 4.2rem;
+        font-weight: 300;
+        line-height: 1;
+        margin: 0;
+      }
+
+      .weather-condition {
+        color: #fff;
+        font-size: 2rem;
+        font-weight: 500;
+        margin: 0.1rem 0;
+      }
+
+      .weather-feels {
+        color: rgba(255, 255, 255, 0.88);
+        font-size: 1.15rem;
+        margin: 0;
+      }
+
+      .weather-details {
+        background-color: var(--light-bg);
+        border-bottom: 1px solid #d6e6cf;
+        display: grid;
+        gap: 0;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        padding: 1.45rem 1.2rem;
+      }
+
+      .detail-item {
+        align-items: flex-end;
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        min-height: 64px;
+        padding: 0.4rem;
+      }
+
+      .detail-icon {
+        align-self: flex-end;
+        color: var(--primary-green);
+        align-items: center;
+        display: inline-flex;
+        flex: 0 0 42px;
+        height: 42px;
+        justify-content: center;
+        width: 42px;
+      }
+
+      .detail-icon svg {
+        height: 100%;
+        stroke-width: 1.75;
+        width: 100%;
+      }
+
+      .detail-icon.lucide {
+        stroke-width: 1.75;
+      }
+
+      .detail-icon[data-lucide="droplets"] svg,
+      .detail-item .lucide-droplets {
+        height: 86%;
+        stroke-width: 1.6;
+        transform: translateY(1px);
+        transform-origin: center bottom;
+        width: 86%;
+      }
+
+      .humidity-icon {
+        color: var(--primary-green);
+      }
+
+      .humidity-icon svg {
+        fill: none;
+        height: 90%;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.6;
+        transform: translateY(1px);
+        width: 90%;
+      }
+
+      .humidity-icon .right-drop {
+        transform: scale(1.09);
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      .detail-label {
+        color: #6f8d74;
+        display: block;
+        font-size: 0.95rem;
+        margin-bottom: 0.05rem;
+      }
+
+      .detail-value {
+        color: var(--dark-text);
+        display: block;
+        font-size: 1.95rem;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+
+      .forecast-section {
+        background: #fff;
+        padding: 1.4rem;
+      }
+
+      .forecast-title {
+        color: var(--primary-green);
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .forecast-grid {
+        display: grid;
+        gap: 0.95rem;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .forecast-card {
+        background: var(--light-bg);
+        border: 1px solid #d8e7d2;
+        border-radius: 12px;
+        padding: 1rem 0.85rem;
+        text-align: center;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .forecast-card:hover {
+        box-shadow: 0 8px 18px rgba(27, 94, 32, 0.12);
+        transform: translateY(-4px);
+      }
+
+      .forecast-day {
+        color: #6f8d74;
+        display: block;
+        font-size: 2rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .forecast-icon {
+        color: var(--primary-green);
+        height: 66px;
+        margin: 0.2rem auto 0.55rem;
+        width: 66px;
+      }
+
+      .forecast-condition {
+        color: #6f8d74;
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .forecast-temps {
+        color: var(--dark-text);
+        font-size: 2rem;
+        font-weight: 600;
+      }
+
+      .forecast-temps span {
+        color: #7a9780;
+        font-size: 0.95rem;
+        margin-left: 0.3rem;
+      }
+
+      .weather-note {
+        background: #f7fbf3;
+        border: 1px solid #dbead5;
+        border-radius: 12px;
+        color: #5f8066;
+        font-size: 0.96rem;
+        margin-top: 1.4rem;
+        padding: 0.95rem 1rem;
+        text-align: center;
+      }
+
+      .weather-note strong {
+        color: var(--primary-green);
+      }
+
+      .lucide {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8;
+      }
+
+      @media (max-width: 991.98px) {
+        .weather-city {
+          font-size: 2rem;
+        }
+
+        .weather-temp {
+          font-size: 3.35rem;
+        }
+
+        .weather-condition {
+          font-size: 1.7rem;
+        }
+
+        .weather-details {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          row-gap: 0.6rem;
+        }
+
+        .forecast-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 575.98px) {
+        .weather-search-card {
+          padding: 1rem;
+        }
+
+        .weather-result-header {
+          padding: 1.4rem;
+        }
+
+        .weather-main {
+          align-items: flex-start;
+        }
+
+        .weather-main-icon {
+          height: 62px;
+          width: 62px;
+        }
+
+        .weather-main-icon.weather-main-icon-sun {
+          height: 76px;
+          width: 76px;
+        }
+
+        .weather-temp {
+          font-size: 2.85rem;
+        }
+
+        .weather-condition {
+          font-size: 1.45rem;
+        }
+
+        .weather-details {
+          grid-template-columns: 1fr;
+        }
+
+        .forecast-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .weather-search-btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">EcoTravel</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#mainNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.html">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="register.html">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="profile.html">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="eco-options.html">Eco Options</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="itinerary.html">Itinerary</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="weather.html">Weather</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="calculator.html">Calculator</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container my-5 weather-page">
+      <section class="text-center mb-4">
+        <h1 class="weather-title mb-2">Weather Forecast</h1>
+        <p class="weather-subtitle mb-0">
+          Plan your eco-friendly travels with real-time weather information
+        </p>
+      </section>
+
+      <section class="weather-search-card" aria-label="Weather search">
+        <form
+          id="weatherSearchForm"
+          class="row g-2 align-items-center"
+          novalidate
+        >
+          <div class="col-lg-10 col-md-9 col-12">
+            <div class="search-input-wrap">
+              <i
+                data-lucide="map-pin"
+                class="search-leading-icon"
+                aria-hidden="true"
+              ></i>
+              <input
+                id="cityInput"
+                type="text"
+                class="form-control"
+                placeholder="Enter city name"
+                aria-label="City name"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-3 col-12">
+            <button
+              id="searchBtn"
+              class="weather-search-btn w-100 d-inline-flex align-items-center justify-content-center gap-2"
+              type="submit"
+            >
+              <i data-lucide="search" aria-hidden="true"></i>
+              <span>Search</span>
+            </button>
+          </div>
+        </form>
+
+        <div
+          id="searchError"
+          class="alert alert-danger mt-3 mb-0 d-none"
+          role="alert"
+        ></div>
+
+        <div
+          class="mt-3 d-flex flex-wrap align-items-center"
+          aria-label="Popular cities"
+        >
+          <span class="popular-label">Popular:</span>
+          <button
+            class="popular-city-btn"
+            type="button"
+            data-city="Kuala Lumpur"
+          >
+            Kuala Lumpur
+          </button>
+          <button class="popular-city-btn" type="button" data-city="Penang">
+            Penang
+          </button>
+          <button class="popular-city-btn" type="button" data-city="London">
+            London
+          </button>
+          <button class="popular-city-btn" type="button" data-city="Tokyo">
+            Tokyo
+          </button>
+          <button class="popular-city-btn" type="button" data-city="Paris">
+            Paris
+          </button>
+        </div>
+      </section>
+
+      <section
+        id="weatherContent"
+        aria-live="polite"
+        aria-busy="false"
+      ></section>
+
+      <p class="weather-note">
+        <strong>Note:</strong> This is a demo using mock data. In production,
+        this would integrate with a real weather API like OpenWeatherMap or
+        WeatherAPI.
+      </p>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p class="mb-0">
+          &copy; 2026 Eco-Friendly Travel Planner &mdash; WIF2003 Web
+          Programming
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/lucide@0.516.0/dist/umd/lucide.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+      const weatherDataByCity = {
+        "kuala lumpur": {
+          city: "Kuala Lumpur",
+          country: "Malaysia",
+          temperature: 31,
+          feelsLike: 35,
+          condition: "Sunny",
+          humidity: 73,
+          windSpeed: 11,
+          visibility: 9,
+          pressure: 1009,
+          forecast: [
+            { day: "Mon", condition: "Sunny", high: 32, low: 25 },
+            { day: "Tue", condition: "Partly Cloudy", high: 31, low: 24 },
+            { day: "Wed", condition: "Rain", high: 29, low: 24 },
+            { day: "Thu", condition: "Rain", high: 30, low: 24 },
+            { day: "Fri", condition: "Partly Cloudy", high: 31, low: 25 },
+          ],
+        },
+        penang: {
+          city: "Penang",
+          country: "Malaysia",
+          temperature: 30,
+          feelsLike: 34,
+          condition: "Sunny",
+          humidity: 70,
+          windSpeed: 15,
+          visibility: 10,
+          pressure: 1010,
+          forecast: [
+            { day: "Mon", condition: "Sunny", high: 31, low: 23 },
+            { day: "Tue", condition: "Partly Cloudy", high: 30, low: 24 },
+            { day: "Wed", condition: "Sunny", high: 32, low: 23 },
+            { day: "Thu", condition: "Rain", high: 29, low: 24 },
+            { day: "Fri", condition: "Partly Cloudy", high: 31, low: 23 },
+          ],
+        },
+        london: {
+          city: "London",
+          country: "United Kingdom",
+          temperature: 14,
+          feelsLike: 12,
+          condition: "Rain",
+          humidity: 79,
+          windSpeed: 19,
+          visibility: 7,
+          pressure: 1004,
+          forecast: [
+            { day: "Mon", condition: "Rain", high: 15, low: 9 },
+            { day: "Tue", condition: "Cloudy", high: 13, low: 8 },
+            { day: "Wed", condition: "Partly Cloudy", high: 16, low: 10 },
+            { day: "Thu", condition: "Rain", high: 12, low: 7 },
+            { day: "Fri", condition: "Cloudy", high: 14, low: 8 },
+          ],
+        },
+        tokyo: {
+          city: "Tokyo",
+          country: "Japan",
+          temperature: 22,
+          feelsLike: 23,
+          condition: "Partly Cloudy",
+          humidity: 60,
+          windSpeed: 12,
+          visibility: 12,
+          pressure: 1014,
+          forecast: [
+            { day: "Mon", condition: "Partly Cloudy", high: 23, low: 16 },
+            { day: "Tue", condition: "Sunny", high: 25, low: 17 },
+            { day: "Wed", condition: "Rain", high: 21, low: 15 },
+            { day: "Thu", condition: "Cloudy", high: 22, low: 16 },
+            { day: "Fri", condition: "Sunny", high: 24, low: 17 },
+          ],
+        },
+        paris: {
+          city: "Paris",
+          country: "France",
+          temperature: 18,
+          feelsLike: 17,
+          condition: "Cloudy",
+          humidity: 67,
+          windSpeed: 9,
+          visibility: 11,
+          pressure: 1015,
+          forecast: [
+            { day: "Mon", condition: "Cloudy", high: 19, low: 12 },
+            { day: "Tue", condition: "Partly Cloudy", high: 20, low: 13 },
+            { day: "Wed", condition: "Rain", high: 17, low: 11 },
+            { day: "Thu", condition: "Sunny", high: 21, low: 13 },
+            { day: "Fri", condition: "Partly Cloudy", high: 20, low: 12 },
+          ],
+        },
+      };
+
+      const weatherContent = document.getElementById("weatherContent");
+      const weatherSearchForm = document.getElementById("weatherSearchForm");
+      const cityInput = document.getElementById("cityInput");
+      const searchBtn = document.getElementById("searchBtn");
+      const searchError = document.getElementById("searchError");
+
+      function normalizeCity(cityName) {
+        return cityName.trim().toLowerCase();
+      }
+
+      function getWeatherIconName(condition) {
+        const normalized = condition.toLowerCase();
+        if (normalized.includes("rain")) {
+          return "cloud-rain";
+        }
+        if (normalized.includes("cloud") || normalized.includes("partly")) {
+          return "cloud";
+        }
+        return "sun";
+      }
+
+      function getFallbackIconSvg(name) {
+        const icons = {
+          search:
+            '<circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path>',
+          "map-pin":
+            '<path d="M12 22s-7-5.5-7-12a7 7 0 1 1 14 0c0 6.5-7 12-7 12z"></path><circle cx="12" cy="10" r="2.5"></circle>',
+          sun: '<circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2.5M12 19.5V22M4.93 4.93l1.77 1.77M17.3 17.3l1.77 1.77M2 12h2.5M19.5 12H22M4.93 19.07l1.77-1.77M17.3 6.7l1.77-1.77"></path>',
+          cloud:
+            '<path d="M7 18a5 5 0 1 1 .9-9.92A6.2 6.2 0 0 1 20 10.5 4.5 4.5 0 0 1 19.5 18H7z"></path>',
+          "cloud-rain":
+            '<path d="M7 15.5a5 5 0 1 1 .9-9.92A6.2 6.2 0 0 1 20 8a4.5 4.5 0 0 1-.5 7.5H7z"></path><path d="M9 19v3M13 19v3M17 19v3"></path>',
+          droplets:
+            '<path d="M12 2s5 5.2 5 9a5 5 0 1 1-10 0c0-3.8 5-9 5-9z"></path><path d="M18 13a3 3 0 1 1-6 0"></path>',
+          wind: '<path d="M3 8h10a2.5 2.5 0 1 0-2.5-2.5"></path><path d="M3 12h14a2.5 2.5 0 1 1-2.5 2.5"></path><path d="M3 16h8"></path>',
+          eye: '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"></path><circle cx="12" cy="12" r="2.5"></circle>',
+          gauge:
+            '<path d="M12 4a9 9 0 0 0-9 9"></path><path d="M21 13a9 9 0 0 0-9-9"></path><path d="M12 13l4-4"></path><circle cx="12" cy="13" r="1"></circle>',
+        };
+
+        const paths = icons[name] || icons.search;
+        return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide" aria-hidden="true">${paths}</svg>`;
+      }
+
+      function formatDate() {
+        return new Date().toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+
+      function getMockWeatherData(cityName) {
+        const normalized = normalizeCity(cityName);
+
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const cityData = weatherDataByCity[normalized];
+
+            if (!cityData) {
+              reject(
+                new Error("City not found. Try one of the popular cities."),
+              );
+              return;
+            }
+
+            resolve({ ...cityData });
+          }, 500);
+        });
+      }
+
+      function renderIcons() {
+        if (window.lucide && typeof window.lucide.createIcons === "function") {
+          window.lucide.createIcons({
+            attrs: {
+              "stroke-width": 1.8,
+              "stroke-linecap": "round",
+              "stroke-linejoin": "round",
+            },
+          });
+          return;
+        }
+
+        document.querySelectorAll("[data-lucide]").forEach((iconNode) => {
+          const iconName = iconNode.getAttribute("data-lucide") || "search";
+          iconNode.innerHTML = getFallbackIconSvg(iconName);
+          iconNode.setAttribute("aria-hidden", "true");
+        });
+      }
+
+      function setLoadingState(isLoading) {
+        searchBtn.disabled = isLoading;
+        searchBtn.innerHTML = isLoading
+          ? '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span><span>Searching...</span>'
+          : '<i data-lucide="search" aria-hidden="true"></i><span>Search</span>';
+
+        renderIcons();
+        weatherContent.setAttribute("aria-busy", String(isLoading));
+      }
+
+      function showSearchError(message) {
+        searchError.textContent = message;
+        searchError.classList.remove("d-none");
+      }
+
+      function hideSearchError() {
+        searchError.classList.add("d-none");
+        searchError.textContent = "";
+      }
+
+      function renderEmptyState() {
+        weatherContent.innerHTML = `
+        <div class="status-card">
+          <i data-lucide="search" class="status-icon" aria-hidden="true"></i>
+          <h3>Search for a city to view weather forecast</h3>
+          <p>Use the search bar above or choose a popular destination.</p>
+        </div>
+      `;
+
+        renderIcons();
+      }
+
+      function renderLoadingState() {
+        weatherContent.innerHTML = `
+        <div class="status-card" role="status">
+          <div class="spinner-border text-success mb-3" aria-hidden="true"></div>
+          <h3>Fetching weather data...</h3>
+          <p>Preparing the latest forecast for your destination.</p>
+        </div>
+      `;
+      }
+
+      function renderErrorState(message) {
+        weatherContent.innerHTML = `
+        <div class="status-card">
+          <i data-lucide="cloud-rain" class="status-icon" aria-hidden="true"></i>
+          <h3>Unable to fetch weather</h3>
+          <p>${message}</p>
+        </div>
+      `;
+
+        renderIcons();
+      }
+
+      function renderWeatherCard(data) {
+        const currentIcon = getWeatherIconName(data.condition);
+        const mainIconClass =
+          currentIcon === "sun"
+            ? "weather-main-icon weather-main-icon-sun"
+            : "weather-main-icon";
+        const forecastHtml = data.forecast
+          .map((item) => {
+            const forecastIcon = getWeatherIconName(item.condition);
+            return `
+            <article class="forecast-card" aria-label="Forecast for ${item.day}">
+              <span class="forecast-day">${item.day}</span>
+              <i data-lucide="${forecastIcon}" class="forecast-icon" aria-hidden="true"></i>
+              <p class="forecast-condition">${item.condition}</p>
+              <p class="forecast-temps">${item.high}&deg;<span>${item.low}&deg;</span></p>
+            </article>
+          `;
+          })
+          .join("");
+
+        weatherContent.innerHTML = `
+        <article class="weather-result-card">
+          <header class="weather-result-header">
+            <h2 class="weather-city">${data.city}, ${data.country}</h2>
+            <p class="weather-date">${formatDate()}</p>
+
+            <div class="weather-main">
+              <i data-lucide="${currentIcon}" class="${mainIconClass}" aria-hidden="true"></i>
+              <div>
+                <p class="weather-temp">${data.temperature}&deg;C</p>
+                <p class="weather-condition">${data.condition}</p>
+                <p class="weather-feels">Feels like ${data.feelsLike}&deg;C</p>
+              </div>
+            </div>
+          </header>
+
+          <section class="weather-details" aria-label="Weather details">
+            <div class="detail-item">
+              <span class="detail-icon humidity-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                  <path class="left-drop" d="M8.1 3.7C6.5 5.5 5 7.2 5 9.2a3.4 3.4 0 0 0 6.8 0c0-2-1.5-3.7-3.1-5.5a.4.4 0 0 0-.6 0Z"></path>
+                  <path class="right-drop" d="M15.5 4.2c-2.2 2.5-4.3 4.9-4.3 7.9a5.4 5.4 0 1 0 10.8 0c0-3-2.1-5.4-4.3-7.9a1.4 1.4 0 0 0-2.2 0Z"></path>
+                </svg>
+              </span>
+              <div>
+                <span class="detail-label">Humidity</span>
+                <span class="detail-value">${data.humidity}%</span>
+              </div>
+            </div>
+            <div class="detail-item">
+              <i data-lucide="wind" class="detail-icon" aria-hidden="true"></i>
+              <div>
+                <span class="detail-label">Wind Speed</span>
+                <span class="detail-value">${data.windSpeed} km/h</span>
+              </div>
+            </div>
+            <div class="detail-item">
+              <i data-lucide="eye" class="detail-icon" aria-hidden="true"></i>
+              <div>
+                <span class="detail-label">Visibility</span>
+                <span class="detail-value">${data.visibility} km</span>
+              </div>
+            </div>
+            <div class="detail-item">
+              <i data-lucide="gauge" class="detail-icon" aria-hidden="true"></i>
+              <div>
+                <span class="detail-label">Pressure</span>
+                <span class="detail-value">${data.pressure} hPa</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="forecast-section" aria-label="5-day forecast">
+            <h3 class="forecast-title">5-Day Forecast</h3>
+            <div class="forecast-grid">
+              ${forecastHtml}
+            </div>
+          </section>
+        </article>
+      `;
+
+        renderIcons();
+      }
+
+      async function performSearch(cityName) {
+        const query = cityName.trim();
+
+        if (!query) {
+          showSearchError("Please enter a city name.");
+          renderEmptyState();
+          return;
+        }
+
+        hideSearchError();
+        setLoadingState(true);
+        renderLoadingState();
+
+        try {
+          const weatherData = await getMockWeatherData(query);
+          renderWeatherCard(weatherData);
+        } catch (error) {
+          const message =
+            error instanceof Error
+              ? error.message
+              : "Something went wrong while loading weather data.";
+          showSearchError(message);
+          renderErrorState(message);
+        } finally {
+          setLoadingState(false);
+        }
+      }
+
+      weatherSearchForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        performSearch(cityInput.value);
+      });
+
+      document.querySelectorAll(".popular-city-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          const city = button.getAttribute("data-city") || "";
+          cityInput.value = city;
+          performSearch(city);
+        });
+      });
+
+      renderEmptyState();
+      renderIcons();
+    </script>
+  </body>
 </html>
