@@ -1,11 +1,7 @@
 node_modules/
 .env
-<<<<<<< HEAD
 
 # OS files
 .DS_Store
 Thumbs.db
 Desktop.ini
-=======
-.DS_Store
->>>>>>> 632d91111f0d8c7b85fccab523e99660663f1c5c
