@@ -1,3 +1,16 @@
 node_modules/
 .env
 .DS_Store
+
+# AI agent / Copilot local customization files
+AGENTS.md
+copilot-instructions.md
+*.instructions.md
+*.prompt.md
+*.agent.md
+.vscode/prompts/
+.github/prompts/
+
+# Team decision: keep npm manifests local only
+package.json
+package-lock.json
