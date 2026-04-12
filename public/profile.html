@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — Eco-Friendly Travel Planner</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Page background ── */
+    body { background-color: #f8f9f6; }
+
+    /* ── Cover banner ── */
+    .profile-cover {
+      height: 260px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+    }
+    .profile-cover img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .profile-cover .cover-overlay {
+      position: absolute; inset: 0;
+      background: rgba(45, 106, 79, 0.45);
+    }
+    .profile-cover .cover-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(45,106,79,0.35) 100%);
+    }
+
+    /* ── Main content wrapper pulls up over banner ── */
+    .profile-content-wrap {
+      position: relative;
+      z-index: 10;
+      margin-top: -96px;
+      padding: 0 1rem 5rem;
+    }
+    @media (min-width: 768px) {
+      .profile-content-wrap { padding: 0 1.5rem 5rem; }
+    }
+
+    /* ── Profile card (avatar + name + stats) ── */
+    .profile-card {
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      padding: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .profile-card { padding: 2rem; }
+    }
+    .avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .avatar-wrap img {
+      width: 128px; height: 128px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    }
+    @media (min-width: 768px) {
+      .avatar-wrap img { width: 160px; height: 160px; }
+    }
+    .camera-btn {
+      position: absolute;
+      bottom: 4px; right: 4px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background-color: var(--green-dark);
+      border: 2px solid #fff;
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(45,106,79,.4);
+      transition: background-color .2s;
+    }
+    .camera-btn:hover { background-color: #1b4332; }
+
+    .eco-badge {
+      display: inline-flex; align-items: center; gap: .3rem;
+      font-size: .85rem; font-weight: 600;
+      color: var(--green-mid);
+    }
+
+    .stats-badge {
+      background-color: var(--earth-cream);
+      border-radius: 1rem;
+      padding: .75rem 1.25rem;
+      display: inline-flex; gap: 1.5rem;
+    }
+    .stats-badge .stat-item { text-align: center; }
+    .stats-badge .stat-label {
+      font-size: .7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .05em;
+      color: #6b7280;
+    }
+    .stats-badge .stat-value {
+      font-size: 1rem; font-weight: 700;
+      color: var(--green-dark);
+    }
+
+    /* ── Two-column layout ── */
+    .profile-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    @media (min-width: 992px) {
+      .profile-layout { flex-direction: row; align-items: flex-start; }
+    }
+
+    /* ── Sidebar nav ── */
+    .profile-sidebar {
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      padding: 1.25rem;
+      flex-shrink: 0;
+    }
+    @media (min-width: 992px) {
+      .profile-sidebar { width: 300px; position: sticky; top: 1.5rem; }
+    }
+    .sidebar-section-label {
+      font-size: .7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: #9ca3af;
+      padding: 0 .5rem;
+      margin-bottom: .5rem;
+    }
+    .tab-btn {
+      display: flex; align-items: center; gap: .75rem;
+      width: 100%;
+      padding: .75rem 1rem;
+      border: none; border-radius: 1rem;
+      background: transparent;
+      cursor: pointer;
+      transition: background-color .2s, color .2s;
+      text-align: left;
+      margin-bottom: .35rem;
+    }
+    .tab-btn .tab-icon-wrap {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      background-color: #f3f4f6;
+      color: #6b7280;
+      flex-shrink: 0;
+      transition: background-color .2s, color .2s;
+    }
+    .tab-btn .tab-info .tab-label {
+      font-size: .9rem; font-weight: 600;
+      color: #374151;
+      display: block;
+    }
+    .tab-btn .tab-info .tab-desc {
+      font-size: .75rem; color: #6b7280;
+      display: block;
+    }
+    /* Active state */
+    .tab-btn.active {
+      background-color: var(--green-dark);
+      box-shadow: 0 4px 12px rgba(45,106,79,.2);
+    }
+    .tab-btn.active .tab-icon-wrap {
+      background-color: var(--green-pale);
+      color: var(--green-dark);
+    }
+    .tab-btn.active .tab-info .tab-label { color: #fff; }
+    .tab-btn.active .tab-info .tab-desc { color: rgba(255,255,255,.7); }
+    /* Hover on inactive */
+    .tab-btn:not(.active):hover {
+      background-color: rgba(254,250,224,.6);
+    }
+    .tab-btn:not(.active):hover .tab-info .tab-label { color: var(--green-dark); }
+
+    /* ── Main content card ── */
+    .profile-main {
+      flex: 1;
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      padding: 1.5rem;
+      min-height: 500px;
+    }
+    @media (min-width: 768px) {
+      .profile-main { padding: 2.5rem; }
+    }
+
+    /* ── Tab panel fade animation ── */
+    .tab-panel { animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ── Form inputs ── */
+    .form-group label {
+      font-size: .875rem; font-weight: 600;
+      color: #374151; margin-bottom: .4rem;
+      display: block;
+    }
+    .input-icon-wrap {
+      position: relative;
+    }
+    .input-icon-wrap .input-icon {
+      position: absolute; left: .875rem;
+      top: 50%; transform: translateY(-50%);
+      color: #9ca3af; font-size: 1rem;
+      pointer-events: none;
+    }
+    .input-icon-wrap textarea ~ .input-icon {
+      top: .9rem; transform: none;
+    }
+    .form-control-profile {
+      width: 100%;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: .75rem;
+      padding: .75rem 1rem .75rem 2.75rem;
+      font-size: .95rem;
+      color: #111827;
+      transition: border-color .15s, box-shadow .15s;
+      outline: none;
+    }
+    .form-control-profile:focus {
+      border-color: transparent;
+      box-shadow: 0 0 0 2px var(--green-light);
+    }
+    textarea.form-control-profile {
+      resize: vertical; min-height: 90px;
+      padding-left: 2.75rem;
+    }
+
+    /* View-mode data */
+    .view-label {
+      font-size: .75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .05em;
+      color: #9ca3af; margin-bottom: .2rem;
+    }
+    .view-value {
+      font-size: 1rem; font-weight: 500;
+      color: #111827;
+    }
+
+    /* ── Buttons ── */
+    .btn-edit {
+      background-color: var(--earth-cream);
+      border: 1px solid rgba(212,163,115,.45);
+      color: var(--green-dark);
+      border-radius: .75rem;
+      padding: .5rem 1.25rem;
+      font-weight: 600; font-size: .875rem;
+      cursor: pointer;
+      transition: background-color .2s;
+      display: inline-flex; align-items: center; gap: .4rem;
+    }
+    .btn-edit:hover { background-color: rgba(254,250,224,.7); }
+
+    .btn-save {
+      background-color: var(--green-dark);
+      color: #fff;
+      border: none;
+      border-radius: .75rem;
+      padding: .625rem 1.5rem;
+      font-weight: 600; font-size: .875rem;
+      cursor: pointer;
+      transition: background-color .2s;
+      display: inline-flex; align-items: center; gap: .4rem;
+    }
+    .btn-save:hover { background-color: #1b4332; }
+
+    .btn-cancel {
+      background-color: #fff;
+      border: 1px solid #d1d5db;
+      color: #374151;
+      border-radius: .75rem;
+      padding: .625rem 1.5rem;
+      font-weight: 600; font-size: .875rem;
+      cursor: pointer;
+      transition: background-color .2s;
+    }
+    .btn-cancel:hover { background-color: #f3f4f6; }
+
+    .btn-update-password {
+      background-color: var(--green-dark);
+      color: #fff; border: none;
+      border-radius: .75rem;
+      padding: .75rem 1.75rem;
+      font-weight: 600; cursor: pointer;
+      transition: background-color .2s;
+      display: inline-flex; align-items: center; gap: .4rem;
+    }
+    .btn-update-password:hover { background-color: #1b4332; }
+
+    .btn-delete {
+      background-color: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+      border-radius: .75rem;
+      padding: .625rem 1.5rem;
+      font-weight: 600; font-size: .875rem;
+      cursor: pointer;
+      transition: background-color .2s;
+      display: inline-flex; align-items: center; gap: .4rem;
+    }
+    .btn-delete:hover { background-color: #fee2e2; }
+
+    /* ── Password hint ── */
+    .password-hint {
+      font-size: .75rem; color: #6b7280;
+      margin-top: .3rem;
+    }
+
+    /* ── Preference cards (toggles) ── */
+    .pref-card {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #f9fafb;
+      border: 1px solid #f3f4f6;
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: background-color .2s;
+    }
+    .pref-card:hover { background-color: rgba(254,250,224,.55); }
+
+    /* Toggle switch */
+    .toggle-wrap { position: relative; flex-shrink: 0; }
+    .toggle-input { display: none; }
+    .toggle-track {
+      width: 48px; height: 26px;
+      background: #d1d5db;
+      border-radius: 999px;
+      position: relative;
+      cursor: pointer;
+      transition: background-color .3s;
+    }
+    .toggle-knob {
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 20px; height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 1px 4px rgba(0,0,0,.2);
+      transition: transform .3s;
+    }
+    .toggle-input:checked + .toggle-track { background: var(--green-light); }
+    .toggle-input:checked + .toggle-track .toggle-knob { transform: translateX(22px); }
+
+    /* ── Delete warning box ── */
+    .delete-warning {
+      background-color: rgba(212,163,115,.12);
+      border: 1px solid rgba(212,163,115,.35);
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 1050;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(3px);
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.show { display: flex; animation: fadeIn .2s ease; }
+    .modal-card {
+      background: #fff;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      max-width: 420px; width: 90%;
+      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      animation: scaleIn .2s ease;
+    }
+    @keyframes scaleIn { from { transform: scale(.95); } to { transform: scale(1); } }
+    .modal-icon-wrap {
+      width: 64px; height: 64px;
+      background: #fee2e2;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.75rem; color: #dc2626;
+      margin: 0 auto 1.25rem;
+    }
+
+    .btn-confirm-delete {
+      background-color: #dc2626;
+      color: #fff; border: none;
+      border-radius: .75rem;
+      padding: .75rem 1.5rem;
+      font-weight: 600; cursor: pointer;
+      box-shadow: 0 2px 8px rgba(220,38,38,.3);
+      transition: background-color .2s;
+      flex: 1;
+    }
+    .btn-confirm-delete:hover { background-color: #b91c1c; }
+
+    /* Section divider */
+    .section-divider {
+      border: none; border-top: 1px solid #f3f4f6;
+      margin: 1.5rem 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="bi bi-leaf me-1"></i>EcoTravel
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="eco-options.html">Eco Options</a></li>
+          <li class="nav-item"><a class="nav-link" href="itinerary.html">Itinerary</a></li>
+          <li class="nav-item"><a class="nav-link" href="weather.html">Weather</a></li>
+          <li class="nav-item"><a class="nav-link" href="calculator.html">Calculator</a></li>
+          <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Cover Banner -->
+  <div class="profile-cover">
+    <img src="https://images.unsplash.com/photo-1632037667990-227e49f350c6?w=1080&auto=format&fit=crop" alt="Lush green forest cover" onerror="this.style.display='none'">
+    <div class="cover-overlay"></div>
+    <div class="cover-gradient"></div>
+  </div>
+
+  <!-- Profile Content -->
+  <div class="profile-content-wrap">
+    <div style="max-width: 1120px; margin: 0 auto;">
+
+      <!-- Profile Card -->
+      <div class="profile-card mb-0">
+        <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start gap-4">
+
+          <!-- Avatar -->
+          <div class="avatar-wrap">
+            <img id="avatar-img"
+              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&auto=format&fit=crop"
+              alt="User avatar">
+            <button class="camera-btn" title="Change photo" onclick="document.getElementById('avatar-upload').click()">
+              <i class="bi bi-camera-fill" style="font-size:.85rem;"></i>
+            </button>
+            <input type="file" id="avatar-upload" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
+          </div>
+
+          <!-- Info -->
+          <div class="flex-1 text-center text-md-start" style="flex: 1;">
+            <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start justify-content-md-between gap-3">
+              <div>
+                <h1 id="display-name" class="fs-3 fw-bold mb-1" style="color:#111827; letter-spacing:-.02em;">Eleanor Vance</h1>
+                <div class="eco-badge mb-2">
+                  <i class="bi bi-leaf"></i>
+                  <span>Eco Explorer</span>
+                </div>
+              </div>
+              <!-- Stats badge (desktop) -->
+              <div class="stats-badge d-none d-md-inline-flex">
+                <div class="stat-item">
+                  <div class="stat-label">Carbon Saved</div>
+                  <div class="stat-value">120 kg CO<sub>2</sub></div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-label">Trips Taken</div>
+                  <div class="stat-value">14</div>
+                </div>
+              </div>
+            </div>
+            <p id="display-bio" class="mb-0 mt-1" style="color:#4b5563; font-size:.95rem; line-height:1.6; max-width:560px;">
+              Passionate about sustainable travel and discovering eco-friendly experiences around the world. Always looking for the next green adventure.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Two-column layout -->
+      <div class="profile-layout">
+
+        <!-- Sidebar -->
+        <div class="profile-sidebar">
+          <p class="sidebar-section-label">Account Options</p>
+          <button class="tab-btn active" onclick="switchTab('profile')" id="tab-btn-profile">
+            <div class="tab-icon-wrap"><i class="bi bi-person-fill"></i></div>
+            <div class="tab-info">
+              <span class="tab-label">Profile Details</span>
+              <span class="tab-desc">Manage your public information</span>
+            </div>
+          </button>
+          <button class="tab-btn" onclick="switchTab('security')" id="tab-btn-security">
+            <div class="tab-icon-wrap"><i class="bi bi-shield-lock-fill"></i></div>
+            <div class="tab-info">
+              <span class="tab-label">Security</span>
+              <span class="tab-desc">Update your password</span>
+            </div>
+          </button>
+          <button class="tab-btn" onclick="switchTab('settings')" id="tab-btn-settings">
+            <div class="tab-icon-wrap"><i class="bi bi-gear-fill"></i></div>
+            <div class="tab-info">
+              <span class="tab-label">Account Settings</span>
+              <span class="tab-desc">Preferences &amp; account removal</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Main content card -->
+        <div class="profile-main">
+
+          <!-- ── PROFILE TAB ── -->
+          <div id="tab-profile" class="tab-panel">
+            <div class="d-flex align-items-start justify-content-between mb-4 gap-3 flex-wrap">
+              <div>
+                <h2 class="fs-4 fw-bold mb-1" style="color:#111827;">Profile Details</h2>
+                <p class="mb-0" style="color:#6b7280; font-size:.9rem;">Manage your public information and contact details.</p>
+              </div>
+              <button class="btn-edit" id="edit-profile-btn" onclick="startEdit()">
+                <i class="bi bi-pencil-fill"></i> Edit Profile
+              </button>
+            </div>
+
+            <!-- View Mode -->
+            <div id="profile-view">
+              <div class="row g-4">
+                <div class="col-sm-6">
+                  <p class="view-label"><i class="bi bi-person me-1"></i> Full Name</p>
+                  <p class="view-value" id="view-name">Eleanor Vance</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="view-label"><i class="bi bi-envelope me-1"></i> Email Address</p>
+                  <p class="view-value" id="view-email">eleanor.vance@example.com</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="view-label"><i class="bi bi-telephone me-1"></i> Phone Number</p>
+                  <p class="view-value" id="view-phone">+1 (555) 123-4567</p>
+                </div>
+                <div class="col-sm-6">
+                  <p class="view-label"><i class="bi bi-geo-alt me-1"></i> Location</p>
+                  <p class="view-value" id="view-location">Portland, USA</p>
+                </div>
+              </div>
+              <hr class="section-divider">
+              <p class="view-label"><i class="bi bi-chat-text me-1"></i> Bio</p>
+              <p id="view-bio-text" style="color:#374151; line-height:1.7;">
+                Passionate about sustainable travel and discovering eco-friendly experiences around the world. Always looking for the next green adventure.
+              </p>
+            </div>
+
+            <!-- Edit Mode -->
+            <div id="profile-edit" style="display:none;">
+              <form onsubmit="saveProfile(event)">
+                <div class="row g-3 mb-3">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="edit-name">Full Name <span style="color:#dc2626">*</span></label>
+                      <div class="input-icon-wrap">
+                        <i class="bi bi-person input-icon"></i>
+                        <input type="text" id="edit-name" class="form-control-profile" placeholder="Your full name" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="edit-email">Email Address <span style="color:#dc2626">*</span></label>
+                      <div class="input-icon-wrap">
+                        <i class="bi bi-envelope input-icon"></i>
+                        <input type="email" id="edit-email" class="form-control-profile" placeholder="your@email.com" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="edit-phone">Phone Number</label>
+                      <div class="input-icon-wrap">
+                        <i class="bi bi-telephone input-icon"></i>
+                        <input type="tel" id="edit-phone" class="form-control-profile" placeholder="+1 (555) 000-0000">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="edit-location">Location</label>
+                      <div class="input-icon-wrap">
+                        <i class="bi bi-geo-alt input-icon"></i>
+                        <input type="text" id="edit-location" class="form-control-profile" placeholder="City, Country">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="edit-bio">Bio</label>
+                      <div class="input-icon-wrap">
+                        <i class="bi bi-chat-text input-icon" style="top:.9rem; transform:none;"></i>
+                        <textarea id="edit-bio" class="form-control-profile" placeholder="Tell us about yourself..."></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex gap-3 flex-wrap">
+                  <button type="submit" class="btn-save">
+                    <i class="bi bi-check-lg"></i> Save Changes
+                  </button>
+                  <button type="button" class="btn-cancel" onclick="cancelEdit()">
+                    <i class="bi bi-x-lg"></i> Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- ── SECURITY TAB ── -->
+          <div id="tab-security" class="tab-panel" style="display:none;">
+            <div class="mb-4">
+              <h2 class="fs-4 fw-bold mb-1" style="color:#111827;">Security</h2>
+              <p class="mb-0" style="color:#6b7280; font-size:.9rem;">Update your password to keep your account secure.</p>
+            </div>
+            <form onsubmit="handlePasswordChange(event)" style="max-width:520px;">
+              <div class="d-flex flex-column gap-3">
+                <div class="form-group">
+                  <label for="current-password">Current Password</label>
+                  <div class="input-icon-wrap">
+                    <i class="bi bi-lock input-icon"></i>
+                    <input type="password" id="current-password" class="form-control-profile" placeholder="••••••••" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="new-password">New Password</label>
+                  <div class="input-icon-wrap">
+                    <i class="bi bi-shield-lock input-icon"></i>
+                    <input type="password" id="new-password" class="form-control-profile" placeholder="••••••••" required>
+                  </div>
+                  <p class="password-hint">Must be at least 8 characters long.</p>
+                </div>
+                <div class="form-group">
+                  <label for="confirm-password">Confirm New Password</label>
+                  <div class="input-icon-wrap">
+                    <i class="bi bi-lock-fill input-icon"></i>
+                    <input type="password" id="confirm-password" class="form-control-profile" placeholder="••••••••" required>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4">
+                <button type="submit" class="btn-update-password">
+                  <i class="bi bi-shield-check"></i> Update Password
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- ── SETTINGS TAB ── -->
+          <div id="tab-settings" class="tab-panel" style="display:none;">
+            <div class="mb-4">
+              <h2 class="fs-4 fw-bold mb-1" style="color:#111827;">Account Settings</h2>
+              <p class="mb-0" style="color:#6b7280; font-size:.9rem;">Manage your notification preferences and account.</p>
+            </div>
+
+            <!-- Email preferences -->
+            <h3 class="fw-semibold mb-3" style="color:#111827; font-size:1rem;">Email Preferences</h3>
+            <div class="d-flex flex-column gap-2 mb-4">
+
+              <label class="pref-card">
+                <div>
+                  <div class="fw-semibold" style="color:#111827; font-size:.9rem;">Eco-Travel Tips</div>
+                  <div style="font-size:.8rem; color:#6b7280;">Weekly eco-travel inspiration and guides</div>
+                </div>
+                <div class="toggle-wrap">
+                  <input type="checkbox" class="toggle-input" checked>
+                  <div class="toggle-track"><div class="toggle-knob"></div></div>
+                </div>
+              </label>
+
+              <label class="pref-card">
+                <div>
+                  <div class="fw-semibold" style="color:#111827; font-size:.9rem;">Weather Alerts</div>
+                  <div style="font-size:.8rem; color:#6b7280;">Notifications about your saved destinations</div>
+                </div>
+                <div class="toggle-wrap">
+                  <input type="checkbox" class="toggle-input" checked>
+                  <div class="toggle-track"><div class="toggle-knob"></div></div>
+                </div>
+              </label>
+
+              <label class="pref-card">
+                <div>
+                  <div class="fw-semibold" style="color:#111827; font-size:.9rem;">Marketing Updates</div>
+                  <div style="font-size:.8rem; color:#6b7280;">Promotions, offers, and partner content</div>
+                </div>
+                <div class="toggle-wrap">
+                  <input type="checkbox" class="toggle-input">
+                  <div class="toggle-track"><div class="toggle-knob"></div></div>
+                </div>
+              </label>
+
+            </div>
+
+            <hr class="section-divider">
+
+            <!-- Delete account -->
+            <h3 class="fw-semibold mb-3" style="color:#b91c1c; font-size:1rem;">
+              <i class="bi bi-exclamation-triangle me-1"></i> Danger Zone
+            </h3>
+            <div class="delete-warning mb-3">
+              <p class="fw-semibold mb-1" style="color:#374151; font-size:.9rem;">Delete My Account</p>
+              <p class="mb-0" style="font-size:.85rem; color:#6b7280;">
+                This will permanently remove all your data, itineraries, and preferences. This action cannot be undone.
+              </p>
+            </div>
+            <button class="btn-delete" onclick="document.getElementById('delete-modal').classList.add('show')">
+              <i class="bi bi-trash3-fill"></i> Delete My Account
+            </button>
+          </div>
+
+        </div><!-- /.profile-main -->
+      </div><!-- /.profile-layout -->
+
+    </div>
+  </div><!-- /.profile-content-wrap -->
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" id="delete-modal">
+    <div class="modal-card text-center">
+      <div class="modal-icon-wrap">
+        <i class="bi bi-trash3-fill"></i>
+      </div>
+      <h3 class="fw-bold mb-2" style="color:#111827;">Delete Account?</h3>
+      <p class="mb-4" style="color:#6b7280; font-size:.9rem;">
+        Are you sure you want to permanently delete your account? All your trips, preferences, and data will be lost. This action <strong>cannot</strong> be undone.
+      </p>
+      <div class="d-flex gap-3">
+        <button class="btn-cancel flex-fill" onclick="document.getElementById('delete-modal').classList.remove('show')">
+          Cancel
+        </button>
+        <button class="btn-confirm-delete" onclick="handleDeleteAccount()">
+          <i class="bi bi-trash3-fill me-1"></i> Yes, Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center py-3">
+    <small>&copy; 2026 Eco-Friendly Travel Planner — WIF2003 Group 8</small>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // ── Profile data store ──
+    const profileData = {
+      fullName: 'Eleanor Vance',
+      email: 'eleanor.vance@example.com',
+      phone: '+1 (555) 123-4567',
+      location: 'Portland, USA',
+      bio: 'Passionate about sustainable travel and discovering eco-friendly experiences around the world. Always looking for the next green adventure.'
+    };
+
+    // ── Tab switching ──
+    function switchTab(tab) {
+      ['profile', 'security', 'settings'].forEach(id => {
+        document.getElementById('tab-' + id).style.display = id === tab ? 'block' : 'none';
+        document.getElementById('tab-btn-' + id).classList.toggle('active', id === tab);
+      });
+    }
+
+    // ── Avatar upload preview ──
+    function handleAvatarUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        document.getElementById('avatar-img').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ── Profile edit ──
+    function startEdit() {
+      document.getElementById('edit-name').value     = profileData.fullName;
+      document.getElementById('edit-email').value    = profileData.email;
+      document.getElementById('edit-phone').value    = profileData.phone;
+      document.getElementById('edit-location').value = profileData.location;
+      document.getElementById('edit-bio').value      = profileData.bio;
+
+      document.getElementById('profile-view').style.display = 'none';
+      document.getElementById('profile-edit').style.display = 'block';
+      document.getElementById('edit-profile-btn').style.display = 'none';
+    }
+
+    function cancelEdit() {
+      document.getElementById('profile-view').style.display = 'block';
+      document.getElementById('profile-edit').style.display = 'none';
+      document.getElementById('edit-profile-btn').style.display = '';
+    }
+
+    function saveProfile(event) {
+      event.preventDefault();
+
+      profileData.fullName = document.getElementById('edit-name').value.trim();
+      profileData.email    = document.getElementById('edit-email').value.trim();
+      profileData.phone    = document.getElementById('edit-phone').value.trim() || 'Not provided';
+      profileData.location = document.getElementById('edit-location').value.trim() || 'Not provided';
+      profileData.bio      = document.getElementById('edit-bio').value.trim() || 'No bio provided yet.';
+
+      // Update view mode
+      document.getElementById('view-name').textContent     = profileData.fullName;
+      document.getElementById('view-email').textContent    = profileData.email;
+      document.getElementById('view-phone').textContent    = profileData.phone;
+      document.getElementById('view-location').textContent = profileData.location;
+      document.getElementById('view-bio-text').textContent = profileData.bio;
+
+      // Update profile card header
+      document.getElementById('display-name').textContent = profileData.fullName;
+      document.getElementById('display-bio').textContent  = profileData.bio;
+
+      cancelEdit();
+    }
+
+    // ── Password change ──
+    function handlePasswordChange(event) {
+      event.preventDefault();
+      const current  = document.getElementById('current-password').value;
+      const newPass  = document.getElementById('new-password').value;
+      const confirm  = document.getElementById('confirm-password').value;
+
+      if (!current || !newPass || !confirm) {
+        alert('Please fill out all password fields.');
+        return;
+      }
+      if (newPass.length < 8) {
+        alert('New password must be at least 8 characters long.');
+        return;
+      }
+      if (newPass !== confirm) {
+        alert('New passwords do not match.');
+        return;
+      }
+
+      alert('Password successfully updated!');
+      document.getElementById('current-password').value = '';
+      document.getElementById('new-password').value     = '';
+      document.getElementById('confirm-password').value = '';
+    }
+
+    // ── Delete account ──
+    function handleDeleteAccount() {
+      document.getElementById('delete-modal').classList.remove('show');
+      alert('Account deleted. We will miss you!');
+    }
+
+    // Close modal when clicking outside the card
+    document.getElementById('delete-modal').addEventListener('click', function(e) {
+      if (e.target === this) this.classList.remove('show');
+    });
+  </script>
+</body>
+</html>
