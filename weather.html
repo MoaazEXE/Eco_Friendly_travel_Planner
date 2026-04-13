@@ -30,19 +30,19 @@
     </div>
   </nav>
 
-  <main class="py-5" style="background-color: var(--light-bg); min-height: 75vh;">
+  <main class="py-5" style="background-color: var(--green-bg); min-height: 75vh;">
     <div class="container">
       <div class="row justify-content-center mb-4">
         <div class="col-lg-8">
           <h1 class="mb-3">Weather Planner</h1>
-          <p class="mb-4" style="color: var(--dark-text);">Search a city to view a mock weather summary and five-day forecast for trip planning.</p>
+          <p class="mb-4" style="color: var(--green-darker);">Search a city to view a mock weather summary and five-day forecast for trip planning.</p>
           <div class="card border-0 shadow-sm">
             <div class="card-body">
-              <label for="cityInput" class="form-label fw-semibold" style="color: var(--dark-text);">City</label>
+              <label for="cityInput" class="form-label fw-semibold" style="color: var(--green-darker);">City</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
                 <input id="cityInput" type="text" class="form-control" placeholder="Enter city name (e.g. Kuala Lumpur)">
-                <button id="searchBtn" class="btn" type="button" style="background-color: var(--primary-green); color: var(--light-bg);">Search</button>
+                <button id="searchBtn" class="btn" type="button" style="background-color: var(--green-primary); color: var(--green-bg);">Search</button>
               </div>
             </div>
           </div>
@@ -56,12 +56,12 @@
               <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                 <div>
                   <h2 id="cityName" class="h3 mb-1">Kuala Lumpur</h2>
-                  <p id="weatherCondition" class="mb-1" style="color: var(--dark-text);">Partly Cloudy</p>
-                  <p id="weatherMeta" class="mb-0" style="color: var(--dark-text);">Humidity 72% | Wind 12 km/h</p>
+                  <p id="weatherCondition" class="mb-1" style="color: var(--green-darker);">Partly Cloudy</p>
+                  <p id="weatherMeta" class="mb-0" style="color: var(--green-darker);">Humidity 72% | Wind 12 km/h</p>
                 </div>
                 <div class="text-end">
-                  <div class="display-5 fw-semibold" id="weatherTemp" style="color: var(--primary-green);">31 C</div>
-                  <div id="weatherAdvice" style="color: var(--secondary-green);">Bring a reusable water bottle.</div>
+                  <div class="display-5 fw-semibold" id="weatherTemp" style="color: var(--green-primary);">31 C</div>
+                  <div id="weatherAdvice" style="color: var(--green-secondary);">Bring a reusable water bottle.</div>
                 </div>
               </div>
             </div>
@@ -72,7 +72,7 @@
       <section>
         <div class="d-flex align-items-center justify-content-between mb-3">
           <h2 class="h4 mb-0">5-Day Forecast (Mock Data)</h2>
-          <span class="badge" style="background-color: var(--secondary-green);">Local Demo</span>
+          <span class="badge" style="background-color: var(--green-secondary);">Local Demo</span>
         </div>
         <div id="forecastRow" class="row g-3"></div>
       </section>
@@ -152,10 +152,10 @@
             <div class="col-12 col-sm-6 col-lg-2">
               <div class="card h-100 border-0 shadow-sm">
                 <div class="card-body text-center">
-                  <h3 class="h6 mb-2" style="color: var(--primary-green);">${item.day}</h3>
-                  <i class="bi ${item.icon} fs-2" style="color: var(--secondary-green);"></i>
-                  <p class="mb-2 mt-2" style="color: var(--dark-text);">${item.condition}</p>
-                  <p class="mb-0" style="color: var(--dark-text);">${item.high} / ${item.low}</p>
+                  <h3 class="h6 mb-2" style="color: var(--green-primary);">${item.day}</h3>
+                  <i class="bi ${item.icon} fs-2" style="color: var(--green-secondary);"></i>
+                  <p class="mb-2 mt-2" style="color: var(--green-darker);">${item.condition}</p>
+                  <p class="mb-0" style="color: var(--green-darker);">${item.high} / ${item.low}</p>
                 </div>
               </div>
             </div>

@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/style.css">
   <style>
     /* ── Page background ── */
-    body { background-color: #f8f9f6; }
+    body { background-color: var(--green-surface); }
 
     /* ── Cover banner ── */
     .profile-cover {
@@ -25,11 +25,11 @@
     }
     .profile-cover .cover-overlay {
       position: absolute; inset: 0;
-      background: rgba(45, 106, 79, 0.45);
+      background: var(--forest-a45);
     }
     .profile-cover .cover-gradient {
       position: absolute; inset: 0;
-      background: linear-gradient(to bottom, transparent 50%, rgba(45,106,79,0.35) 100%);
+      background: linear-gradient(to bottom, transparent 50%, var(--forest-a35) 100%);
     }
 
     /* ── Main content wrapper pulls up over banner ── */
@@ -45,9 +45,9 @@
 
     /* ── Profile card (avatar + name + stats) ── */
     .profile-card {
-      background: #fff;
+      background: var(--white);
       border-radius: 1.5rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      box-shadow: 0 1px 4px var(--shadow-card);
       padding: 1.5rem;
     }
     @media (min-width: 768px) {
@@ -61,8 +61,8 @@
       width: 128px; height: 128px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid #fff;
-      box-shadow: 0 4px 12px rgba(0,0,0,.15);
+      border: 4px solid var(--white);
+      box-shadow: 0 4px 12px var(--shadow-lg);
     }
     @media (min-width: 768px) {
       .avatar-wrap img { width: 160px; height: 160px; }
@@ -73,14 +73,14 @@
       width: 36px; height: 36px;
       border-radius: 50%;
       background-color: var(--green-dark);
-      border: 2px solid #fff;
-      color: #fff;
+      border: 2px solid var(--white);
+      color: var(--white);
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(45,106,79,.4);
+      box-shadow: 0 4px 10px var(--forest-a40);
       transition: background-color .2s;
     }
-    .camera-btn:hover { background-color: #1b4332; }
+    .camera-btn:hover { background-color: var(--green-darkest); }
 
     .eco-badge {
       display: inline-flex; align-items: center; gap: .3rem;
@@ -98,7 +98,7 @@
     .stats-badge .stat-label {
       font-size: .7rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: .05em;
-      color: #6b7280;
+      color: var(--gray-500);
     }
     .stats-badge .stat-value {
       font-size: 1rem; font-weight: 700;
@@ -118,9 +118,9 @@
 
     /* ── Sidebar nav ── */
     .profile-sidebar {
-      background: #fff;
+      background: var(--white);
       border-radius: 1.5rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      box-shadow: 0 1px 4px var(--shadow-card);
       padding: 1.25rem;
       flex-shrink: 0;
     }
@@ -130,7 +130,7 @@
     .sidebar-section-label {
       font-size: .7rem; font-weight: 700;
       text-transform: uppercase; letter-spacing: .08em;
-      color: #9ca3af;
+      color: var(--gray-400);
       padding: 0 .5rem;
       margin-bottom: .5rem;
     }
@@ -150,43 +150,43 @@
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-size: 1rem;
-      background-color: #f3f4f6;
-      color: #6b7280;
+      background-color: var(--gray-100);
+      color: var(--gray-500);
       flex-shrink: 0;
       transition: background-color .2s, color .2s;
     }
     .tab-btn .tab-info .tab-label {
       font-size: .9rem; font-weight: 600;
-      color: #374151;
+      color: var(--gray-700);
       display: block;
     }
     .tab-btn .tab-info .tab-desc {
-      font-size: .75rem; color: #6b7280;
+      font-size: .75rem; color: var(--gray-500);
       display: block;
     }
     /* Active state */
     .tab-btn.active {
       background-color: var(--green-dark);
-      box-shadow: 0 4px 12px rgba(45,106,79,.2);
+      box-shadow: 0 4px 12px var(--forest-a20);
     }
     .tab-btn.active .tab-icon-wrap {
       background-color: var(--green-pale);
       color: var(--green-dark);
     }
-    .tab-btn.active .tab-info .tab-label { color: #fff; }
-    .tab-btn.active .tab-info .tab-desc { color: rgba(255,255,255,.7); }
+    .tab-btn.active .tab-info .tab-label { color: var(--white); }
+    .tab-btn.active .tab-info .tab-desc  { color: var(--white-a70); }
     /* Hover on inactive */
     .tab-btn:not(.active):hover {
-      background-color: rgba(254,250,224,.6);
+      background-color: var(--cream-a60);
     }
     .tab-btn:not(.active):hover .tab-info .tab-label { color: var(--green-dark); }
 
     /* ── Main content card ── */
     .profile-main {
       flex: 1;
-      background: #fff;
+      background: var(--white);
       border-radius: 1.5rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      box-shadow: 0 1px 4px var(--shadow-card);
       padding: 1.5rem;
       min-height: 500px;
     }
@@ -201,7 +201,7 @@
     /* ── Form inputs ── */
     .form-group label {
       font-size: .875rem; font-weight: 600;
-      color: #374151; margin-bottom: .4rem;
+      color: var(--gray-700); margin-bottom: .4rem;
       display: block;
     }
     .input-icon-wrap {
@@ -210,7 +210,7 @@
     .input-icon-wrap .input-icon {
       position: absolute; left: .875rem;
       top: 50%; transform: translateY(-50%);
-      color: #9ca3af; font-size: 1rem;
+      color: var(--gray-400); font-size: 1rem;
       pointer-events: none;
     }
     .input-icon-wrap textarea ~ .input-icon {
@@ -218,12 +218,12 @@
     }
     .form-control-profile {
       width: 100%;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
       border-radius: .75rem;
       padding: .75rem 1rem .75rem 2.75rem;
       font-size: .95rem;
-      color: #111827;
+      color: var(--gray-900);
       transition: border-color .15s, box-shadow .15s;
       outline: none;
     }
@@ -240,17 +240,17 @@
     .view-label {
       font-size: .75rem; font-weight: 600;
       text-transform: uppercase; letter-spacing: .05em;
-      color: #9ca3af; margin-bottom: .2rem;
+      color: var(--gray-400); margin-bottom: .2rem;
     }
     .view-value {
       font-size: 1rem; font-weight: 500;
-      color: #111827;
+      color: var(--gray-900);
     }
 
     /* ── Buttons ── */
     .btn-edit {
       background-color: var(--earth-cream);
-      border: 1px solid rgba(212,163,115,.45);
+      border: 1px solid var(--tan-a45);
       color: var(--green-dark);
       border-radius: .75rem;
       padding: .5rem 1.25rem;
@@ -259,11 +259,11 @@
       transition: background-color .2s;
       display: inline-flex; align-items: center; gap: .4rem;
     }
-    .btn-edit:hover { background-color: rgba(254,250,224,.7); }
+    .btn-edit:hover { background-color: var(--cream-a70); }
 
     .btn-save {
       background-color: var(--green-dark);
-      color: #fff;
+      color: var(--white);
       border: none;
       border-radius: .75rem;
       padding: .625rem 1.5rem;
@@ -272,35 +272,35 @@
       transition: background-color .2s;
       display: inline-flex; align-items: center; gap: .4rem;
     }
-    .btn-save:hover { background-color: #1b4332; }
+    .btn-save:hover { background-color: var(--green-darkest); }
 
     .btn-cancel {
-      background-color: #fff;
-      border: 1px solid #d1d5db;
-      color: #374151;
+      background-color: var(--white);
+      border: 1px solid var(--gray-300);
+      color: var(--gray-700);
       border-radius: .75rem;
       padding: .625rem 1.5rem;
       font-weight: 600; font-size: .875rem;
       cursor: pointer;
       transition: background-color .2s;
     }
-    .btn-cancel:hover { background-color: #f3f4f6; }
+    .btn-cancel:hover { background-color: var(--gray-100); }
 
     .btn-update-password {
       background-color: var(--green-dark);
-      color: #fff; border: none;
+      color: var(--white); border: none;
       border-radius: .75rem;
       padding: .75rem 1.75rem;
       font-weight: 600; cursor: pointer;
       transition: background-color .2s;
       display: inline-flex; align-items: center; gap: .4rem;
     }
-    .btn-update-password:hover { background-color: #1b4332; }
+    .btn-update-password:hover { background-color: var(--green-darkest); }
 
     .btn-delete {
-      background-color: #fef2f2;
-      border: 1px solid #fecaca;
-      color: #b91c1c;
+      background-color: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger-dark);
       border-radius: .75rem;
       padding: .625rem 1.5rem;
       font-weight: 600; font-size: .875rem;
@@ -308,32 +308,32 @@
       transition: background-color .2s;
       display: inline-flex; align-items: center; gap: .4rem;
     }
-    .btn-delete:hover { background-color: #fee2e2; }
+    .btn-delete:hover { background-color: var(--danger-bg-hover); }
 
     /* ── Password hint ── */
     .password-hint {
-      font-size: .75rem; color: #6b7280;
+      font-size: .75rem; color: var(--gray-500);
       margin-top: .3rem;
     }
 
     /* ── Preference cards (toggles) ── */
     .pref-card {
       display: flex; align-items: center; justify-content: space-between;
-      background: #f9fafb;
-      border: 1px solid #f3f4f6;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-100);
       border-radius: 1rem;
       padding: 1rem 1.25rem;
       cursor: pointer;
       transition: background-color .2s;
     }
-    .pref-card:hover { background-color: rgba(254,250,224,.55); }
+    .pref-card:hover { background-color: var(--cream-a55); }
 
     /* Toggle switch */
     .toggle-wrap { position: relative; flex-shrink: 0; }
     .toggle-input { display: none; }
     .toggle-track {
       width: 48px; height: 26px;
-      background: #d1d5db;
+      background: var(--gray-300);
       border-radius: 999px;
       position: relative;
       cursor: pointer;
@@ -343,9 +343,9 @@
       position: absolute;
       top: 3px; left: 3px;
       width: 20px; height: 20px;
-      background: #fff;
+      background: var(--white);
       border-radius: 50%;
-      box-shadow: 0 1px 4px rgba(0,0,0,.2);
+      box-shadow: 0 1px 4px var(--shadow-xl);
       transition: transform .3s;
     }
     .toggle-input:checked + .toggle-track { background: var(--green-light); }
@@ -353,8 +353,8 @@
 
     /* ── Delete warning box ── */
     .delete-warning {
-      background-color: rgba(212,163,115,.12);
-      border: 1px solid rgba(212,163,115,.35);
+      background-color: var(--tan-a12);
+      border: 1px solid var(--tan-a35);
       border-radius: 1rem;
       padding: 1rem 1.25rem;
     }
@@ -363,44 +363,44 @@
     .modal-overlay {
       display: none;
       position: fixed; inset: 0; z-index: 1050;
-      background: rgba(0,0,0,.55);
+      background: var(--overlay);
       backdrop-filter: blur(3px);
       align-items: center; justify-content: center;
     }
     .modal-overlay.show { display: flex; animation: fadeIn .2s ease; }
     .modal-card {
-      background: #fff;
+      background: var(--white);
       border-radius: 1.5rem;
       padding: 2rem;
       max-width: 420px; width: 90%;
-      box-shadow: 0 20px 60px rgba(0,0,0,.25);
+      box-shadow: 0 20px 60px var(--shadow-2xl);
       animation: scaleIn .2s ease;
     }
     @keyframes scaleIn { from { transform: scale(.95); } to { transform: scale(1); } }
     .modal-icon-wrap {
       width: 64px; height: 64px;
-      background: #fee2e2;
+      background: var(--danger-bg-hover);
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.75rem; color: #dc2626;
+      font-size: 1.75rem; color: var(--danger);
       margin: 0 auto 1.25rem;
     }
 
     .btn-confirm-delete {
-      background-color: #dc2626;
-      color: #fff; border: none;
+      background-color: var(--danger);
+      color: var(--white); border: none;
       border-radius: .75rem;
       padding: .75rem 1.5rem;
       font-weight: 600; cursor: pointer;
-      box-shadow: 0 2px 8px rgba(220,38,38,.3);
+      box-shadow: 0 2px 8px var(--danger-shadow);
       transition: background-color .2s;
       flex: 1;
     }
-    .btn-confirm-delete:hover { background-color: #b91c1c; }
+    .btn-confirm-delete:hover { background-color: var(--danger-dark); }
 
     /* Section divider */
     .section-divider {
-      border: none; border-top: 1px solid #f3f4f6;
+      border: none; border-top: 1px solid var(--gray-100);
       margin: 1.5rem 0;
     }
   </style>
@@ -410,22 +410,20 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
-        <i class="bi bi-leaf me-1"></i>EcoTravel
-      </a>
+      <a class="navbar-brand" href="index.html">EcoTravel</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+          <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
           <li class="nav-item"><a class="nav-link" href="eco-options.html">Eco Options</a></li>
           <li class="nav-item"><a class="nav-link" href="itinerary.html">Itinerary</a></li>
           <li class="nav-item"><a class="nav-link" href="weather.html">Weather</a></li>
           <li class="nav-item"><a class="nav-link" href="calculator.html">Calculator</a></li>
-          <li class="nav-item"><a class="nav-link active" href="profile.html">Profile</a></li>
-          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-          <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
         </ul>
       </div>
     </div>
