@@ -6,7 +6,8 @@
   <title>Calculator — Eco-Friendly Travel Planner</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-</head>
+</head> 
+
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
@@ -30,25 +31,154 @@
   </nav>
 
   <main class="container my-5">
-    <div class="row">
-      <div class="col-12">
-        <h1 class="text-center mb-4">Carbon Footprint Calculator</h1>
+  <h1 class="text-center mb-4">Carbon Footprint Calculator</h1>
+
+  <!-- INPUT CARD -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-success text-white">
+      Travel Input Form
+    </div>
+
+    <div class="card-body">
+      <div class="row g-3">
+
+        <!-- Transport -->
+        <div class="col-md-6">
+          <label class="form-label">Transportation Type</label>
+          <select id="transport" class="form-select">
+            <option value="car">Car</option>
+            <option value="flight">Flight</option>
+            <option value="train">Train</option>
+          </select>
+        </div>
+
+        <!-- Distance -->
+        <div class="col-md-6">
+          <label class="form-label">Distance (km)</label>
+          <div class="input-group">
+            <span class="input-group-text">KM</span>
+            <input type="number" id="distance" class="form-control" placeholder="e.g. 200">
+          </div>
+        </div>
+
+        <!-- Accommodation -->
+        <div class="col-md-6">
+          <label class="form-label">Accommodation Type</label>
+          <select id="accommodation" class="form-select">
+            <option value="hotel">Hotel</option>
+            <option value="hostel">Hostel</option>
+            <option value="camping">Camping</option>
+          </select>
+        </div>
+
+        <!-- Nights -->
+        <div class="col-md-6">
+          <label class="form-label">Number of Nights</label>
+          <div class="input-group">
+            <span class="input-group-text">Nights</span>
+            <input type="number" id="nights" class="form-control" placeholder="e.g. 3">
+          </div>
+        </div>
+
+        <!-- Button -->
+        <div class="col-12 text-center mt-3">
+          <button class="btn btn-success btn-lg" onclick="calculateFootprint()">
+            Calculate Footprint
+          </button>
+        </div>
+
       </div>
     </div>
-    <div class="row">
-      <div class="col-12 placeholder-section">
-        <p>Coming soon &mdash; Carbon Footprint Calculator</p>
-      </div>
-    </div>
-  </main>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result"></div>
+</main>
 
   <footer>
     <div class="container">
-      <p class="mb-0">&copy; 2026 Eco-Friendly Travel Planner &mdash; WIF2003 Web Programming</p>
+      <p class="mb-0">&copy; 2026 Eco-Friendly Travel Planner — WIF2003 Web Programming</p>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/main.js"></script>
+
+  <!-- CALCULATOR LOGIC -->
+  <script>
+function calculateFootprint() {
+  const transport = document.getElementById("transport").value;
+  const distance = parseFloat(document.getElementById("distance").value) || 0;
+  const accommodation = document.getElementById("accommodation").value;
+  const nights = parseInt(document.getElementById("nights").value) || 0;
+
+  const transportFactors = {
+    car: 0.192,
+    flight: 0.255,
+    train: 0.041
+  };
+
+  const accommodationFactors = {
+    hotel: 30,
+    hostel: 15,
+    camping: 5
+  };
+
+  const transportEmission = distance * transportFactors[transport];
+  const accommodationEmission = nights * accommodationFactors[accommodation];
+  const total = transportEmission + accommodationEmission;
+
+  let level = "";
+  let alertClass = "";
+
+  if (total < 50) {
+    level = "Low Impact 🌱";
+    alertClass = "alert-success";
+  } else if (total < 150) {
+    level = "Moderate Impact 🌿";
+    alertClass = "alert-warning";
+  } else {
+    level = "High Impact 🔥";
+    alertClass = "alert-danger";
+  }
+
+  const percent = Math.min((total / 200) * 100, 100);
+
+  document.getElementById("result").innerHTML = `
+    <div class="card shadow-sm mt-4">
+      <div class="card-header bg-dark text-white">
+        Results Summary
+      </div>
+
+      <div class="card-body">
+
+        <div class="alert ${alertClass}">
+          <strong>${level}</strong>
+        </div>
+
+        <p>
+          <span class="badge bg-primary">Transport:</span>
+          ${transportEmission.toFixed(2)} kg CO₂
+        </p>
+
+        <p>
+          <span class="badge bg-secondary">Accommodation:</span>
+          ${accommodationEmission.toFixed(2)} kg CO₂
+        </p>
+
+        <hr>
+
+        <h4>Total: ${total.toFixed(2)} kg CO₂</h4>
+
+        <!-- Progress bar -->
+        <div class="progress mt-3">
+          <div class="progress-bar" style="width:${percent}%"></div>
+        </div>
+
+      </div>
+    </div>
+  `;
+}
+</script>
+
 </body>
 </html>
