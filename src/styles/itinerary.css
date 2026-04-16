@@ -1,0 +1,159 @@
+/* --- Itinerary Page Styles --- */
+
+.rounded-4 {
+    border-radius: 1rem !important;
+}
+
+.border-dashed {
+    border: 2px dashed var(--gray-350) !important;
+}
+
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem var(--shadow-sm) !important;
+}
+
+/* --- Recommendation Cards --- */
+#recommendationContainer .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#recommendationContainer .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 .5rem 1rem var(--shadow-md) !important;
+}
+
+/* --- Custom Slider (Green Fill) --- */
+.budget-range {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: linear-gradient(to right, var(--green-success) 0%, var(--green-success) 25%, var(--gray-350) 25%, var(--gray-350) 100%) !important;
+    border-radius: 8px;
+    height: 8px;
+    width: 100%;
+    outline: none;
+    transition: background 450ms ease-in;
+}
+
+.budget-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--green-success);
+    border: 2px solid var(--white);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 5px var(--shadow-xl);
+}
+
+/* --- Saved Itinerary List (Timeline) --- */
+.saved-plan-list {
+    background: transparent;
+    padding: 0;
+    position: relative;
+    padding-left: 10px;
+}
+
+.saved-plan-list::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--gray-line);
+    z-index: 0;
+}
+
+/* --- Saved Item Card --- */
+.saved-item-card {
+    background-color: var(--white);
+    border: none;
+    border-left: 5px solid var(--green-success);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px var(--shadow-xs);
+    position: relative;
+    z-index: 1;
+}
+
+.saved-item-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 6px 16px var(--shadow-md);
+}
+
+.date-badge {
+    background-color: var(--green-success);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    min-width: 100px;
+    text-align: center;
+    box-shadow: 0 2px 4px var(--success-shadow);
+}
+
+.icon-box {
+    min-width: 45px;
+    height: 45px;
+    background-color: var(--green-subtle);
+    color: var(--green-success);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.item-info {
+    flex-grow: 1;
+}
+
+.item-info h6 {
+    margin: 0;
+    font-weight: 700;
+    color: var(--gray-800);
+    font-size: 1rem;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    font-size: 0.7rem;
+}
+
+.bg-warning-subtle { background-color: var(--warning-bg) !important; }
+.bg-danger-subtle  { background-color: var(--danger-bg-subtle) !important; }
+
+.delete-btn {
+    background-color: var(--danger-bg-subtle);
+    color: var(--danger-soft);
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.delete-btn:hover {
+    background-color: var(--danger-soft);
+    color: var(--white);
+    transform: rotate(15deg);
+}
+
+.x-small { font-size: 0.75rem; }

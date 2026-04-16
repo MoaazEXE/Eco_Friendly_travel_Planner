@@ -1,3 +1,6 @@
+# Claude Code internal folder — never commit
+.claude/
+
 # Dependencies
 node_modules/
 
