@@ -1,4 +1,4 @@
-/* --- Global Dashboard Styles --- */
+/* --- Itinerary Page Styles --- */
 
 .rounded-4 {
     border-radius: 1rem !important;
@@ -23,7 +23,7 @@
 }
 
 /* --- Custom Slider (Green Fill) --- */
-#budgetRange {
+.budget-range {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -35,7 +35,7 @@
     transition: background 450ms ease-in;
 }
 
-#budgetRange::-webkit-slider-thumb {
+.budget-range::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 18px;
@@ -47,16 +47,15 @@
     box-shadow: 0 0 5px var(--shadow-xl);
 }
 
-/* --- Saved Itinerary List (The Timeline) --- */
-#savedPlanList {
+/* --- Saved Itinerary List (Timeline) --- */
+.saved-plan-list {
     background: transparent;
     padding: 0;
     position: relative;
     padding-left: 10px;
 }
 
-/* This creates the vertical line behind the cards */
-#savedPlanList::before {
+.saved-plan-list::before {
     content: '';
     position: absolute;
     left: 20px;
@@ -67,7 +66,7 @@
     z-index: 0;
 }
 
-/* --- The Fixed Saved Card --- */
+/* --- Saved Item Card --- */
 .saved-item-card {
     background-color: var(--white);
     border: none;
@@ -75,13 +74,10 @@
     border-radius: 12px;
     margin-bottom: 20px;
     padding: 15px 20px;
-
-    /* FLEX FIXES */
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 15px;
-
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px var(--shadow-xs);
     position: relative;
@@ -93,7 +89,6 @@
     box-shadow: 0 6px 16px var(--shadow-md);
 }
 
-/* Fixed Date Badge */
 .date-badge {
     background-color: var(--green-success);
     color: var(--white);
@@ -107,7 +102,6 @@
     box-shadow: 0 2px 4px var(--success-shadow);
 }
 
-/* Icon Box */
 .icon-box {
     min-width: 45px;
     height: 45px;
@@ -120,7 +114,6 @@
     font-size: 1.2rem;
 }
 
-/* Content Area */
 .item-info {
     flex-grow: 1;
 }
@@ -132,7 +125,6 @@
     font-size: 1rem;
 }
 
-/* Impact Badges */
 .badge {
     padding: 5px 10px;
     border-radius: 6px;
@@ -143,7 +135,6 @@
 .bg-warning-subtle { background-color: var(--warning-bg) !important; }
 .bg-danger-subtle  { background-color: var(--danger-bg-subtle) !important; }
 
-/* Modern Delete Button */
 .delete-btn {
     background-color: var(--danger-bg-subtle);
     color: var(--danger-soft);
@@ -165,5 +156,4 @@
     transform: rotate(15deg);
 }
 
-/* Utility */
 .x-small { font-size: 0.75rem; }
