@@ -316,6 +316,10 @@ export default function ItineraryPage() {
                           <div>
                             <h5 className="itin-rec-name">{item.name}</h5>
                             <div className="itin-tags">
+                              <span className="itin-tag itin-budget-badge">
+                                <Wallet size={12} strokeWidth={2.5} className="me-1" />
+                                RM{item.budget}
+                              </span>
                               <span className="itin-tag">{item.type.charAt(0).toUpperCase() + item.type.slice(1)}</span>
                               <span
                                 className="itin-impact-tag sm"
@@ -326,21 +330,15 @@ export default function ItineraryPage() {
                               </span>
                             </div>
                           </div>
-                          <span className="itin-tag itin-budget-badge">
-                            <Wallet size={12} strokeWidth={2.5} className="me-1" />
-                            RM{item.budget}
-                          </span>
+                          <button className="itin-add-btn" onClick={() => addToPlan(item.id)}>
+                            <Plus size={14} strokeWidth={2.5} className="me-1" />
+                            Add to My Plan
+                          </button>
                         </div>
                         <p className="itin-rec-desc">{item.description}</p>
                         <div className="itin-impact-note">
                           <Leaf size={13} strokeWidth={2.5} className="me-1" />
                           {item.impactNote}
-                        </div>
-                        <div className="d-flex justify-content-end">
-                          <button className="itin-add-btn" onClick={() => addToPlan(item.id)}>
-                            <Plus size={14} strokeWidth={2.5} className="me-1" />
-                            Add to My Plan
-                          </button>
                         </div>
                       </div>
                     );
