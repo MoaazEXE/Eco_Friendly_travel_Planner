@@ -342,7 +342,7 @@
   border-radius: 16px;
   padding: 1.25rem 1.5rem;
   box-shadow: 0 2px 12px var(--shadow-xs);
-  border-left: 4px solid var(--green-success);
+  border-left: 5px solid var(--green-success);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -353,11 +353,16 @@
 
 .itin-rec-top {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 12px;
   margin-bottom: 0.8rem;
-  flex-wrap: wrap;
-  gap: 8px;
+}
+
+.itin-budget-badge {
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 700;
 }
 
 /* ── Impact tag ── */
@@ -435,64 +440,208 @@
   transform: translateY(-1px);
 }
 
-/* ── Timeline ── */
-.itin-timeline {
-  position: relative;
-  padding-left: 1.75rem;
+/* ── Date-grouped saved itinerary ── */
+.itin-date-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
-.itin-timeline::before {
-  content: '';
-  position: absolute;
-  left: 8px;
-  top: 16px;
-  bottom: 16px;
-  width: 2px;
-  background: linear-gradient(to bottom, var(--green-success), var(--green-pale));
-  border-radius: 2px;
-}
-
-.itin-tl-item {
-  position: relative;
-  margin-bottom: 1rem;
-}
-
-.itin-tl-dot {
-  position: absolute;
-  left: -1.42rem;
-  top: 1.15rem;
-  width: 12px;
-  height: 12px;
-  background: var(--green-success);
-  border: 3px solid var(--white);
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--green-success);
-}
-
-.itin-tl-card {
+.itin-date-group {
   background: var(--white);
-  border-radius: 14px;
-  padding: 1rem 1.25rem;
-  box-shadow: 0 2px 10px var(--shadow-xs);
-  border: 1px solid var(--green-subtle);
-  transition: transform 0.2s ease;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px var(--shadow-xs);
 }
 
-.itin-tl-card:hover {
-  transform: translateX(4px);
-}
-
-.itin-tl-top {
+.itin-date-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
+  padding: 0.85rem 1.1rem;
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-300);
 }
 
-.itin-tl-date {
-  font-size: 0.75rem;
+.itin-date-label {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.itin-date-total {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
   font-weight: 700;
   color: var(--green-success);
+}
+
+.itin-plan-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.itin-plan-card:last-child {
+  border-bottom: none;
+}
+
+.itin-plan-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.itin-plan-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 0.2rem;
+}
+
+.itin-plan-city {
+  font-size: 0.73rem;
+  color: var(--gray-400);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.2rem;
+}
+
+.itin-plan-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.itin-plan-budget {
+  display: flex;
+  align-items: center;
+  font-size: 0.73rem;
+  font-weight: 600;
+  color: var(--green-success);
+  margin-bottom: 0.25rem;
+}
+
+/* ── Edit button ── */
+.itin-edit-btn {
+  background: var(--gray-100);
+  color: var(--gray-600);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.78rem;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.itin-edit-btn:hover {
+  background: var(--green-pale);
+  color: var(--green-dark);
+}
+
+/* ── Inline edit card ── */
+.itin-plan-card-edit {
+  background: var(--gray-50);
+}
+
+.itin-plan-edit-body {
+  width: 100%;
+}
+
+.itin-edit-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.itin-edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.itin-edit-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+
+.itin-edit-input,
+.itin-edit-textarea {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 0.83rem;
+  color: var(--gray-900);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.itin-edit-textarea {
+  resize: vertical;
+  min-height: 56px;
+  line-height: 1.45;
+}
+
+.itin-edit-input:focus,
+.itin-edit-textarea:focus {
+  border-color: var(--green-success);
+  box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.08);
+}
+
+.itin-edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.itin-edit-save {
+  background: var(--green-success);
+  color: var(--white);
+  border: none;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.itin-edit-save:hover {
+  background: var(--green-dark);
+}
+
+.itin-edit-cancel {
+  background: transparent;
+  color: var(--gray-500);
+  border: 1.5px solid var(--gray-200);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.itin-edit-cancel:hover {
+  border-color: var(--gray-400);
+  color: var(--gray-700);
 }
 
 .itin-del-btn {
