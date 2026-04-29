@@ -1,9 +1,15 @@
-@import 'colors.css';
+@import './colors.css';
 
 body {
   background-color: var(--green-bg);
   color: var(--green-darker);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;

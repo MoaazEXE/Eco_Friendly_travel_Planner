@@ -1,140 +1,237 @@
-# Eco-Friendly Travel Planner
+# Eco-Friendly Travel Planner — Frontend
 
-WIF2003 Web Programming — University Group Project
+**WIF2003 Web Programming** · Group 8
 
-A web application that helps users plan eco-friendly travel itineraries, compare carbon footprints, and choose sustainable transport options.
+A React + Vite single-page application for planning eco-friendly travel. Users can browse sustainable travel options, build a day-by-day itinerary, check weather forecasts, and manage their profile.
 
-## Pages
-
-- **Home** — Landing page
-- **Login / Register** — User authentication
-- **Profile** — User profile management
-- **Eco Options** — Sustainable travel alternatives
-- **Itinerary** — Trip planning and management
-- **Weather** — Weather forecast for destinations
-- **Calculator** — Carbon footprint calculator
+---
 
 ## Tech Stack
 
-- HTML5, CSS3, JavaScript
-- Bootstrap 5
+| Layer      | Technology |
+|------------|------------|
+| Framework  | React 18 |
+| Bundler    | Vite 5 |
+| Routing    | React Router v6 |
+| UI / CSS   | Bootstrap 5.3 (npm) + Bootstrap Icons (CDN) |
+| HTTP layer | Native `fetch` API (wrapped in `src/api/`) |
+| Language   | JavaScript (JSX) |
 
 ---
 
-## Color System — Team Rules
+## Prerequisites
 
-All colors are defined as CSS variables in **`css/colors.css`**.  
-`style.css` imports it automatically, so every page that links `style.css` has access to every token.
+- [Node.js](https://nodejs.org/) v18 or higher
+- npm v9 or higher (comes with Node)
 
-### Rule: never write a raw color value in your code
+Check your versions:
 
-```css
-/* WRONG */
-color: #2e7d32;
-background: #fff;
-box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
-
-/* CORRECT */
-color: var(--green-primary);
-background: var(--white);
-box-shadow: 0 2px 8px var(--danger-shadow);
+```bash
+node -v
+npm -v
 ```
 
-This applies to **CSS files**, **`<style>` blocks inside HTML**, and **inline `style="..."` attributes**.
+---
+
+## Installation
+
+```bash
+# 1. Clone the repository
+git clone <your-repo-url>
+cd eco-travel-frontend/client
+
+# 2. Install dependencies
+npm install
+
+# 3. Set up environment variables
+cp .env.example .env
+# Then open .env and fill in values (see Environment Variables section)
+```
 
 ---
 
-### Available Tokens
+## Running the App
 
-#### Green palette
-| Variable | Value | Use for |
-|---|---|---|
-| `--green-darkest` | `#1b4332` | Darkest hover state on buttons |
-| `--green-darker` | `#1b5e20` | Body text |
-| `--green-dark` | `#2d6a4f` | Profile accents, camera button |
-| `--green-primary` | `#2e7d32` | Navbar, footer, headings, primary buttons |
-| `--green-success` | `#198754` | Itinerary badges & timeline |
-| `--green-mid` | `#40916c` | Profile mid-tone text |
-| `--green-secondary` | `#66bb6a` | Nav link hover, secondary accents |
-| `--green-light` | `#74c69d` | Focus rings, toggle active state |
-| `--green-pale` | `#d8f3dc` | Tab icon backgrounds |
-| `--green-subtle` | `#e9f5ee` | Itinerary icon box background |
-| `--green-bg` | `#f1f8e9` | Default page background |
-| `--green-surface` | `#f8f9f6` | Profile page background |
+### Development server
 
-#### Earth & cream
-| Variable | Value | Use for |
-|---|---|---|
-| `--earth-cream` | `#fefae0` | Stats badge, edit button bg |
-| `--earth-tan` | `#d4a373` | Base for tan alpha tokens |
+```bash
+npm run dev
+```
 
-#### Neutrals
-| Variable | Value | Use for |
-|---|---|---|
-| `--white` | `#ffffff` | Card backgrounds, text on dark |
-| `--gray-50` | `#f9fafb` | Form input bg |
-| `--gray-100` | `#f3f4f6` | Hover backgrounds, dividers |
-| `--gray-200` | `#e5e7eb` | Input borders |
-| `--gray-300` | `#d1d5db` | Cancel button border |
-| `--gray-350` | `#dee2e6` | Bootstrap dashed borders |
-| `--gray-400` | `#9ca3af` | Placeholder / label text |
-| `--gray-500` | `#6b7280` | Secondary / hint text |
-| `--gray-600` | `#4b5563` | Supporting body text |
-| `--gray-700` | `#374151` | Form labels |
-| `--gray-800` | `#2d3436` | Card titles |
-| `--gray-900` | `#111827` | Primary input text |
-| `--gray-line` | `#e9ecef` | Timeline / divider lines |
+Opens at **http://localhost:5173** with hot-module replacement enabled.
 
-#### Danger / red
-| Variable | Value | Use for |
-|---|---|---|
-| `--danger` | `#dc2626` | Delete confirm button |
-| `--danger-dark` | `#b91c1c` | Delete hover state |
-| `--danger-soft` | `#ff7675` | Soft delete icon (itinerary) |
-| `--danger-bg` | `#fef2f2` | Delete button background |
-| `--danger-bg-hover` | `#fee2e2` | Delete button hover bg |
-| `--danger-bg-subtle` | `#fff5f5` | Danger badge background |
-| `--danger-border` | `#fecaca` | Delete button border |
+### Production build
 
-#### Warning
-| Variable | Value | Use for |
-|---|---|---|
-| `--warning-bg` | `#fef8e7` | Warning badge background |
+```bash
+npm run build
+```
 
-#### Shadows & overlays
-| Variable | Value | Use for |
-|---|---|---|
-| `--shadow-card` | `rgba(0,0,0,0.08)` | Profile cards / sidebar |
-| `--shadow-xs` | `rgba(0,0,0,0.05)` | Subtle elevation |
-| `--shadow-sm` | `rgba(0,0,0,0.075)` | Bootstrap shadow-sm override |
-| `--shadow-md` | `rgba(0,0,0,0.10)` | Card hover |
-| `--shadow-lg` | `rgba(0,0,0,0.15)` | Avatar portrait |
-| `--shadow-xl` | `rgba(0,0,0,0.20)` | Toggle knob, slider thumb |
-| `--shadow-2xl` | `rgba(0,0,0,0.25)` | Modal card |
-| `--overlay` | `rgba(0,0,0,0.55)` | Modal backdrop |
-| `--forest-a20/35/40/45` | forest green + opacity | Cover overlays, tab shadow |
-| `--tan-a12/35/45` | earth tan + opacity | Delete warning, edit border |
-| `--cream-a55/60/70` | earth cream + opacity | Hover backgrounds |
-| `--white-a70` | `rgba(255,255,255,0.70)` | Active tab description |
-| `--success-shadow` | `rgba(25,135,84,0.20)` | Itinerary badge shadow |
-| `--danger-shadow` | `rgba(220,38,38,0.30)` | Delete confirm shadow |
+Output goes to `dist/`. Preview the production build locally:
+
+```bash
+npm run preview
+```
 
 ---
 
-### Adding a new page or component
+## Project Structure
 
-1. **Never** add a new color without checking `css/colors.css` first.
-2. If the color you need already exists under a different name, use that token.
-3. If you genuinely need a new color, add it to `css/colors.css` with a comment explaining its purpose — **do not** put it in a `<style>` block or inline style.
-4. Follow the naming convention: `--category-shade` (e.g. `--green-light`, `--danger-dark`).
+```
+client/
+├── public/                  # Static assets served as-is
+├── src/
+│   ├── api/                 # Backend service layer (fetch wrappers)
+│   │   ├── client.js        # Base fetch client — base URL, auth headers
+│   │   ├── auth.js          # Login, register, logout
+│   │   ├── profile.js       # Get/update profile, change password, delete account
+│   │   ├── itinerary.js     # Recommendations, saved plan CRUD
+│   │   └── weather.js       # Weather data fetching
+│   │
+│   ├── components/          # Shared UI components
+│   │   ├── Navbar.jsx       # Responsive navbar with active link highlighting
+│   │   └── Footer.jsx       # Site footer
+│   │
+│   ├── pages/               # One component per route
+│   │   ├── HomePage.jsx         # Hero section + features overview
+│   │   ├── LoginPage.jsx        # Login form with client-side validation
+│   │   ├── RegisterPage.jsx     # Registration form with validation
+│   │   ├── ProfilePage.jsx      # Tabbed profile (details / security / settings)
+│   │   ├── EcoOptionsPage.jsx   # Eco travel options (placeholder)
+│   │   ├── ItineraryPage.jsx    # Trip preferences, recommendations, saved plan
+│   │   ├── WeatherPage.jsx      # City weather search + 5-day forecast
+│   │   └── CalculatorPage.jsx   # Carbon footprint calculator (placeholder)
+│   │
+│   ├── styles/              # Global CSS
+│   │   ├── colors.css       # CSS custom properties (design tokens)
+│   │   ├── style.css        # Global layout, navbar, footer
+│   │   ├── itinerary.css    # Itinerary page — timeline, cards, slider
+│   │   └── profile.css      # Profile page — layout, tabs, modal
+│   │
+│   ├── assets/              # Images, icons, static files imported by JS
+│   ├── App.jsx              # Route definitions (React Router v6)
+│   └── main.jsx             # App entry point — Bootstrap imported here
+│
+├── .env.example             # Template for required environment variables
+├── .gitignore
+├── index.html               # Vite HTML entry — Bootstrap Icons CDN loaded here
+├── package.json
+└── vite.config.js
+```
 
-### Backward-compat aliases
+---
 
-The old variable names still work (they are aliased in `colors.css`) but new code should use the canonical names:
+## Routes
 
-| Old name | Canonical name |
-|---|---|
-| `--primary-green` | `--green-primary` |
-| `--secondary-green` | `--green-secondary` |
-| `--light-bg` | `--green-bg` |
-| `--dark-text` | `--green-darker` |
+| Path           | Page             | Status |
+|----------------|------------------|--------|
+| `/`            | Home             | Done |
+| `/login`       | Login            | Done |
+| `/register`    | Register         | Done |
+| `/profile`     | Profile          | Done |
+| `/eco-options` | Eco Options      | Placeholder |
+| `/itinerary`   | Itinerary        | Done |
+| `/weather`     | Weather          | Done |
+| `/calculator`  | Calculator       | Placeholder |
+
+---
+
+## Environment Variables
+
+Copy `.env.example` to `.env` and fill in the values:
+
+```env
+# Base URL of the backend REST API
+VITE_API_BASE_URL=http://localhost:8000/api
+
+# (Optional) OpenWeatherMap API key for live weather data
+VITE_WEATHER_API_KEY=your_key_here
+```
+
+> All Vite environment variables must be prefixed with `VITE_` to be accessible in the browser.
+
+---
+
+## Backend Integration
+
+The `src/api/` folder contains one file per domain area. Each function is currently a **placeholder** that returns mock data — the real API call is commented in directly above it.
+
+**When the backend is ready:**
+
+1. Set `VITE_API_BASE_URL` in your `.env` file.
+2. Open the relevant file in `src/api/` (e.g. `auth.js`).
+3. Uncomment the `request(...)` call and delete the mock block below it.
+
+### API modules
+
+| File | Endpoints covered |
+|------|-------------------|
+| `api/client.js` | Base fetch client, JWT header injection |
+| `api/auth.js` | `POST /auth/login`, `POST /auth/register`, `POST /auth/logout` |
+| `api/profile.js` | `GET/PUT /profile`, `PUT /profile/password`, `DELETE /profile` |
+| `api/itinerary.js` | `GET /itinerary/recommendations`, `GET/POST/DELETE /itinerary/plan` |
+| `api/weather.js` | `GET /weather?city=` |
+
+### Expected backend response shapes
+
+**`POST /auth/login`**
+```json
+{ "token": "jwt-string", "user": { "id": 1, "email": "...", "fullName": "..." } }
+```
+
+**`GET /profile`**
+```json
+{
+  "fullName": "Eleanor Vance",
+  "email": "eleanor@example.com",
+  "phone": "+1 (555) 123-4567",
+  "location": "Portland, USA",
+  "bio": "...",
+  "stats": { "carbonSaved": "120 kg CO2", "tripsTaken": 14 }
+}
+```
+
+**`GET /itinerary/recommendations`**
+```json
+[
+  { "id": 1, "name": "KLCC Park", "type": "nature", "budget": 0, "weather": "Sunny", "impact": "Low" }
+]
+```
+
+**`GET /weather?city=kuala+lumpur`**
+```json
+{
+  "city": "Kuala Lumpur",
+  "condition": "Partly Cloudy",
+  "humidity": "72%",
+  "wind": "12 km/h",
+  "temp": "31 C",
+  "advice": "Bring a reusable water bottle.",
+  "forecast": [
+    { "day": "Mon", "icon": "bi-cloud-sun", "condition": "Partly Cloudy", "high": "32 C", "low": "25 C" }
+  ]
+}
+```
+
+---
+
+## Design System
+
+All colors are defined as CSS custom properties in `src/styles/colors.css` and used across every component via `var(--token-name)`.
+
+Key tokens:
+
+| Token | Value | Used for |
+|-------|-------|----------|
+| `--green-primary` | `#2e7d32` | Navbar, footer, headings, buttons |
+| `--green-secondary` | `#66bb6a` | Hover states, accents |
+| `--green-bg` | `#f1f8e9` | Page background |
+| `--green-dark` | `#2d6a4f` | Profile UI, active states |
+| `--earth-cream` | `#fefae0` | Edit button, stats badge |
+
+---
+
+## Assignment Info
+
+- **Course:** WIF2003 — Web Programming
+- **Project:** Eco-Friendly Travel Planner
+- **Group:** 8
