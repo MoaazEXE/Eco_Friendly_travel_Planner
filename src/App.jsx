@@ -1,9 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
 
+import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
 import HomePage from './pages/HomePage';
+import Dashboard from './pages/Dashboard';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
@@ -14,10 +16,11 @@ import CalculatorPage from './pages/CalculatorPage';
 
 export default function App() {
   return (
-    <>
+    <AppProvider>
       <Navbar />
       <Routes>
         <Route path="/"             element={<HomePage />} />
+        <Route path="/dashboard"    element={<Dashboard />} />
         <Route path="/login"        element={<LoginPage />} />
         <Route path="/register"     element={<RegisterPage />} />
         <Route path="/profile"      element={<ProfilePage />} />
@@ -27,6 +30,6 @@ export default function App() {
         <Route path="/calculator"   element={<CalculatorPage />} />
       </Routes>
       <Footer />
-    </>
+    </AppProvider>
   );
 }

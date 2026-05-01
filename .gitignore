@@ -1,8 +1,12 @@
 # Claude Code internal folder — never commit
 .claude/
 
+# Personal dev notes — local only
+MOAAZ_NOTES.md
+
 # Dependencies
 node_modules/
+package-lock.json
 
 # Build output
 dist/

@@ -14,6 +14,8 @@ A React + Vite single-page application for planning eco-friendly travel. Users c
 | Bundler    | Vite 5 |
 | Routing    | React Router v6 |
 | UI / CSS   | Bootstrap 5.3 (npm) + Bootstrap Icons (CDN) |
+| Animations | Framer Motion (`framer-motion`) |
+| Icons      | Lucide React (`lucide-react`) |
 | HTTP layer | Native `fetch` API (wrapped in `src/api/`) |
 | Language   | JavaScript (JSX) |
 
@@ -100,11 +102,16 @@ client/
 │   │   └── weather.js       # Weather data fetching
 │   │
 │   ├── components/          # Shared UI components
-│   │   ├── Navbar.jsx       # Responsive navbar with active link highlighting
-│   │   └── Footer.jsx       # Site footer
+│   │   ├── Navbar.jsx           # Responsive navbar — logged-in / logged-out states
+│   │   ├── Footer.jsx           # Site footer
+│   │   └── LeafCompassGuide.jsx # Logo placeholder (swap src when image is ready)
+│   │
+│   ├── context/
+│   │   └── AppContext.jsx       # Global state: user, itineraries, favourites (placeholder data)
 │   │
 │   ├── pages/               # One component per route
-│   │   ├── HomePage.jsx         # Hero section + features overview
+│   │   ├── HomePage.jsx         # Marketing landing page (scroll-animated sections)
+│   │   ├── Dashboard.jsx        # Logged-in home — stats, next trip, recommendations
 │   │   ├── LoginPage.jsx        # Login form with client-side validation
 │   │   ├── RegisterPage.jsx     # Registration form with validation
 │   │   ├── ProfilePage.jsx      # Tabbed profile (details / security / settings)
@@ -115,7 +122,8 @@ client/
 │   │
 │   ├── styles/              # Global CSS
 │   │   ├── colors.css       # CSS custom properties (design tokens)
-│   │   ├── style.css        # Global layout, navbar, footer
+│   │   ├── style.css        # Global layout, navbar styles
+│   │   ├── home.css         # Homepage + dashboard shared styles
 │   │   ├── itinerary.css    # Itinerary page — timeline, cards, slider
 │   │   └── profile.css      # Profile page — layout, tabs, modal
 │   │
@@ -136,7 +144,8 @@ client/
 
 | Path           | Page             | Status |
 |----------------|------------------|--------|
-| `/`            | Home             | Done |
+| `/`            | Home (marketing) | Done |
+| `/dashboard`   | Dashboard        | Done |
 | `/login`       | Login            | Done |
 | `/register`    | Register         | Done |
 | `/profile`     | Profile          | Done |
