@@ -45,6 +45,18 @@ cd eco-travel-frontend/client
 # 2. Install dependencies
 npm install
 
+Main dependencies:
+
+- React ^18.3.1
+- React DOM ^18.3.1
+- React Router DOM ^6.22.3
+- Bootstrap ^5.3.3
+
+## Dev Dependencies
+
+- Vite ^5.4.2
+- @vitejs/plugin-react ^4.3.1
+
 # 3. Set up environment variables
 cp .env.example .env
 # Then open .env and fill in values (see Environment Variables section)
