@@ -101,6 +101,20 @@ export default function LoginPage() {
                   Register
                 </Link>
               </p>
+
+              {/* DEV ONLY — remove before final submission */}
+              <hr className="my-4" />
+              <button
+                type="button"
+                className="btn btn-outline-secondary w-100"
+                style={{ fontSize: '0.875rem' }}
+                onClick={() => {
+                  localStorage.setItem('token', 'dev');
+                  navigate('/dashboard');
+                }}
+              >
+                🛠️ Test Login (Dev Only)
+              </button>
             </div>
           </div>
         </div>
