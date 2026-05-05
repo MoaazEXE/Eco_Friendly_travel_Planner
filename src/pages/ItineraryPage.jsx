@@ -6,53 +6,11 @@ import {
   MapPin, Calendar, Search, Plus, Trash2, Pencil, Check,
   CalendarCheck, ListChecks, Map, ClipboardList, Wallet,
 } from 'lucide-react';
+import { ECO_OPTIONS, CITY_LABELS } from '../data/ecoOptions';
+import { groupByDate } from '../utils/groupByDate';
+import { capitalize } from '../utils/capitalize';
 import '../styles/itinerary.css';
 import heroBg from '../assets/images/itenary-background.png';
-
-const MOCK_DESTINATIONS = [
-  {
-    id: 1, city: 'kl', name: 'KLCC Park & Eco-Walk', type: 'nature',
-    budget: 0, impact: 'Low',
-    description: 'A serene green oasis in the heart of KL with zero-emission walking trails.',
-    impactNote: 'Walking only — virtually zero carbon footprint. Actively supports urban biodiversity.',
-  },
-  {
-    id: 2, city: 'kl', name: 'Pasar Seni Heritage Trail', type: 'culture',
-    budget: 20, impact: 'High',
-    description: 'Explore KL colonial history while supporting local artisans and crafts.',
-    impactNote: 'High foot traffic can generate waste. Bring reusables and avoid single-use items.',
-  },
-  {
-    id: 3, city: 'kl', name: 'Bangsar Organic Community Garden', type: 'nature',
-    budget: 10, impact: 'Low',
-    description: 'Community-run garden producing zero-pesticide vegetables year-round.',
-    impactNote: 'Supports regenerative farming and local food systems. Minimal waste produced.',
-  },
-  {
-    id: 4, city: 'kl', name: 'The Hive Bulk Foods (Bangsar)', type: 'food',
-    budget: 50, impact: 'Medium',
-    description: 'Plastic-free grocery & café championing sustainable local farming.',
-    impactNote: 'Bulk buying reduces packaging waste, though some imports carry supply chain emissions.',
-  },
-  {
-    id: 5, city: 'penang', name: 'Entopia Butterfly Farm', type: 'nature',
-    budget: 60, impact: 'Low',
-    description: "Asia's most immersive butterfly sanctuary dedicated to biodiversity conservation.",
-    impactNote: 'Conservation-focused — entry fees directly fund habitat protection programs.',
-  },
-  {
-    id: 6, city: 'penang', name: 'George Town Cycling Tour', type: 'cycling',
-    budget: 30, impact: 'Low',
-    description: 'Explore UNESCO heritage streets by bike — zero carbon, all charm.',
-    impactNote: 'Zero emissions. Cycling is the most sustainable way to experience urban heritage.',
-  },
-  {
-    id: 7, city: 'penang', name: 'Hin Bus Depot Arts Space', type: 'culture',
-    budget: 0, impact: 'Low',
-    description: 'A repurposed bus depot showcasing sustainable local art and community projects.',
-    impactNote: 'Adaptive reuse reduces embodied carbon significantly vs. new construction.',
-  },
-];
 
 const INTERESTS = [
   { value: 'nature',  label: 'Nature',  Icon: Leaf },
@@ -67,57 +25,62 @@ const IMPACT_CONFIG = {
   High:   { bg: 'var(--danger-bg-hover)',  color: 'var(--danger-dark)',      borderColor: 'var(--danger-border)',      Icon: AlertTriangle, label: 'High Impact' },
 };
 
-const CITY_LABELS = { kl: 'Kuala Lumpur', penang: 'Penang' };
-
 export default function ItineraryPage() {
   const { savedPlan, setSavedPlan } = useAppContext();
 
-  const [destination, setDestination]         = useState('');
-  const [travelDate, setTravelDate]           = useState('');
-  const [notes, setNotes]                     = useState('');
-  const [interests, setInterests]             = useState(['nature']);
-  const [budget, setBudget]                   = useState(250);
+  const [form, setForm] = useState({
+    destination: '',
+    travelDate: '',
+    notes: '',
+    interests: ['nature'],
+    budget: 250,
+  });
   const [recommendations, setRecommendations] = useState(null);
+  const [planError, setPlanError]             = useState('');
   const [editingKey, setEditingKey]           = useState(null);
   const [editForm, setEditForm]               = useState({ notes: '', plannedDate: '' });
 
   function toggleInterest(value) {
-    setInterests((prev) =>
-      prev.includes(value) ? prev.filter((i) => i !== value) : [...prev, value]
-    );
+    setForm((f) => ({
+      ...f,
+      interests: f.interests.includes(value)
+        ? f.interests.filter((i) => i !== value)
+        : [...f.interests, value],
+    }));
   }
 
   function handleBudgetChange(e) {
     const value = Number(e.target.value);
-    setBudget(value);
+    setForm((f) => ({ ...f, budget: value }));
     e.target.style.setProperty('--slider-fill', `${(value / 1000) * 100}%`);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    const cityKey = destination.toLowerCase().trim();
-    const filtered = MOCK_DESTINATIONS.filter(
-      (item) =>
-        item.city   === cityKey &&
-        item.budget <= budget &&
-        interests.includes(item.type)
-    );
+    const input = form.destination.toLowerCase().trim();
+    const filtered = ECO_OPTIONS.filter((item) => {
+      const cityLabel = (CITY_LABELS[item.city] || '').toLowerCase();
+      const matchesCity = item.city === input || cityLabel === input;
+      return matchesCity && item.budget <= form.budget && form.interests.includes(item.type);
+    });
     setRecommendations(filtered);
+    setPlanError('');
   }
 
   function addToPlan(id) {
-    if (!travelDate) {
-      alert('Please select a Date of Visit first!');
+    if (!form.travelDate) {
+      setPlanError('Please select a Date of Visit first!');
       return;
     }
-    const item = MOCK_DESTINATIONS.find((d) => d.id === id);
-    const duplicate = savedPlan.some((p) => p.id === id && p.plannedDate === travelDate);
+    const item = ECO_OPTIONS.find((d) => d.id === id);
+    const duplicate = savedPlan.some((p) => p.id === id && p.plannedDate === form.travelDate);
     if (duplicate) {
-      alert('This activity is already in your plan for this date!');
+      setPlanError('This activity is already in your plan for this date!');
       return;
     }
+    setPlanError('');
     setSavedPlan((prev) =>
-      [...prev, { ...item, plannedDate: travelDate, notes }].sort(
+      [...prev, { ...item, plannedDate: form.travelDate, notes: form.notes }].sort(
         (a, b) => new Date(a.plannedDate) - new Date(b.plannedDate)
       )
     );
@@ -141,14 +104,6 @@ export default function ItineraryPage() {
       ).sort((a, b) => new Date(a.plannedDate) - new Date(b.plannedDate))
     );
     setEditingKey(null);
-  }
-
-  function groupByDate(plan) {
-    return plan.reduce((groups, item) => {
-      if (!groups[item.plannedDate]) groups[item.plannedDate] = [];
-      groups[item.plannedDate].push(item);
-      return groups;
-    }, {});
   }
 
   return (
@@ -196,9 +151,9 @@ export default function ItineraryPage() {
                   <input
                     type="text"
                     className="itin-input"
-                    placeholder="e.g. KL, Penang"
-                    value={destination}
-                    onChange={(e) => setDestination(e.target.value)}
+                    placeholder="e.g. KL, Penang, Melaka, Sabah"
+                    value={form.destination}
+                    onChange={(e) => setForm((f) => ({ ...f, destination: e.target.value }))}
                     required
                   />
                 </div>
@@ -210,8 +165,8 @@ export default function ItineraryPage() {
                   <input
                     type="date"
                     className="itin-input"
-                    value={travelDate}
-                    onChange={(e) => setTravelDate(e.target.value)}
+                    value={form.travelDate}
+                    onChange={(e) => setForm((f) => ({ ...f, travelDate: e.target.value }))}
                     required
                   />
                 </div>
@@ -222,8 +177,8 @@ export default function ItineraryPage() {
                   className="itin-textarea"
                   placeholder="e.g. bring reusables, check opening hours, book in advance..."
                   rows={2}
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
+                  value={form.notes}
+                  onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
                 />
               </div>
             </div>
@@ -237,7 +192,7 @@ export default function ItineraryPage() {
                     <button
                       type="button"
                       key={value}
-                      className={`itin-pill${interests.includes(value) ? ' active' : ''}`}
+                      className={`itin-pill${form.interests.includes(value) ? ' active' : ''}`}
                       onClick={() => toggleInterest(value)}
                     >
                       <Icon size={13} strokeWidth={2.5} className="me-1" />
@@ -249,7 +204,7 @@ export default function ItineraryPage() {
               <div className="col-md-4">
                 <label className="itin-label">
                   Budget / Day
-                  <span className="itin-budget-display">RM {budget}</span>
+                  <span className="itin-budget-display">RM {form.budget}</span>
                 </label>
                 <input
                   type="range"
@@ -257,9 +212,9 @@ export default function ItineraryPage() {
                   min="0"
                   max="1000"
                   step="10"
-                  value={budget}
+                  value={form.budget}
                   onChange={handleBudgetChange}
-                  style={{ '--slider-fill': `${(budget / 1000) * 100}%` }}
+                  style={{ '--slider-fill': `${(form.budget / 1000) * 100}%` }}
                 />
                 <div className="itin-range-ends">
                   <span>Budget</span>
@@ -290,6 +245,10 @@ export default function ItineraryPage() {
                   <span className="itin-count">{recommendations.length} spots found</span>
                 )}
               </div>
+
+              {planError && (
+                <p className="text-danger small mb-3">{planError}</p>
+              )}
 
               {recommendations === null ? (
                 <div className="itin-empty">
@@ -322,7 +281,7 @@ export default function ItineraryPage() {
                                 <Wallet size={12} strokeWidth={2.5} className="me-1" />
                                 RM{item.budget}
                               </span>
-                              <span className="itin-tag">{item.type.charAt(0).toUpperCase() + item.type.slice(1)}</span>
+                              <span className="itin-tag">{capitalize(item.type)}</span>
                               <span
                                 className="itin-impact-tag sm"
                                 style={{ background: cfg.bg, color: cfg.color, borderColor: cfg.borderColor }}
@@ -337,7 +296,7 @@ export default function ItineraryPage() {
                             Add to My Plan
                           </button>
                         </div>
-                        <p className="itin-rec-desc">{item.description}</p>
+                        <p className="itin-rec-desc">{item.desc}</p>
                         <div className="itin-impact-note">
                           <Leaf size={13} strokeWidth={2.5} className="me-1" />
                           {item.impactNote}

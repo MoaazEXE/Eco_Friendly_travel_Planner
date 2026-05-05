@@ -1,8 +1,8 @@
 import { useState } from "react";
-import sunnyImg from "../assets/Weather page assets/sunny.jpg";
-import partlyCloudyImg from "../assets/Weather page assets/partly-cloudy.jpg";
-import cloudyImg from "../assets/Weather page assets/cloudy.jpg";
-import rainImg from "../assets/Weather page assets/rain.jpg";
+import sunnyImg from "../assets/weather/sunny.jpg";
+import partlyCloudyImg from "../assets/weather/partly-cloudy.jpg";
+import cloudyImg from "../assets/weather/cloudy.jpg";
+import rainImg from "../assets/weather/rain.jpg";
 
 const WEATHER_DATA = {
   "kuala lumpur": {
@@ -265,6 +265,13 @@ const WEATHER_DATA = {
 const POPULAR_CITIES = ["Kuala Lumpur", "Penang", "London", "Tokyo", "Paris"];
 const DEFAULT_CITY = "penang";
 
+const BANNER_IMAGES = {
+  Sunny: sunnyImg,
+  "Partly Cloudy": partlyCloudyImg,
+  Cloudy: cloudyImg,
+  Rain: rainImg,
+};
+
 function cityToKey(city) {
   return city.trim().toLowerCase();
 }
@@ -295,14 +302,7 @@ export default function WeatherPage() {
     { icon: "bi-speedometer2", label: "Pressure", value: current.pressure },
   ];
 
-  const bannerImages = {
-    Sunny: sunnyImg,
-    "Partly Cloudy": partlyCloudyImg,
-    Cloudy: cloudyImg,
-    Rain: rainImg,
-  };
-
-  const bannerImage = bannerImages[current.condition] ?? sunnyImg;
+  const bannerImage = BANNER_IMAGES[current.condition] ?? sunnyImg;
 
   return (
     <main
@@ -330,7 +330,7 @@ export default function WeatherPage() {
                 className="input-group-text border-end-0"
                 style={{ backgroundColor: "var(--weather-input-bg)", borderColor: "var(--weather-input-border)" }}
               >
-                <i className="bi bi-geo-alt" style={{ color: "var(--weather-green)" }} />
+                <i className="bi bi-geo-alt" style={{ color: "var(--green-primary)" }} />
               </span>
               <input
                 id="cityInput"
@@ -348,7 +348,7 @@ export default function WeatherPage() {
               type="button"
               onClick={handleSearch}
               style={{
-                backgroundColor: "var(--weather-green)",
+                backgroundColor: "var(--green-primary)",
                 color: "var(--white)",
                 minWidth: "124px",
               }}
@@ -367,7 +367,7 @@ export default function WeatherPage() {
                 className="btn btn-sm rounded-pill fw-semibold"
                 style={{
                   backgroundColor: "var(--weather-pill-bg)",
-                  color: "var(--weather-green)",
+                  color: "var(--green-primary)",
                   border: "none",
                   padding: "4px 14px",
                 }}
@@ -435,7 +435,7 @@ export default function WeatherPage() {
                   <div className="d-flex align-items-center gap-3">
                     <i
                       className={`bi ${item.icon}`}
-                      style={{ color: "var(--weather-green)", fontSize: "1.25rem" }}
+                      style={{ color: "var(--green-primary)", fontSize: "1.25rem" }}
                     />
                     <div>
                       <p
@@ -479,7 +479,7 @@ export default function WeatherPage() {
                     </p>
                     <i
                       className={`bi ${item.icon}`}
-                      style={{ color: "var(--weather-green)", fontSize: "3rem" }}
+                      style={{ color: "var(--green-primary)", fontSize: "3rem" }}
                     />
                     <p
                       className="my-2"
@@ -489,7 +489,7 @@ export default function WeatherPage() {
                     </p>
                     <p
                       className="mb-0"
-                      style={{ color: "var(--weather-green)", fontSize: "1.65rem" }}
+                      style={{ color: "var(--green-primary)", fontSize: "1.65rem" }}
                     >
                       {item.high}{" "}
                       <span style={{ color: "var(--weather-label)" }}>{item.low}</span>

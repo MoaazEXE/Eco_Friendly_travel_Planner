@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { EMAIL_REGEX } from '../utils/validators';
 
 export default function RegisterPage() {
   const [fields, setFields] = useState({
@@ -143,14 +142,7 @@ export default function RegisterPage() {
                     )}
                   </div>
 
-                  <button
-                    type="submit"
-                    className="btn btn-lg w-100"
-                    style={{
-                      backgroundColor: 'var(--green-primary)',
-                      color: 'var(--white)',
-                    }}
-                  >
+                  <button type="submit" className="btn-eco-primary">
                     Register
                   </button>
                 </form>
