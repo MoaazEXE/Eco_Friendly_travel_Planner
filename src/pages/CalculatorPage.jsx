@@ -15,6 +15,21 @@ const ACCOMMODATION_FACTORS = {
   camping: 5,
 };
 
+const TRANSPORT_OPTIONS = [
+  { key: "flight", label: "Flight", icon: "✈" },
+  { key: "car", label: "Car", icon: "🚗" },
+  { key: "train", label: "Train", icon: "🚆" },
+  { key: "bus", label: "Bus", icon: "🚌" },
+];
+
+const ACCOMMODATION_OPTIONS = [
+  { key: "hotel", label: "Hotel", icon: "🏨" },
+  { key: "ecolodge", label: "Eco-Lodge", icon: "🌿" },
+  { key: "hostel", label: "Hostel", icon: "🏠" },
+  { key: "camping", label: "Camping", icon: "⛺" },
+];
+
+
 function impactLevel(total) {
   if (total < 50) return { label: "Low Impact 🌱", alertClass: "alert-success" };
   if (total < 150) return { label: "Moderate Impact 🌿", alertClass: "alert-warning" };

@@ -314,7 +314,7 @@ export default function WeatherPage() {
           <h1 className="fw-bold mb-2" style={{ color: "var(--green-darker)" }}>
             Weather Forecast
           </h1>
-          <p className="mb-0" style={{ color: "#6c9b74", fontSize: "1.2rem" }}>
+          <p className="mb-0" style={{ color: "var(--weather-subtitle)", fontSize: "1.2rem" }}>
             Check local conditions to pack efficiently and plan your sustainable
             outdoor activities.
           </p>
@@ -322,21 +322,21 @@ export default function WeatherPage() {
 
         <section
           className="rounded-4 shadow-sm mb-4"
-          style={{ backgroundColor: "#f5f5f5", padding: "18px 20px 16px" }}
+          style={{ backgroundColor: "var(--weather-search-bg)", padding: "18px 20px 16px" }}
         >
           <div className="d-flex flex-column flex-lg-row gap-2 gap-lg-3">
             <div className="input-group" style={{ flex: 1 }}>
               <span
                 className="input-group-text border-end-0"
-                style={{ backgroundColor: "#ededed", borderColor: "#c5c9c7" }}
+                style={{ backgroundColor: "var(--weather-input-bg)", borderColor: "var(--weather-input-border)" }}
               >
-                <i className="bi bi-geo-alt" style={{ color: "#2f8a3e" }} />
+                <i className="bi bi-geo-alt" style={{ color: "var(--weather-green)" }} />
               </span>
               <input
                 id="cityInput"
                 type="text"
                 className="form-control border-start-0"
-                style={{ backgroundColor: "#ededed", borderColor: "#c5c9c7" }}
+                style={{ backgroundColor: "var(--weather-input-bg)", borderColor: "var(--weather-input-border)" }}
                 placeholder="Search city"
                 value={cityInput}
                 onChange={(e) => setCityInput(e.target.value)}
@@ -348,8 +348,8 @@ export default function WeatherPage() {
               type="button"
               onClick={handleSearch}
               style={{
-                backgroundColor: "#2f8a3e",
-                color: "#fff",
+                backgroundColor: "var(--weather-green)",
+                color: "var(--white)",
                 minWidth: "124px",
               }}
             >
@@ -358,7 +358,7 @@ export default function WeatherPage() {
             </button>
           </div>
           <div className="mt-3 d-flex align-items-center gap-2 flex-wrap">
-            <span style={{ color: "#88a993" }}>Popular:</span>
+            <span style={{ color: "var(--weather-dim)" }}>Popular:</span>
             {POPULAR_CITIES.map((city) => (
               <button
                 key={city}
@@ -366,8 +366,8 @@ export default function WeatherPage() {
                 onClick={() => handleQuickCity(city)}
                 className="btn btn-sm rounded-pill fw-semibold"
                 style={{
-                  backgroundColor: "#e3eadf",
-                  color: "#2f8a3e",
+                  backgroundColor: "var(--weather-pill-bg)",
+                  color: "var(--weather-green)",
                   border: "none",
                   padding: "4px 14px",
                 }}
@@ -380,12 +380,12 @@ export default function WeatherPage() {
 
         <section
           className="rounded-4 shadow-sm overflow-hidden mb-4"
-          style={{ backgroundColor: "#f5f5f5" }}
+          style={{ backgroundColor: "var(--weather-search-bg)" }}
         >
           <div
             className="p-4"
             style={{
-              backgroundImage: `linear-gradient(rgba(27, 67, 50, 0.82), rgba(27, 67, 50, 0.82)), url(${bannerImage})`,
+              backgroundImage: `linear-gradient(var(--weather-overlay), var(--weather-overlay)), url(${bannerImage})`,
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
@@ -406,7 +406,7 @@ export default function WeatherPage() {
             <div className="d-flex align-items-center gap-4">
               <i
                 className={`bi ${current.currentIcon}`}
-                style={{ color: "#ecf4e8", fontSize: "3.7rem" }}
+                style={{ color: "var(--weather-icon-tint)", fontSize: "3.7rem" }}
               />
               <div>
                 <div
@@ -428,25 +428,25 @@ export default function WeatherPage() {
             </div>
           </div>
 
-          <div className="px-4 py-3" style={{ backgroundColor: "#dbe5d5" }}>
+          <div className="px-4 py-3" style={{ backgroundColor: "var(--weather-metric-bg)" }}>
             <div className="row g-3">
               {metricCards.map((item) => (
                 <div className="col-12 col-sm-6 col-lg-3" key={item.label}>
                   <div className="d-flex align-items-center gap-3">
                     <i
                       className={`bi ${item.icon}`}
-                      style={{ color: "#2f8a3e", fontSize: "1.25rem" }}
+                      style={{ color: "var(--weather-green)", fontSize: "1.25rem" }}
                     />
                     <div>
                       <p
                         className="mb-0"
-                        style={{ color: "#7b967f", fontSize: "0.85rem" }}
+                        style={{ color: "var(--weather-label)", fontSize: "0.85rem" }}
                       >
                         {item.label}
                       </p>
                       <p
                         className="mb-0 fw-medium"
-                        style={{ color: "#0c5f2c", fontSize: "1.45rem" }}
+                        style={{ color: "var(--weather-value)", fontSize: "1.45rem" }}
                       >
                         {item.value}
                       </p>
@@ -460,7 +460,7 @@ export default function WeatherPage() {
           <div className="p-4">
             <h3
               className="fw-semibold mb-3"
-              style={{ color: "#0c5f2c", fontSize: "1.85rem" }}
+              style={{ color: "var(--weather-value)", fontSize: "1.85rem" }}
             >
               5-Day Forecast
             </h3>
@@ -469,30 +469,30 @@ export default function WeatherPage() {
                 <div className="col-12 col-sm-6 col-lg" key={item.day}>
                   <div
                     className="text-center h-100 rounded-4"
-                    style={{ backgroundColor: "#dbe5d5", padding: "16px 10px" }}
+                    style={{ backgroundColor: "var(--weather-metric-bg)", padding: "16px 10px" }}
                   >
                     <p
                       className="mb-1"
-                      style={{ color: "#7b967f", fontSize: "1.1rem" }}
+                      style={{ color: "var(--weather-label)", fontSize: "1.1rem" }}
                     >
                       {item.day}
                     </p>
                     <i
                       className={`bi ${item.icon}`}
-                      style={{ color: "#2f8a3e", fontSize: "3rem" }}
+                      style={{ color: "var(--weather-green)", fontSize: "3rem" }}
                     />
                     <p
                       className="my-2"
-                      style={{ color: "#5d7c60", fontSize: "1rem" }}
+                      style={{ color: "var(--weather-condition)", fontSize: "1rem" }}
                     >
                       {item.condition}
                     </p>
                     <p
                       className="mb-0"
-                      style={{ color: "#2f8a3e", fontSize: "1.65rem" }}
+                      style={{ color: "var(--weather-green)", fontSize: "1.65rem" }}
                     >
                       {item.high}{" "}
-                      <span style={{ color: "#7b967f" }}>{item.low}</span>
+                      <span style={{ color: "var(--weather-label)" }}>{item.low}</span>
                     </p>
                   </div>
                 </div>
@@ -503,10 +503,10 @@ export default function WeatherPage() {
 
         <section
           className="rounded-4 p-4 text-center"
-          style={{ backgroundColor: "#dbe5d5" }}
+          style={{ backgroundColor: "var(--weather-metric-bg)" }}
         >
-          <span style={{ color: "#0c5f2c", fontWeight: 700 }}>Note:</span>{" "}
-          <span style={{ color: "#6b916f" }}>
+          <span style={{ color: "var(--weather-value)", fontWeight: 700 }}>Note:</span>{" "}
+          <span style={{ color: "var(--weather-note)" }}>
             This is a demo using mock data. In production, this would integrate
             with a real weather API like OpenWeatherMap or WeatherAPI.
           </span>

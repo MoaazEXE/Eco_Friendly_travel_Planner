@@ -91,6 +91,55 @@
   --danger-shadow:  rgba(220, 38, 38, 0.30);
 
   /* ─────────────────────────────────────
+     ACCENT GREENS
+     ───────────────────────────────────── */
+  --green-accent-light: #86efac;   /* hero / itinerary accent highlight */
+
+  /* ─────────────────────────────────────
+     WARNING BORDER
+     ───────────────────────────────────── */
+  --warning-border:  #fde68a;
+
+  /* ─────────────────────────────────────
+     IMPACT LEVEL BADGES
+     ───────────────────────────────────── */
+  --impact-low-bg:      #dcfce7;
+  --impact-low-text:    #15803d;
+  --impact-low-border:  #86efac;
+  --impact-med-bg:      #fef9c3;
+  --impact-med-text:    #854d0e;
+  --impact-med-border:  #fde047;
+  /* High impact reuses --danger-bg-hover / --danger-dark / --danger-border */
+
+  /* ─────────────────────────────────────
+     DARK CARD OVERLAYS  (Dashboard accent)
+     ───────────────────────────────────── */
+  --darkest-a60:     rgba(27, 67, 50, 0.60);
+  --darkest-a90:     rgba(27, 67, 50, 0.90);
+  --forest-a50:      rgba(45, 106, 79, 0.50);
+  --emerald-bright:  rgba(110, 231, 183, 1.00);
+  --emerald-a80:     rgba(110, 231, 183, 0.80);
+  --mint-light:      rgba(167, 243, 208, 1.00);
+
+  /* ─────────────────────────────────────
+     WEATHER PAGE
+     ───────────────────────────────────── */
+  --weather-search-bg:    #f5f5f5;
+  --weather-input-bg:     #ededed;
+  --weather-input-border: #c5c9c7;
+  --weather-green:        #2f8a3e;
+  --weather-subtitle:     #6c9b74;
+  --weather-pill-bg:      #e3eadf;
+  --weather-metric-bg:    #dbe5d5;
+  --weather-icon-tint:    #ecf4e8;
+  --weather-label:        #7b967f;
+  --weather-value:        #0c5f2c;
+  --weather-condition:    #5d7c60;
+  --weather-dim:          #88a993;
+  --weather-note:         #6b916f;
+  --weather-overlay:      rgba(27, 67, 50, 0.82);
+
+  /* ─────────────────────────────────────
      BACKWARD-COMPAT ALIASES
      ───────────────────────────────────── */
   --primary-green:   var(--green-primary);

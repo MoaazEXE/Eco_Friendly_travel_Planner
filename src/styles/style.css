@@ -80,9 +80,9 @@ h1, h2, h3 {
 }
 
 footer {
-  background-color: var(--green-primary);
+  background-color: var(--green-darkest);
   color: var(--white);
-  padding: 1rem 0;
+  padding: 1.5rem 0;
   text-align: center;
   margin-top: auto;
 }

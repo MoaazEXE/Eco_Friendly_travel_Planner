@@ -4,33 +4,18 @@ import {
   BarChart2, ChevronRight, Star, Plus,
 } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
+import { ECO_OPTIONS } from '../data/ecoOptions';
 
-const RECOMMENDATIONS = [
-  {
-    name: 'Faroe Islands',
-    country: 'Denmark',
-    tag: 'Zero Waste',
-    eco: 5,
-    img: 'https://images.unsplash.com/photo-1666102063067-01193953651d?w=600&q=75',
-    desc: 'Remote islands with no traffic lights, nearly zero emissions.',
-  },
-  {
-    name: 'Costa Rica',
-    country: 'Central America',
-    tag: 'Eco-Lodge',
-    eco: 4,
-    img: 'https://images.unsplash.com/photo-1704386596483-ea345dfa9034?w=600&q=75',
-    desc: '99% renewable energy grid. Exceptional biodiversity.',
-  },
-  {
-    name: 'Bhutan',
-    country: 'Himalayas',
-    tag: 'Carbon Negative',
-    eco: 5,
-    img: 'https://images.unsplash.com/photo-1761048152551-6cfe09973cbb?w=600&q=75',
-    desc: "The world's only carbon-negative country. Pristine trails.",
-  },
-];
+const RECOMMENDATIONS = ECO_OPTIONS.slice(0, 3);
+
+const CITY_LABELS = { kl: 'Kuala Lumpur', penang: 'Penang', melaka: 'Melaka', sabah: 'Sabah' };
+const CITY_IMAGE  = {
+  kl:     'https://images.unsplash.com/photo-1527786356703-4b100091cd2c?w=800&q=75',
+  penang: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=75',
+  melaka: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=75',
+  sabah:  'https://images.unsplash.com/photo-1518136247453-74e7b5265980?w=800&q=75',
+};
+const IMPACT_ECO = { Low: 5, Medium: 3, High: 1 };
 
 function StatCard({ value, label, sub, icon, accent = false }) {
   return (
@@ -48,9 +33,9 @@ function StatCard({ value, label, sub, icon, accent = false }) {
           width: '2.25rem',
           height: '2.25rem',
           borderRadius: '0.5rem',
-          background: accent ? 'rgba(27,67,50,0.6)' : 'var(--green-subtle)',
-          border: `1px solid ${accent ? 'rgba(45,106,79,0.5)' : 'var(--green-pale)'}`,
-          color: accent ? 'rgba(110,231,183,1)' : 'var(--green-dark)',
+          background: accent ? 'var(--darkest-a60)' : 'var(--green-subtle)',
+          border: `1px solid ${accent ? 'var(--forest-a50)' : 'var(--green-pale)'}`,
+          color: accent ? 'var(--emerald-bright)' : 'var(--green-dark)',
         }}
       >
         {icon}
@@ -59,10 +44,10 @@ function StatCard({ value, label, sub, icon, accent = false }) {
         <div style={{ fontSize: '1.5rem', fontWeight: 700, letterSpacing: '-0.025em', color: accent ? 'var(--white)' : 'var(--gray-900)' }}>
           {value}
         </div>
-        <div style={{ fontSize: '0.875rem', fontWeight: 600, marginTop: '0.125rem', color: accent ? 'rgba(167,243,208,1)' : 'var(--gray-700)' }}>
+        <div style={{ fontSize: '0.875rem', fontWeight: 600, marginTop: '0.125rem', color: accent ? 'var(--mint-light)' : 'var(--gray-700)' }}>
           {label}
         </div>
-        <div style={{ fontSize: '0.75rem', marginTop: '0.125rem', color: accent ? 'rgba(110,231,183,0.8)' : 'var(--gray-400)' }}>
+        <div style={{ fontSize: '0.75rem', marginTop: '0.125rem', color: accent ? 'var(--emerald-a80)' : 'var(--gray-400)' }}>
           {sub}
         </div>
       </div>
@@ -71,11 +56,27 @@ function StatCard({ value, label, sub, icon, accent = false }) {
 }
 
 export default function Dashboard() {
-  const { user, itineraries, favourites } = useAppContext();
+  const { user, favourites, savedPlan } = useAppContext();
 
-  const nextTrip = itineraries[0];
   const hour     = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+
+  // Derive next trip from the earliest upcoming saved plan stop
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const nextStop = savedPlan
+    .filter(s => new Date(s.plannedDate) >= today)
+    .sort((a, b) => new Date(a.plannedDate) - new Date(b.plannedDate))[0] ?? null;
+
+  const nextTrip = nextStop
+    ? {
+        city:     CITY_LABELS[nextStop.city] || nextStop.city,
+        stopName: nextStop.name,
+        date:     nextStop.plannedDate,
+        imageUrl: CITY_IMAGE[nextStop.city] ?? null,
+        ecoScore: IMPACT_ECO[nextStop.impact] ?? 4,
+      }
+    : null;
 
   const daysUntil = nextTrip
     ? Math.ceil((new Date(nextTrip.date).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
@@ -123,7 +124,7 @@ export default function Dashboard() {
             <StatCard value={`${user.carbonSaved} kg`} label="CO₂ Saved" sub="vs. avg itinerary" icon={<Leaf size={18} />} accent />
           </div>
           <div className="col-12 col-sm-4">
-            <StatCard value={itineraries.length} label="Trips Planned" sub={`${itineraries.length} destinations logged`} icon={<MapPin size={18} />} />
+            <StatCard value={savedPlan.length} label="Stops Planned" sub={`across ${new Set(savedPlan.map(s => s.plannedDate)).size} day(s)`} icon={<MapPin size={18} />} />
           </div>
           <div className="col-12 col-sm-4">
             <StatCard value={favourites.length} label="Places Saved" sub="eco-certified spots" icon={<Heart size={18} />} />
@@ -145,9 +146,12 @@ export default function Dashboard() {
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '1rem' }}>
                     <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--green-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'block', marginBottom: '0.25rem' }}>Next Trip</span>
                     <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--white)', margin: 0 }}>
-                      {nextTrip.city}{nextTrip.country ? `, ${nextTrip.country}` : ''}
+                      {nextTrip.city}
                     </h2>
-                    <div className="d-flex align-items-center gap-1" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.75rem', marginTop: '0.25rem' }}>
+                    <p style={{ fontSize: '0.8125rem', color: 'var(--white-a70)', margin: '0.2rem 0 0', lineHeight: 1.3 }}>
+                      {nextTrip.stopName}
+                    </p>
+                    <div className="d-flex align-items-center gap-1" style={{ color: 'var(--white-a70)', fontSize: '0.75rem', marginTop: '0.25rem' }}>
                       <Calendar size={12} />
                       <span>{formatDate(nextTrip.date)}</span>
                     </div>
@@ -160,13 +164,10 @@ export default function Dashboard() {
                       <span style={{ fontSize: '0.8125rem', color: 'var(--gray-600)' }}>Eco Score</span>
                     </div>
                     <div className="d-flex gap-1">
-                      {Array.from({ length: nextTrip.ecoScore ?? 5 }).map((_, i) => (
+                      {Array.from({ length: nextTrip.ecoScore ?? 4 }).map((_, i) => (
                         <Star key={i} size={13} color="var(--green-secondary)" fill="var(--green-secondary)" />
                       ))}
                     </div>
-                    {nextTrip.carbonKg && (
-                      <span style={{ fontSize: '0.8125rem', color: 'var(--gray-500)' }}>· {nextTrip.carbonKg} kg CO₂</span>
-                    )}
                   </div>
                   <Link to="/itinerary" className="d-inline-flex align-items-center gap-1 text-decoration-none" style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--green-dark)' }}>
                     View itinerary <ArrowRight size={14} />
@@ -229,19 +230,19 @@ export default function Dashboard() {
 
           <div className="row g-4">
             {RECOMMENDATIONS.map((r) => (
-              <div key={r.name} className="col-12 col-md-4">
+              <div key={r.id} className="col-12 col-md-4">
                 <div className="rounded-3 border overflow-hidden" style={{ background: 'var(--white)', borderColor: 'var(--gray-200)', boxShadow: '0 1px 3px var(--shadow-xs)' }}>
                   <div style={{ height: '9rem', position: 'relative', overflow: 'hidden' }}>
-                    <img src={r.img} alt={r.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    <span style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', background: 'rgba(27,67,50,0.9)', color: 'var(--white)', fontSize: '0.6875rem', fontWeight: 600, padding: '0.25rem 0.625rem', borderRadius: '9999px' }}>
-                      {r.tag}
+                    <img src={r.image} alt={r.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <span style={{ position: 'absolute', top: '0.75rem', left: '0.75rem', background: 'var(--darkest-a90)', color: 'var(--white)', fontSize: '0.6875rem', fontWeight: 600, padding: '0.25rem 0.625rem', borderRadius: '9999px' }}>
+                      {r.category}
                     </span>
                   </div>
                   <div style={{ padding: '1rem' }}>
                     <div className="d-flex align-items-start justify-content-between" style={{ marginBottom: '0.375rem' }}>
                       <div>
                         <div style={{ fontSize: '0.9375rem', fontWeight: 700, color: 'var(--gray-900)' }}>{r.name}</div>
-                        <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)' }}>{r.country}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)' }}>{r.city}</div>
                       </div>
                       <div className="d-flex gap-1">
                         {Array.from({ length: r.eco }).map((_, i) => (
