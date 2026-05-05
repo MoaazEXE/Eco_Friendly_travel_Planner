@@ -19,9 +19,9 @@ export async function getProfile() {
   console.warn('[api/profile] getProfile() is using mock data');
   return Promise.resolve({
     fullName: 'Eleanor Vance',
-    email:    'eleanor.vance@example.com',
-    phone:    '+1 (555) 123-4567',
-    location: 'Portland, USA',
+    email:    'gadingtahta@example.com',
+    phone:    '+62 123-4567',
+    location: 'Kuala Lumpur, Malaysia',
     bio:      'Passionate about sustainable travel and discovering eco-friendly experiences around the world.',
     stats:    { carbonSaved: '120 kg CO₂', tripsTaken: 14 },
   });

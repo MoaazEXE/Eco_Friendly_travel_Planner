@@ -74,14 +74,14 @@ function Toggle({ checked, onChange }) {
 function PasswordInput({ id, name, label, value, onChange, hint, autoComplete = 'off' }) {
   const [show, setShow] = useState(false);
   return (
-    <div className="ps-field">
-      <label className="ps-field__label" htmlFor={id}>{label}</label>
-      <div className="ps-field__input-wrap">
+    <div>
+      <label className="form-label label-caps" htmlFor={id}>{label}</label>
+      <div className="position-relative">
         <input
           type={show ? 'text' : 'password'}
           id={id}
           name={name}
-          className="ps-input"
+          className="form-control"
           placeholder="••••••••"
           value={value}
           onChange={onChange}
@@ -96,7 +96,7 @@ function PasswordInput({ id, name, label, value, onChange, hint, autoComplete = 
           <i className={`bi ${show ? 'bi-eye-slash' : 'bi-eye'}`} />
         </button>
       </div>
-      {hint && <p className="ps-field__hint">{hint}</p>}
+      {hint && <div className="form-text">{hint}</div>}
     </div>
   );
 }
@@ -105,8 +105,10 @@ function PasswordInput({ id, name, label, value, onChange, hint, autoComplete = 
 
 function PCard({ children, className }) {
   return (
-    <div className={['ps-card', className].filter(Boolean).join(' ')}>
-      {children}
+    <div className={['card border', className].filter(Boolean).join(' ')}>
+      <div className="card-body p-4">
+        {children}
+      </div>
     </div>
   );
 }
@@ -119,9 +121,7 @@ function CustomSelect({ id, value, options, onChange }) {
 
   useEffect(() => {
     function onOutside(e) {
-      if (wrapRef.current && !wrapRef.current.contains(e.target)) {
-        setOpen(false);
-      }
+      if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false);
     }
     document.addEventListener('mousedown', onOutside);
     return () => document.removeEventListener('mousedown', onOutside);
@@ -186,13 +186,7 @@ function PersonalInfoSection({ profile, avatarSrc, onAvatarChange, onSave }) {
 
   useEffect(() => {
     const { firstName, lastName } = splitName(profile.fullName);
-    setForm(prev => ({
-      ...prev,
-      firstName,
-      lastName,
-      location: profile.location || '',
-      bio:      profile.bio || '',
-    }));
+    setForm(prev => ({ ...prev, firstName, lastName, location: profile.location || '', bio: profile.bio || '' }));
   }, [profile]);
 
   function handleChange(e) {
@@ -213,13 +207,7 @@ function PersonalInfoSection({ profile, avatarSrc, onAvatarChange, onSave }) {
 
   function handleDiscard() {
     const { firstName, lastName } = splitName(profile.fullName);
-    setForm(prev => ({
-      ...prev,
-      firstName,
-      lastName,
-      location: profile.location || '',
-      bio:      profile.bio || '',
-    }));
+    setForm(prev => ({ ...prev, firstName, lastName, location: profile.location || '', bio: profile.bio || '' }));
   }
 
   const initials = getInitials(profile.fullName);
@@ -227,22 +215,18 @@ function PersonalInfoSection({ profile, avatarSrc, onAvatarChange, onSave }) {
   return (
     <PCard>
       {/* Photo row */}
-      <div className="ps-photo-row">
+      <div className="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
         <div className="ps-photo-thumb">
           {avatarSrc
             ? <img src={avatarSrc} alt="Profile" />
             : <span className="ps-initials-sm">{initials}</span>
           }
         </div>
-        <div className="ps-photo-actions">
-          <button
-            type="button"
-            className="ps-btn-outline"
-            onClick={() => fileRef.current?.click()}
-          >
+        <div className="d-flex flex-column align-items-start gap-1">
+          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => fileRef.current?.click()}>
             Change photo
           </button>
-          <p className="ps-photo-hint">JPG, PNG or GIF. Max 2 MB.</p>
+          <p className="mb-0 text-muted" style={{ fontSize: '0.76rem' }}>JPG, PNG or GIF. Max 2 MB.</p>
         </div>
         <input
           ref={fileRef}
@@ -253,64 +237,47 @@ function PersonalInfoSection({ profile, avatarSrc, onAvatarChange, onSave }) {
         />
       </div>
 
-      <form onSubmit={handleSave} className="ps-form">
+      <form onSubmit={handleSave} className="vstack gap-3">
         {/* Name */}
-        <div className="ps-row-2">
-          <div className="ps-field">
-            <label className="ps-field__label" htmlFor="firstName">FIRST NAME</label>
-            <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              className="ps-input"
-              value={form.firstName}
-              onChange={handleChange}
-            />
+        <div className="row g-3">
+          <div className="col-md-6">
+            <label className="form-label label-caps" htmlFor="firstName">FIRST NAME</label>
+            <input type="text" id="firstName" name="firstName" className="form-control" value={form.firstName} onChange={handleChange} />
           </div>
-          <div className="ps-field">
-            <label className="ps-field__label" htmlFor="lastName">LAST NAME</label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              className="ps-input"
-              value={form.lastName}
-              onChange={handleChange}
-            />
+          <div className="col-md-6">
+            <label className="form-label label-caps" htmlFor="lastName">LAST NAME</label>
+            <input type="text" id="lastName" name="lastName" className="form-control" value={form.lastName} onChange={handleChange} />
           </div>
         </div>
 
         {/* Email — locked */}
-        <div className="ps-field">
-          <label className="ps-field__label" htmlFor="profileEmail">EMAIL ADDRESS</label>
-          <div className="ps-field__input-wrap">
+        <div>
+          <label className="form-label label-caps" htmlFor="profileEmail">EMAIL ADDRESS</label>
+          <div className="position-relative">
             <input
               type="email"
               id="profileEmail"
-              className="ps-input ps-input--disabled"
+              className="form-control ps-input--disabled"
+              style={{ paddingRight: '2.25rem' }}
               value={profile.email}
               disabled
               readOnly
             />
-            <span className="ps-input__icon">
-              <i className="bi bi-lock" />
-            </span>
+            <span className="ps-input__icon"><i className="bi bi-lock" /></span>
           </div>
-          <p className="ps-field__hint">Contact support to change your email.</p>
+          <div className="form-text">Contact support to change your email.</div>
         </div>
 
         {/* Base Location */}
-        <div className="ps-field">
-          <label className="ps-field__label" htmlFor="location">BASE LOCATION</label>
-          <div className="ps-field__input-wrap">
-            <span className="ps-input__icon ps-input__icon--left">
-              <i className="bi bi-geo-alt" />
-            </span>
+        <div>
+          <label className="form-label label-caps" htmlFor="location">BASE LOCATION</label>
+          <div className="position-relative">
+            <span className="ps-input__icon ps-input__icon--left"><i className="bi bi-geo-alt" /></span>
             <input
               type="text"
               id="location"
               name="location"
-              className="ps-input ps-input--padl"
+              className="form-control ps-input--padl"
               placeholder="City, Country"
               value={form.location}
               onChange={handleChange}
@@ -319,22 +286,23 @@ function PersonalInfoSection({ profile, avatarSrc, onAvatarChange, onSave }) {
         </div>
 
         {/* Bio */}
-        <div className="ps-field">
-          <label className="ps-field__label" htmlFor="bio">BIO</label>
+        <div>
+          <label className="form-label label-caps" htmlFor="bio">BIO</label>
           <textarea
             id="bio"
             name="bio"
-            className="ps-input ps-input--textarea"
+            className="form-control"
             placeholder="Tell us about yourself…"
             value={form.bio}
             onChange={handleChange}
             rows={3}
+            style={{ resize: 'vertical' }}
           />
         </div>
 
         {/* Travel Style */}
-        <div className="ps-field">
-          <label className="ps-field__label" htmlFor="travelStyle">TRAVEL STYLE</label>
+        <div>
+          <label className="form-label label-caps" htmlFor="travelStyle">TRAVEL STYLE</label>
           <CustomSelect
             id="travelStyle"
             value={form.travelStyle}
@@ -343,13 +311,9 @@ function PersonalInfoSection({ profile, avatarSrc, onAvatarChange, onSave }) {
           />
         </div>
 
-        <div className="ps-form-actions">
-          <button type="submit" className="ps-btn-primary">
-            {saved ? 'Saved!' : 'Save Changes'}
-          </button>
-          <button type="button" className="ps-btn-ghost" onClick={handleDiscard}>
-            Discard
-          </button>
+        <div className="d-flex align-items-center gap-2 flex-wrap mt-1">
+          <button type="submit" className="btn btn-eco">{saved ? 'Saved!' : 'Save Changes'}</button>
+          <button type="button" className="btn btn-outline-secondary" onClick={handleDiscard}>Discard</button>
         </div>
       </form>
     </PCard>
@@ -360,7 +324,7 @@ function PersonalInfoSection({ profile, avatarSrc, onAvatarChange, onSave }) {
 
 function SecuritySection({ email }) {
   const [fields, setFields] = useState({ current: '', newPass: '', confirm: '' });
-  const [error, setError] = useState('');
+  const [error,   setError]   = useState('');
   const [success, setSuccess] = useState(false);
 
   function handleChange(e) {
@@ -383,40 +347,26 @@ function SecuritySection({ email }) {
   }
 
   return (
-    <div className="ps-section-stack">
+    <div className="vstack gap-3">
       <PCard>
-        <h3 className="ps-card-title">Change Password</h3>
-        <p className="ps-card-desc">Use a strong, unique password for your account.</p>
-        <form onSubmit={handleSubmit} className="ps-form">
-          <PasswordInput
-            id="current" name="current" label="CURRENT PASSWORD"
-            value={fields.current} onChange={handleChange}
-            autoComplete="current-password"
-          />
-          <PasswordInput
-            id="newPass" name="newPass" label="NEW PASSWORD"
-            value={fields.newPass} onChange={handleChange}
-            hint="Min. 8 characters with a number and symbol."
-            autoComplete="new-password"
-          />
-          <PasswordInput
-            id="confirm" name="confirm" label="CONFIRM NEW PASSWORD"
-            value={fields.confirm} onChange={handleChange}
-            autoComplete="new-password"
-          />
-          {error   && <p className="ps-error">{error}</p>}
-          {success && <p className="ps-success">Password updated successfully.</p>}
-          <div className="ps-form-actions">
-            <button type="submit" className="ps-btn-primary">Update Password</button>
+        <h3 className="fw-semibold mb-1" style={{ fontSize: '1.05rem' }}>Change Password</h3>
+        <p className="text-muted small mb-4">Use a strong, unique password for your account.</p>
+        <form onSubmit={handleSubmit} className="vstack gap-3">
+          <PasswordInput id="current" name="current" label="CURRENT PASSWORD" value={fields.current} onChange={handleChange} autoComplete="current-password" />
+          <PasswordInput id="newPass" name="newPass" label="NEW PASSWORD" value={fields.newPass} onChange={handleChange} hint="Min. 8 characters with a number and symbol." autoComplete="new-password" />
+          <PasswordInput id="confirm" name="confirm" label="CONFIRM NEW PASSWORD" value={fields.confirm} onChange={handleChange} autoComplete="new-password" />
+          {error   && <p className="text-danger small mb-0">{error}</p>}
+          {success && <p className="text-success small mb-0">Password updated successfully.</p>}
+          <div className="d-flex gap-2 mt-1">
+            <button type="submit" className="btn btn-eco">Update Password</button>
           </div>
         </form>
       </PCard>
 
       <PCard>
-        <h3 className="ps-card-title">Connected Accounts</h3>
-        <p className="ps-card-desc">Manage your sign-in methods.</p>
+        <h3 className="fw-semibold mb-1" style={{ fontSize: '1.05rem' }}>Connected Accounts</h3>
+        <p className="text-muted small mb-4">Manage your sign-in methods.</p>
         <div className="ps-connected-list">
-          {/* Email & Password — primary method, no disconnect */}
           <div className="ps-connected-row">
             <div className="ps-connected-avatar ps-connected-avatar--email">
               <i className="bi bi-envelope-fill" />
@@ -427,14 +377,13 @@ function SecuritySection({ email }) {
             </div>
             <span className="ps-connected-badge">Primary</span>
           </div>
-          {/* Google */}
           <div className="ps-connected-row">
             <div className="ps-connected-avatar ps-connected-avatar--google">G</div>
             <div className="ps-connected-info">
               <div className="ps-connected-provider">Google</div>
               <div className="ps-connected-detail">{email || 'Connected'}</div>
             </div>
-            <button type="button" className="ps-btn-ghost ps-btn-ghost--sm">Disconnect</button>
+            <button type="button" className="btn btn-outline-secondary btn-sm">Disconnect</button>
           </div>
         </div>
       </PCard>
@@ -460,85 +409,58 @@ function PreferencesSection() {
   }
 
   return (
-    <div className="ps-section-stack">
-      {/* Notifications */}
+    <div className="vstack gap-3">
       <PCard>
-        <h3 className="ps-card-title">Notifications</h3>
-        <p className="ps-card-desc">Choose which emails and alerts you'd like to receive.</p>
+        <h3 className="fw-semibold mb-1" style={{ fontSize: '1.05rem' }}>Notifications</h3>
+        <p className="text-muted small mb-3">Choose which emails and alerts you'd like to receive.</p>
         <div className="ps-notif-list">
           {NOTIF_ITEMS.map(({ id, label, desc, icon }) => (
             <div key={id} className="ps-notif-row">
-              <div className="ps-notif-icon">
-                <i className={`bi ${icon}`} />
-              </div>
+              <div className="ps-notif-icon"><i className={`bi ${icon}`} /></div>
               <div className="ps-notif-text">
                 <div className="ps-notif-label">{label}</div>
                 <div className="ps-notif-desc">{desc}</div>
               </div>
-              <Toggle
-                checked={notifs[id]}
-                onChange={val => setNotifs(prev => ({ ...prev, [id]: val }))}
-              />
+              <Toggle checked={notifs[id]} onChange={val => setNotifs(prev => ({ ...prev, [id]: val }))} />
             </div>
           ))}
         </div>
       </PCard>
 
-      {/* Measurement Units */}
       <PCard>
-        <h3 className="ps-card-title">Measurement Units</h3>
-        <p className="ps-card-desc">Choose your preferred units for distance and carbon output.</p>
+        <h3 className="fw-semibold mb-1" style={{ fontSize: '1.05rem' }}>Measurement Units</h3>
+        <p className="text-muted small mb-3">Choose your preferred units for distance and carbon output.</p>
         <div className="ps-unit-row">
-          <button
-            type="button"
-            className={`ps-unit-btn${unit === 'km' ? ' ps-unit-btn--active' : ''}`}
-            onClick={() => setUnit('km')}
-          >
-            Kilometres (km)
-          </button>
-          <button
-            type="button"
-            className={`ps-unit-btn${unit === 'mi' ? ' ps-unit-btn--active' : ''}`}
-            onClick={() => setUnit('mi')}
-          >
-            Miles (mi)
-          </button>
+          <button type="button" className={`ps-unit-btn${unit === 'km' ? ' ps-unit-btn--active' : ''}`} onClick={() => setUnit('km')}>Kilometres (km)</button>
+          <button type="button" className={`ps-unit-btn${unit === 'mi' ? ' ps-unit-btn--active' : ''}`} onClick={() => setUnit('mi')}>Miles (mi)</button>
         </div>
       </PCard>
 
-      {/* Eco Goals */}
       <PCard>
-        <h3 className="ps-card-title">Eco Goals</h3>
-        <p className="ps-card-desc">Set personal sustainability targets for your travel.</p>
-        <form onSubmit={handleSavePrefs} className="ps-form">
-          <div className="ps-field">
-            <label className="ps-field__label" htmlFor="budget">MONTHLY CO₂ BUDGET</label>
-            <div className="ps-field__input-wrap">
+        <h3 className="fw-semibold mb-1" style={{ fontSize: '1.05rem' }}>Eco Goals</h3>
+        <p className="text-muted small mb-3">Set personal sustainability targets for your travel.</p>
+        <form onSubmit={handleSavePrefs} className="vstack gap-3">
+          <div>
+            <label className="form-label label-caps" htmlFor="budget">MONTHLY CO₂ BUDGET</label>
+            <div className="position-relative">
               <input
                 type="number"
                 id="budget"
-                className="ps-input ps-input--with-suffix"
+                className="form-control ps-input--with-suffix"
                 min="0"
                 value={budget}
                 onChange={e => setBudget(e.target.value)}
               />
               <span className="ps-input__suffix">kg CO₂</span>
             </div>
-            <p className="ps-field__hint">We'll alert you when planned trips approach this limit.</p>
+            <div className="form-text">We'll alert you when planned trips approach this limit.</div>
           </div>
-          <div className="ps-field">
-            <label className="ps-field__label" htmlFor="transport">DEFAULT TRANSPORT MODE</label>
-            <CustomSelect
-              id="transport"
-              value={transport}
-              options={TRANSPORT_MODES}
-              onChange={val => setTransport(val)}
-            />
+          <div>
+            <label className="form-label label-caps" htmlFor="transport">DEFAULT TRANSPORT MODE</label>
+            <CustomSelect id="transport" value={transport} options={TRANSPORT_MODES} onChange={val => setTransport(val)} />
           </div>
-          <div className="ps-form-actions">
-            <button type="submit" className="ps-btn-primary">
-              {saved ? 'Saved!' : 'Save Preferences'}
-            </button>
+          <div className="d-flex gap-2 mt-1">
+            <button type="submit" className="btn btn-eco">{saved ? 'Saved!' : 'Save Preferences'}</button>
           </div>
         </form>
       </PCard>
@@ -557,7 +479,6 @@ function DeleteAccountSection({ email }) {
   function handleDelete(e) {
     e.preventDefault();
     if (!canDelete) return;
-    // No real backend — demo only
     console.info('[ProfilePage] deleteAccount requested (demo — no backend connected)');
     alert('Account deletion requested. No backend is connected — this is a demo-only action.');
     setShowConfirm(false);
@@ -571,7 +492,7 @@ function DeleteAccountSection({ email }) {
         <span className="ps-delete-header-title">Delete Account</span>
         <span className="ps-delete-header-note">— permanent, cannot be undone</span>
       </div>
-      <p className="ps-delete-body">
+      <p className="text-secondary mb-4" style={{ fontSize: '0.875rem', lineHeight: '1.65' }}>
         Deleting your account will permanently erase all your itineraries, saved places,
         preferences, and profile data.{' '}
         <strong>There is no recovery path after deletion.</strong>
@@ -580,37 +501,35 @@ function DeleteAccountSection({ email }) {
       {!showConfirm && (
         <button
           type="button"
-          className="ps-btn-danger-outline"
+          className="btn btn-outline-danger d-inline-flex align-items-center gap-1"
           onClick={() => setShowConfirm(true)}
         >
-          <i className="bi bi-trash me-1" />
+          <i className="bi bi-trash" />
           Delete my account
         </button>
       )}
 
       {showConfirm && (
-        <form onSubmit={handleDelete} className="ps-confirm-form">
-          <div className="ps-field">
-            <label className="ps-field__label" htmlFor="confirmEmail">
-              TYPE YOUR EMAIL ADDRESS TO CONFIRM
-            </label>
+        <form onSubmit={handleDelete} className="vstack gap-3 mt-3 pt-3 border-top">
+          <div>
+            <label className="form-label label-caps" htmlFor="confirmEmail">TYPE YOUR EMAIL ADDRESS TO CONFIRM</label>
             <input
               type="email"
               id="confirmEmail"
-              className="ps-input"
+              className="form-control"
               placeholder={email || 'your@email.com'}
               value={emailInput}
               onChange={e => setEmailInput(e.target.value)}
             />
           </div>
-          <div className="ps-confirm-actions">
-            <button type="submit" className="ps-btn-danger" disabled={!canDelete}>
-              <i className="bi bi-trash me-1" />
+          <div className="d-flex gap-2 flex-wrap">
+            <button type="submit" className="btn btn-danger d-inline-flex align-items-center gap-1" disabled={!canDelete}>
+              <i className="bi bi-trash" />
               Permanently delete
             </button>
             <button
               type="button"
-              className="ps-btn-ghost"
+              className="btn btn-outline-secondary"
               onClick={() => { setShowConfirm(false); setEmailInput(''); }}
             >
               Cancel
@@ -664,11 +583,11 @@ export default function ProfilePage() {
   return (
     <div className="profile-page-wrap">
       <div className="profile-container">
-        <div className="profile-columns">
+        <div className="d-flex flex-column flex-lg-row gap-4 align-items-lg-start">
 
           {/* ── Left card ───────────────────────────────────────────── */}
           <aside className="p-left">
-            <div className="ps-left-card">
+            <div className="card border">
 
               {/* Avatar + identity */}
               <div className="ps-avatar-area">
@@ -737,10 +656,10 @@ export default function ProfilePage() {
 
           {/* ── Right content ────────────────────────────────────────── */}
           <main className="p-right">
-            <div className="ps-section-head">
+            <div className="mb-4">
               <p className="ps-section-tag">ACCOUNT SETTINGS</p>
-              <h1 className="ps-section-title">{title}</h1>
-              <p className="ps-section-desc">{desc}</p>
+              <h1 className="fw-bold mb-1" style={{ fontSize: '1.875rem' }}>{title}</h1>
+              <p className="text-muted mb-0" style={{ fontSize: '0.875rem' }}>{desc}</p>
             </div>
 
             {activeSection === 'personal' && (
