@@ -1,8 +1,7 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const AppContext = createContext(null);
 
-// Placeholder data — replace once all pages are finalized and backend is wired up
 const PLACEHOLDER_USER = {
   firstName: 'Moaaz',
   lastName: 'Khamis',
@@ -10,18 +9,6 @@ const PLACEHOLDER_USER = {
   avatarUrl: null,
   carbonSaved: 142,
 };
-
-const PLACEHOLDER_ITINERARIES = [
-  {
-    id: 1,
-    city: 'Kyoto',
-    country: 'Japan',
-    date: '2025-08-15',
-    imageUrl: 'https://images.unsplash.com/photo-1700474896901-6afb362d2f8c?w=800&q=75',
-    ecoScore: 5,
-    carbonKg: 52,
-  },
-];
 
 const PLACEHOLDER_FAVOURITES = [
   { id: 1, name: 'Faroe Islands', country: 'Denmark' },
@@ -31,11 +18,24 @@ const PLACEHOLDER_FAVOURITES = [
 
 export function AppProvider({ children }) {
   const [user] = useState(PLACEHOLDER_USER);
-  const [itineraries] = useState(PLACEHOLDER_ITINERARIES);
   const [favourites] = useState(PLACEHOLDER_FAVOURITES);
 
+  // savedPlan is shared across Dashboard and ItineraryPage, persisted in localStorage
+  const [savedPlan, setSavedPlan] = useState(() => {
+    try {
+      const stored = localStorage.getItem('ecoSavedPlan');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('ecoSavedPlan', JSON.stringify(savedPlan));
+  }, [savedPlan]);
+
   return (
-    <AppContext.Provider value={{ user, itineraries, favourites }}>
+    <AppContext.Provider value={{ user, favourites, savedPlan, setSavedPlan }}>
       {children}
     </AppContext.Provider>
   );

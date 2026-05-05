@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useAppContext } from '../context/AppContext';
 import {
   Globe, Leaf, Palette, UtensilsCrossed, Bike,
   Sprout, Zap, AlertTriangle,
@@ -61,21 +62,22 @@ const INTERESTS = [
 ];
 
 const IMPACT_CONFIG = {
-  Low:    { bg: '#dcfce7', color: '#15803d', borderColor: '#86efac', Icon: Sprout,        label: 'Low Impact' },
-  Medium: { bg: '#fef9c3', color: '#854d0e', borderColor: '#fde047', Icon: Zap,           label: 'Medium Impact' },
-  High:   { bg: '#fee2e2', color: '#991b1b', borderColor: '#fca5a5', Icon: AlertTriangle, label: 'High Impact' },
+  Low:    { bg: 'var(--impact-low-bg)',    color: 'var(--impact-low-text)',  borderColor: 'var(--impact-low-border)',  Icon: Sprout,        label: 'Low Impact' },
+  Medium: { bg: 'var(--impact-med-bg)',    color: 'var(--impact-med-text)',  borderColor: 'var(--impact-med-border)',  Icon: Zap,           label: 'Medium Impact' },
+  High:   { bg: 'var(--danger-bg-hover)',  color: 'var(--danger-dark)',      borderColor: 'var(--danger-border)',      Icon: AlertTriangle, label: 'High Impact' },
 };
 
 const CITY_LABELS = { kl: 'Kuala Lumpur', penang: 'Penang' };
 
 export default function ItineraryPage() {
+  const { savedPlan, setSavedPlan } = useAppContext();
+
   const [destination, setDestination]         = useState('');
   const [travelDate, setTravelDate]           = useState('');
   const [notes, setNotes]                     = useState('');
   const [interests, setInterests]             = useState(['nature']);
   const [budget, setBudget]                   = useState(250);
   const [recommendations, setRecommendations] = useState(null);
-  const [savedPlan, setSavedPlan]             = useState([]);
   const [editingKey, setEditingKey]           = useState(null);
   const [editForm, setEditForm]               = useState({ notes: '', plannedDate: '' });
 
