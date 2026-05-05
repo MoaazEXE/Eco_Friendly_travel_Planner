@@ -23,7 +23,6 @@ export async function login(credentials) {
   // });
 
   // ── Mock response ──────────────────────────────
-  console.warn('[api/auth] login() is using mock data');
   return Promise.resolve({
     token: 'mock-jwt-token',
     user: { id: 1, email: credentials.email, fullName: 'Eleanor Vance' },
@@ -43,7 +42,6 @@ export async function register(data) {
   // });
 
   // ── Mock response ──────────────────────────────
-  console.warn('[api/auth] register() is using mock data');
   return Promise.resolve({ message: 'Registration successful' });
 }
 
@@ -56,7 +54,6 @@ export async function logout() {
   // return request('/auth/logout', { method: 'POST' });
 
   // ── Mock response ──────────────────────────────
-  console.warn('[api/auth] logout() is using mock data');
   localStorage.removeItem('token');
   return Promise.resolve(null);
 }

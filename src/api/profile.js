@@ -16,14 +16,14 @@ export async function getProfile() {
   // TODO: uncomment when backend is ready
   // return request('/profile');
 
-  console.warn('[api/profile] getProfile() is using mock data');
   return Promise.resolve({
-    fullName: 'Eleanor Vance',
-    email:    'gadingtahta@example.com',
+    fullName: 'Moaaz Khamis',
+    email:    'traveller@example.com',
     phone:    '+62 123-4567',
     location: 'Kuala Lumpur, Malaysia',
     bio:      'Passionate about sustainable travel and discovering eco-friendly experiences around the world.',
     stats:    { carbonSaved: '120 kg CO₂', tripsTaken: 14 },
+    ecoScore: 78,
   });
 }
 
@@ -39,7 +39,6 @@ export async function updateProfile(profileData) {
   //   body: JSON.stringify(profileData),
   // });
 
-  console.warn('[api/profile] updateProfile() is using mock data');
   return Promise.resolve(profileData);
 }
 
@@ -55,7 +54,6 @@ export async function changePassword(data) {
   //   body: JSON.stringify(data),
   // });
 
-  console.warn('[api/profile] changePassword() is using mock data');
   return Promise.resolve({ message: 'Password updated successfully' });
 }
 
@@ -67,6 +65,5 @@ export async function deleteAccount() {
   // TODO: uncomment when backend is ready
   // return request('/profile', { method: 'DELETE' });
 
-  console.warn('[api/profile] deleteAccount() is using mock data');
   return Promise.resolve(null);
 }

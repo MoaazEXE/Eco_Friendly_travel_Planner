@@ -1,19 +1,9 @@
 import { useState } from "react";
-
-// Emission factors
-const TRANSPORT_FACTORS = {
-  flight: 0.255,
-  car: 0.192,
-  train: 0.041,
-  bus: 0.105,
-};
-
-const ACCOMMODATION_FACTORS = {
-  hotel: 30,
-  ecolodge: 20,
-  hostel: 15,
-  camping: 5,
-};
+import {
+  TRANSPORT_FACTORS,
+  ACCOMMODATION_FACTORS,
+  CREDIT_PRICE,
+} from "../constants/calculatorConfig";
 
 const TRANSPORT_OPTIONS = [
   { key: "flight", label: "Flight", icon: "✈" },
@@ -29,7 +19,6 @@ const ACCOMMODATION_OPTIONS = [
   { key: "camping", label: "Camping", icon: "⛺" },
 ];
 
-// Impact logic
 function impactLevel(total) {
   if (total < 50)
     return { label: "Low Impact 🌱", alertClass: "alert-success" };
@@ -39,28 +28,28 @@ function impactLevel(total) {
 }
 
 export default function CalculatorPage() {
-  const [transport, setTransport] = useState("flight");
-  const [distance, setDistance] = useState("");
-  const [accommodation, setAccommodation] = useState("hotel");
-  const [nights, setNights] = useState("");
+  const [form, setForm] = useState({
+    transport: "flight",
+    distance: "",
+    accommodation: "hotel",
+    nights: "",
+  });
   const [result, setResult] = useState(null);
 
   function handleCalculate(e) {
     e.preventDefault();
 
-    const km = parseFloat(distance) || 0;
-    const nts = parseInt(nights, 10) || 0;
+    const km = parseFloat(form.distance) || 0;
+    const nts = parseInt(form.nights, 10) || 0;
 
-    const transportEmission = km * TRANSPORT_FACTORS[transport];
-    const accommodationEmission =
-      nts * ACCOMMODATION_FACTORS[accommodation];
+    const transportEmission = km * TRANSPORT_FACTORS[form.transport];
+    const accommodationEmission = nts * ACCOMMODATION_FACTORS[form.accommodation];
 
     const total = transportEmission + accommodationEmission;
 
     setResult({ transportEmission, accommodationEmission, total });
   }
 
-  // Derived values (SAFE)
   const percent = result
     ? Math.min((result.total / 200) * 100, 100)
     : 0;
@@ -70,8 +59,6 @@ export default function CalculatorPage() {
   const isLowImpact = impact?.label.includes("Low Impact");
 
   const carbonCredits = result ? result.total / 1000 : 0;
-  const CREDIT_PRICE = 10;
-
   const carbonCreditsFixed = carbonCredits.toFixed(2);
   const estimatedCostFixed = (carbonCredits * CREDIT_PRICE).toFixed(2);
 
@@ -98,11 +85,11 @@ export default function CalculatorPage() {
                   <button
                     type="button"
                     className={`btn w-100 py-4 border rounded-3 ${
-                      transport === option.key
+                      form.transport === option.key
                         ? "btn-success"
                         : "btn-outline-secondary"
                     }`}
-                    onClick={() => setTransport(option.key)}
+                    onClick={() => setForm((f) => ({ ...f, transport: option.key }))}
                   >
                     {option.icon} {option.label}
                   </button>
@@ -118,8 +105,8 @@ export default function CalculatorPage() {
               className="form-control form-control-lg"
               placeholder="e.g. 1000"
               min="0"
-              value={distance}
-              onChange={(e) => setDistance(e.target.value)}
+              value={form.distance}
+              onChange={(e) => setForm((f) => ({ ...f, distance: e.target.value }))}
             />
           </div>
 
@@ -135,11 +122,11 @@ export default function CalculatorPage() {
                   <button
                     type="button"
                     className={`btn w-100 py-4 border rounded-3 ${
-                      accommodation === option.key
+                      form.accommodation === option.key
                         ? "btn-success"
                         : "btn-outline-secondary"
                     }`}
-                    onClick={() => setAccommodation(option.key)}
+                    onClick={() => setForm((f) => ({ ...f, accommodation: option.key }))}
                   >
                     {option.icon} {option.label}
                   </button>
@@ -155,14 +142,14 @@ export default function CalculatorPage() {
               className="form-control form-control-lg"
               placeholder="e.g. 5"
               min="0"
-              value={nights}
-              onChange={(e) => setNights(e.target.value)}
+              value={form.nights}
+              onChange={(e) => setForm((f) => ({ ...f, nights: e.target.value }))}
             />
           </div>
 
           {/* BUTTON */}
           <div className="d-grid mt-4">
-            <button className="btn btn-dark btn-lg rounded-3">
+            <button className="btn-eco-primary">
               Calculate Emissions
             </button>
           </div>

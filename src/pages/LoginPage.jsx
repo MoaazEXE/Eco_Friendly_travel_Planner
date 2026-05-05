@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { EMAIL_REGEX } from '../utils/validators';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -83,14 +82,7 @@ export default function LoginPage() {
                   )}
                 </div>
 
-                <button
-                  type="submit"
-                  className="btn btn-lg w-100"
-                  style={{
-                    backgroundColor: 'var(--green-primary)',
-                    color: 'var(--white)',
-                  }}
-                >
+                <button type="submit" className="btn-eco-primary">
                   Login
                 </button>
               </form>
@@ -102,19 +94,6 @@ export default function LoginPage() {
                 </Link>
               </p>
 
-              {/* DEV ONLY — remove before final submission */}
-              <hr className="my-4" />
-              <button
-                type="button"
-                className="btn btn-outline-secondary w-100"
-                style={{ fontSize: '0.875rem' }}
-                onClick={() => {
-                  localStorage.setItem('token', 'dev');
-                  navigate('/dashboard');
-                }}
-              >
-                🛠️ Test Login (Dev Only)
-              </button>
             </div>
           </div>
         </div>

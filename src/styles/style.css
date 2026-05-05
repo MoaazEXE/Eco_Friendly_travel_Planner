@@ -62,9 +62,6 @@ body {
   flex-shrink: 0;
 }
 
-h1, h2, h3 {
-  color: var(--green-primary);
-}
 
 .placeholder-section {
   min-height: 60vh;
@@ -85,4 +82,26 @@ footer {
   padding: 1.5rem 0;
   text-align: center;
   margin-top: auto;
+}
+
+/* ── Shared primary action button ────────────────────────────── */
+.btn-eco-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.625rem 1.25rem;
+  background-color: var(--green-primary);
+  color: var(--white);
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.btn-eco-primary:hover {
+  background-color: var(--green-dark);
+  color: var(--white);
 }

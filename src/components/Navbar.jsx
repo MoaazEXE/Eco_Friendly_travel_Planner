@@ -1,4 +1,5 @@
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Leaf } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 
@@ -13,11 +14,12 @@ const APP_LINKS = [
 
 export default function Navbar() {
   const { user } = useAppContext();
+  const navigate  = useNavigate();
   const isLoggedIn = !!localStorage.getItem('token');
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    window.location.href = '/';
+    navigate('/');
   };
 
   return (

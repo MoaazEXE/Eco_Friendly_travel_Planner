@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 // Placeholder — swap src with the real image when provided
 export function LeafCompassGuide({ size = 'md' }) {
   const px = { xs: 20, sm: 28, md: 40, lg: 56 }[size] ?? 40;
@@ -23,3 +25,7 @@ export function LeafCompassGuide({ size = 'md' }) {
     </div>
   );
 }
+
+LeafCompassGuide.propTypes = {
+  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg']),
+};

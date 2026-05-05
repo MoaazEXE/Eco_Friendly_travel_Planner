@@ -5,7 +5,7 @@ const AppContext = createContext(null);
 const PLACEHOLDER_USER = {
   firstName: 'Moaaz',
   lastName: 'Khamis',
-  email: 'mouazm364@gmail.com',
+  email: 'traveller@example.com',
   avatarUrl: null,
   carbonSaved: 142,
 };
