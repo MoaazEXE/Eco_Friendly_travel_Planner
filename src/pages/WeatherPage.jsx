@@ -3,6 +3,7 @@ import sunnyImg from "../assets/weather/sunny.jpg";
 import partlyCloudyImg from "../assets/weather/partly-cloudy.jpg";
 import cloudyImg from "../assets/weather/cloudy.jpg";
 import rainImg from "../assets/weather/rain.jpg";
+import "../styles/weather.css";
 
 const WEATHER_DATA = {
   "kuala lumpur": {
@@ -306,34 +307,23 @@ export default function WeatherPage() {
 
   return (
     <main className="eco-inner-page">
-      <div className="container" style={{ maxWidth: "1120px" }}>
-        <header className="text-center mb-4">
-          <h1 className="fw-bold mb-2" style={{ color: "var(--green-darker)" }}>
-            Weather Forecast
-          </h1>
-          <p className="mb-0" style={{ color: "var(--weather-subtitle)", fontSize: "1.2rem" }}>
-            Check local conditions to pack efficiently and plan your sustainable
-            outdoor activities.
-          </p>
-        </header>
+      <div className="container weather-container">
+        <div className="mb-4">
+          <h1 className="eco-page-title">Weather Forecast</h1>
+          <p className="eco-lead">Check local conditions to pack efficiently and plan your sustainable outdoor activities.</p>
+        </div>
 
-        <section
-          className="rounded-4 shadow-sm mb-4"
-          style={{ backgroundColor: "var(--weather-search-bg)", padding: "18px 20px 16px" }}
-        >
+        {/* Search card */}
+        <section className="card-eco mb-4 p-4">
           <div className="d-flex flex-column flex-lg-row gap-2 gap-lg-3">
-            <div className="input-group" style={{ flex: 1 }}>
-              <span
-                className="input-group-text border-end-0"
-                style={{ backgroundColor: "var(--weather-input-bg)", borderColor: "var(--weather-input-border)" }}
-              >
-                <i className="bi bi-geo-alt" style={{ color: "var(--green-primary)" }} />
+            <div className="input-group weather-search-input-group">
+              <span className="input-group-text bg-white border-end-0">
+                <i className="bi bi-geo-alt text-success" />
               </span>
               <input
                 id="cityInput"
                 type="text"
                 className="form-control border-start-0"
-                style={{ backgroundColor: "var(--weather-input-bg)", borderColor: "var(--weather-input-border)" }}
                 placeholder="Search city"
                 value={cityInput}
                 onChange={(e) => setCityInput(e.target.value)}
@@ -341,29 +331,22 @@ export default function WeatherPage() {
               />
             </div>
             <button
-              className="btn-eco-primary"
+              className="btn-eco-dark weather-search-btn"
               type="button"
               onClick={handleSearch}
-              style={{ width: 'auto', minWidth: '124px' }}
             >
               <i className="bi bi-search me-2" />
               Search
             </button>
           </div>
           <div className="mt-3 d-flex align-items-center gap-2 flex-wrap">
-            <span style={{ color: "var(--weather-dim)" }}>Popular:</span>
+            <span className="weather-popular-label">Popular:</span>
             {POPULAR_CITIES.map((city) => (
               <button
                 key={city}
                 type="button"
                 onClick={() => handleQuickCity(city)}
-                className="btn btn-sm rounded-pill fw-semibold"
-                style={{
-                  backgroundColor: "var(--weather-pill-bg)",
-                  color: "var(--green-primary)",
-                  border: "none",
-                  padding: "4px 14px",
-                }}
+                className="btn btn-sm weather-city-pill"
               >
                 {city}
               </button>
@@ -371,78 +354,33 @@ export default function WeatherPage() {
           </div>
         </section>
 
-        <section
-          className="rounded-4 shadow-sm overflow-hidden mb-4"
-          style={{ backgroundColor: "var(--weather-search-bg)" }}
-        >
+        {/* Weather display card */}
+        <section className="card-eco overflow-hidden mb-4">
           <div
-            className="p-4"
-            style={{
-              backgroundImage: `linear-gradient(var(--weather-overlay), var(--weather-overlay)), url(${bannerImage})`,
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-            }}
+            className="weather-banner"
+            style={{ backgroundImage: `linear-gradient(var(--weather-overlay), var(--weather-overlay)), url(${bannerImage})` }}
           >
-            <h2
-              className="fw-bold text-white mb-1"
-              style={{ fontSize: "2.65rem" }}
-            >
-              {current.city}
-            </h2>
-            <p
-              className="text-white mb-3"
-              style={{ opacity: 0.92, fontSize: "0.95rem" }}
-            >
-              {current.date}
-            </p>
+            <h2 className="fw-bold text-white mb-1 weather-city-name">{current.city}</h2>
+            <p className="text-white mb-3 weather-date">{current.date}</p>
             <div className="d-flex align-items-center gap-4">
-              <i
-                className={`bi ${current.currentIcon}`}
-                style={{ color: "var(--weather-icon-tint)", fontSize: "3.7rem" }}
-              />
+              <i className={`bi ${current.currentIcon} weather-icon`} />
               <div>
-                <div
-                  className="text-white"
-                  style={{ fontSize: "4.3rem", lineHeight: 1 }}
-                >
-                  {current.temp}
-                </div>
-                <p className="text-white mb-0" style={{ fontSize: "1.8rem" }}>
-                  {current.condition}
-                </p>
-                <p
-                  className="text-white mb-0"
-                  style={{ opacity: 0.88, fontSize: "1.42rem" }}
-                >
-                  Feels like {current.feelsLike}
-                </p>
+                <div className="text-white weather-temp">{current.temp}</div>
+                <p className="text-white mb-0 weather-condition">{current.condition}</p>
+                <p className="text-white mb-0 weather-feels-like">Feels like {current.feelsLike}</p>
               </div>
             </div>
           </div>
 
-          <div className="px-4 py-3" style={{ backgroundColor: "var(--weather-metric-bg)" }}>
+          <div className="weather-metrics">
             <div className="row g-3">
               {metricCards.map((item) => (
                 <div className="col-12 col-sm-6 col-lg-3" key={item.label}>
                   <div className="d-flex align-items-center gap-3">
-                    <i
-                      className={`bi ${item.icon}`}
-                      style={{ color: "var(--green-primary)", fontSize: "1.25rem" }}
-                    />
+                    <i className={`bi ${item.icon} weather-metric-icon`} />
                     <div>
-                      <p
-                        className="mb-0"
-                        style={{ color: "var(--weather-label)", fontSize: "0.85rem" }}
-                      >
-                        {item.label}
-                      </p>
-                      <p
-                        className="mb-0 fw-medium"
-                        style={{ color: "var(--weather-value)", fontSize: "1.45rem" }}
-                      >
-                        {item.value}
-                      </p>
+                      <p className="weather-metric-label">{item.label}</p>
+                      <p className="weather-metric-value">{item.value}</p>
                     </div>
                   </div>
                 </div>
@@ -451,41 +389,17 @@ export default function WeatherPage() {
           </div>
 
           <div className="p-4">
-            <h3
-              className="fw-semibold mb-3"
-              style={{ color: "var(--weather-value)", fontSize: "1.85rem" }}
-            >
-              5-Day Forecast
-            </h3>
+            <h3 className="fw-semibold mb-3 weather-forecast-heading">5-Day Forecast</h3>
             <div className="row g-3">
               {current.forecast.slice(0, 5).map((item) => (
                 <div className="col-12 col-sm-6 col-lg" key={item.day}>
-                  <div
-                    className="text-center h-100 rounded-4"
-                    style={{ backgroundColor: "var(--weather-metric-bg)", padding: "16px 10px" }}
-                  >
-                    <p
-                      className="mb-1"
-                      style={{ color: "var(--weather-label)", fontSize: "1.1rem" }}
-                    >
-                      {item.day}
-                    </p>
-                    <i
-                      className={`bi ${item.icon}`}
-                      style={{ color: "var(--green-primary)", fontSize: "3rem" }}
-                    />
-                    <p
-                      className="my-2"
-                      style={{ color: "var(--weather-condition)", fontSize: "1rem" }}
-                    >
-                      {item.condition}
-                    </p>
-                    <p
-                      className="mb-0"
-                      style={{ color: "var(--green-primary)", fontSize: "1.65rem" }}
-                    >
+                  <div className="text-center h-100 weather-forecast-card">
+                    <p className="weather-forecast-day">{item.day}</p>
+                    <i className={`bi ${item.icon} weather-forecast-icon`} />
+                    <p className="my-2 weather-forecast-condition">{item.condition}</p>
+                    <p className="weather-forecast-high">
                       {item.high}{" "}
-                      <span style={{ color: "var(--weather-label)" }}>{item.low}</span>
+                      <span className="weather-forecast-low">{item.low}</span>
                     </p>
                   </div>
                 </div>
@@ -494,12 +408,10 @@ export default function WeatherPage() {
           </div>
         </section>
 
-        <section
-          className="rounded-4 p-4 text-center"
-          style={{ backgroundColor: "var(--weather-metric-bg)" }}
-        >
-          <span style={{ color: "var(--weather-value)", fontWeight: 700 }}>Note:</span>{" "}
-          <span style={{ color: "var(--weather-note)" }}>
+        {/* Note card */}
+        <section className="card-eco p-4 text-center">
+          <span className="weather-note-label">Note:</span>{" "}
+          <span className="weather-note-text">
             This is a demo using mock data. In production, this would integrate
             with a real weather API like OpenWeatherMap or WeatherAPI.
           </span>

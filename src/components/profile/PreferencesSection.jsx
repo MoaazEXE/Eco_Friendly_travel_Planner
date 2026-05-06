@@ -83,7 +83,7 @@ export default function PreferencesSection() {
             <CustomSelect id="transport" value={transport} options={TRANSPORT_MODES} onChange={val => setTransport(val)} />
           </div>
           <div className="d-flex gap-2 mt-1">
-            <button type="submit" className="btn btn-eco">{saved ? 'Saved!' : 'Save Preferences'}</button>
+            <button type="submit" className="btn-eco-dark">{saved ? 'Saved!' : 'Save Preferences'}</button>
           </div>
         </form>
       </PCard>

@@ -135,9 +135,8 @@ export default function ProfilePage() {
           {/* ── Right content ────────────────────────────────────────── */}
           <main className="p-right">
             <div className="mb-4">
-              <p className="ps-section-tag">ACCOUNT SETTINGS</p>
-              <h1 className="fw-bold mb-1" style={{ fontSize: '1.875rem' }}>{title}</h1>
-              <p className="text-muted mb-0" style={{ fontSize: '0.875rem' }}>{desc}</p>
+              <h1 className="eco-page-title mb-1">{title}</h1>
+              <p className="eco-lead mb-0">{desc}</p>
             </div>
 
             {activeSection === 'personal' && (

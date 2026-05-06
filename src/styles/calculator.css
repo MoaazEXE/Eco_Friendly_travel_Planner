@@ -1,0 +1,13 @@
+/* ═══════════════════════════════════════════════════════════════
+   CALCULATOR PAGE STYLES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Results ─────────────────────────────────────────────────── */
+.calc-progress {
+  height: 18px;
+}
+
+/* ── Offset link button — overrides btn-eco-dark full-width default ── */
+.calc-link-btn {
+  width: auto;
+}

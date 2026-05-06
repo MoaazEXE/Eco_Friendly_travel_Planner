@@ -4,6 +4,7 @@ import {
   ACCOMMODATION_FACTORS,
   CREDIT_PRICE,
 } from "../constants/calculatorConfig";
+import "../styles/calculator.css";
 
 const TRANSPORT_OPTIONS = [
   { key: "flight", label: "Flight", icon: "✈" },
@@ -52,7 +53,7 @@ export default function CalculatorPage() {
 
   return (
     <main className="eco-inner-page">
-      <div className="container" style={{ maxWidth: "760px" }}>
+      <div className="container">
 
         {/* Title */}
         <div className="mb-4">
@@ -117,7 +118,7 @@ export default function CalculatorPage() {
             />
 
             <div className="d-grid mt-4">
-              <button type="submit" className="btn-eco-primary">
+              <button type="submit" className="btn-eco-dark">
                 Calculate Emissions
               </button>
             </div>
@@ -135,7 +136,7 @@ export default function CalculatorPage() {
               <p><strong>Transport:</strong> {result.transportEmission.toFixed(2)} kg CO₂</p>
               <p><strong>Accommodation:</strong> {result.accommodationEmission.toFixed(2)} kg CO₂</p>
               <h5 className="fw-bold">Total: {result.total.toFixed(2)} kg CO₂</h5>
-              <div className="progress mt-3" style={{ height: "18px" }}>
+              <div className="progress mt-3 calc-progress">
                 <div className="progress-bar bg-success" style={{ width: `${percent}%` }}>
                   {Math.round(percent)}%
                 </div>
@@ -165,8 +166,7 @@ export default function CalculatorPage() {
                       href="https://www.goldstandard.org/take-action/offset-your-emissions"
                       target="_blank"
                       rel="noreferrer"
-                      className="btn-eco-primary"
-                      style={{ width: 'auto' }}
+                      className="btn-eco-dark calc-link-btn"
                     >
                       Offset with Gold Standard
                     </a>

@@ -64,7 +64,7 @@ export default function DeleteAccountSection({ email }) {
             </button>
             <button
               type="button"
-              className="btn btn-outline-secondary"
+              className="btn-eco-outline"
               onClick={() => { setShowConfirm(false); setEmailInput(''); }}
             >
               Cancel

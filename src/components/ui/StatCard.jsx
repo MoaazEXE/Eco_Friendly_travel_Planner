@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 export default function StatCard({ value, label, sub, icon, accent }) {
   return (
     <div
-      className="rounded-3 border p-4 d-flex flex-column gap-3"
+      className="card-eco p-4 d-flex flex-column gap-3"
       style={{
         background: accent ? 'var(--green-darker)' : 'var(--white)',
         borderColor: accent ? 'var(--green-dark)' : 'var(--gray-200)',

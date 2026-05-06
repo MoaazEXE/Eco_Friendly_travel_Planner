@@ -39,7 +39,7 @@ export default function SecuritySection({ email }) {
           {error   && <p className="text-danger small mb-0">{error}</p>}
           {success && <p className="text-success small mb-0">Password updated successfully.</p>}
           <div className="d-flex gap-2 mt-1">
-            <button type="submit" className="btn btn-eco">Update Password</button>
+            <button type="submit" className="btn-eco-dark">Update Password</button>
           </div>
         </form>
       </PCard>
@@ -64,7 +64,7 @@ export default function SecuritySection({ email }) {
               <div className="ps-connected-provider">Google</div>
               <div className="ps-connected-detail">{email || 'Connected'}</div>
             </div>
-            <button type="button" className="btn btn-outline-secondary btn-sm">Disconnect</button>
+            <button type="button" className="btn-eco-outline" style={{ fontSize: '0.8rem', padding: '0.3rem 0.75rem' }}>Disconnect</button>
           </div>
         </div>
       </PCard>

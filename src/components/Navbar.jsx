@@ -70,41 +70,16 @@ export default function Navbar() {
               <div className="navbar-user-avatar">
                 {user?.firstName?.[0]?.toUpperCase() ?? 'U'}
               </div>
-              <button
-                onClick={handleLogout}
-                className="btn btn-sm"
-                style={{
-                  border: '1px solid var(--gray-300)',
-                  color: 'var(--gray-700)',
-                  fontSize: '0.8rem',
-                  padding: '0.25rem 0.75rem',
-                  borderRadius: '0.5rem',
-                  background: 'transparent',
-                }}
-              >
+              <button onClick={handleLogout} className="eco-nav-btn eco-nav-btn-outline">
                 Logout
               </button>
             </div>
           ) : (
             <div className="d-flex align-items-center gap-2 ms-auto">
-              <Link
-                to="/login"
-                className="btn btn-sm"
-                style={{ color: 'var(--gray-700)', fontSize: '0.875rem' }}
-              >
+              <Link to="/login" className="eco-nav-btn eco-nav-btn-outline">
                 Login
               </Link>
-              <Link
-                to="/register"
-                className="btn btn-sm"
-                style={{
-                  background: 'var(--gray-900)',
-                  color: 'var(--white)',
-                  borderRadius: '0.5rem',
-                  fontSize: '0.875rem',
-                  padding: '0.4rem 0.9rem',
-                }}
-              >
+              <Link to="/register" className="eco-nav-btn eco-nav-btn-dark">
                 Get Started
               </Link>
             </div>

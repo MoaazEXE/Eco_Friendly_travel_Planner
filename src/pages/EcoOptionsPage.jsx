@@ -146,22 +146,17 @@ export default function EcoOptionsPage() {
   }
 
   return (
-    <div className="eco-options-page">
-      {/* Header */}
-      <section className="eco-header py-5 text-center bg-white border-bottom">
-        <div className="container-lg">
-          <h1 className="display-5 fw-bold mb-3 text-dark">Discover Eco Options</h1>
-          <p className="lead text-muted mx-auto" style={{ maxWidth: '700px' }}>
+    <main className="eco-options-page eco-inner-page">
+      <div className="container-lg">
+        <div className="mb-4">
+          <h1 className="eco-page-title">Discover Eco Options</h1>
+          <p className="eco-lead">
             Search for sustainable accommodations, organic restaurants, low-emission
             transport, and mindful activities.
           </p>
         </div>
-      </section>
-
-      {/* Main */}
-      <main className="container-lg py-5">
         {/* Search */}
-        <div className="eco-search-section mb-4">
+        <div className="card-eco eco-search-section mb-4 p-4">
           <div className="eco-search-wrapper mx-auto mb-4" style={{ maxWidth: '800px' }}>
             <div className="input-group">
               <span className="input-group-text bg-white border-end-0">
@@ -178,7 +173,7 @@ export default function EcoOptionsPage() {
           </div>
 
           {/* Filters */}
-          <div className="eco-filter-section d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4 pb-3 border-bottom">
+          <div className="eco-filter-section d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div className="d-flex align-items-center gap-3">
               <Filter size={20} className="text-secondary flex-shrink-0" />
               <div className="d-flex gap-2 flex-wrap">
@@ -259,7 +254,7 @@ export default function EcoOptionsPage() {
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }

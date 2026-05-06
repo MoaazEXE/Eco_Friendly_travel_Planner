@@ -1,0 +1,144 @@
+/* ═══════════════════════════════════════════════════════════════
+   WEATHER PAGE STYLES
+   ═══════════════════════════════════════════════════════════════ */
+
+.weather-container {
+  max-width: 1120px;
+}
+
+/* ── Search card ──────────────────────────────────────────────── */
+.weather-search-input-group {
+  flex: 1;
+}
+
+.weather-search-btn {
+  width: auto;
+  min-width: 124px;
+}
+
+.weather-popular-label {
+  color: var(--gray-500);
+}
+
+.weather-city-pill {
+  background-color: var(--green-subtle);
+  color: var(--green-primary);
+  border: 1px solid var(--green-pale);
+  padding: 4px 14px;
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+
+.weather-city-pill:hover {
+  background-color: var(--green-pale);
+}
+
+/* ── Weather banner ───────────────────────────────────────────── */
+.weather-banner {
+  padding: 1.5rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.weather-city-name {
+  font-size: 2.65rem;
+}
+
+.weather-date {
+  opacity: 0.92;
+  font-size: 0.95rem;
+}
+
+.weather-icon {
+  color: var(--weather-icon-tint);
+  font-size: 3.7rem;
+}
+
+.weather-temp {
+  font-size: 4.3rem;
+  line-height: 1;
+}
+
+.weather-condition {
+  font-size: 1.8rem;
+}
+
+.weather-feels-like {
+  opacity: 0.88;
+  font-size: 1.42rem;
+}
+
+/* ── Metrics strip ────────────────────────────────────────────── */
+.weather-metrics {
+  background-color: var(--gray-50);
+  border-top: 1px solid var(--gray-200);
+  padding: 1rem 1.5rem;
+}
+
+.weather-metric-icon {
+  color: var(--green-primary);
+  font-size: 1.25rem;
+}
+
+.weather-metric-label {
+  color: var(--gray-500);
+  font-size: 0.85rem;
+  margin-bottom: 0;
+}
+
+.weather-metric-value {
+  color: var(--gray-900);
+  font-size: 1.45rem;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+/* ── 5-day forecast ───────────────────────────────────────────── */
+.weather-forecast-heading {
+  color: var(--gray-900);
+  font-size: 1.85rem;
+}
+
+.weather-forecast-card {
+  background-color: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: 0.5rem;
+  padding: 16px 10px;
+}
+
+.weather-forecast-day {
+  color: var(--gray-500);
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.weather-forecast-icon {
+  color: var(--green-primary);
+  font-size: 3rem;
+}
+
+.weather-forecast-condition {
+  color: var(--gray-600);
+  font-size: 1rem;
+}
+
+.weather-forecast-high {
+  color: var(--green-primary);
+  font-size: 1.65rem;
+  margin-bottom: 0;
+}
+
+.weather-forecast-low {
+  color: var(--gray-400);
+}
+
+/* ── Note card ────────────────────────────────────────────────── */
+.weather-note-label {
+  color: var(--gray-900);
+  font-weight: 700;
+}
+
+.weather-note-text {
+  color: var(--gray-600);
+}

@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { Globe } from 'lucide-react';
 import { useAppContext } from '../context/AppContext';
 import { ECO_OPTIONS, CITY_LABELS } from '../data/ecoOptions';
 import ItineraryForm from '../components/itinerary/ItineraryForm';
 import RecommendationsList from '../components/itinerary/RecommendationsList';
 import SavedItinerary from '../components/itinerary/SavedItinerary';
 import '../styles/itinerary.css';
-import heroBg from '../assets/images/itenary-background.png';
 
 export default function ItineraryPage() {
   const { savedPlan, setSavedPlan } = useAppContext();
@@ -100,28 +98,12 @@ export default function ItineraryPage() {
   }
 
   return (
-    <main className="itin-page" style={{ flex: 1 }}>
-
-      {/* ── Hero ── */}
-      <div className="itin-hero" style={{ backgroundImage: `url(${heroBg})` }}>
-        <div className="itin-hero-overlay">
-          <div className="container">
-            <span className="itin-eyebrow">
-              <Globe size={13} strokeWidth={2.5} />
-              Eco Travel Planner
-            </span>
-            <h1 className="itin-hero-title">
-              Plan Your <span className="itin-hero-accent">Green</span> Journey
-            </h1>
-            <p className="itin-hero-sub">
-              Discover sustainable destinations, compare eco-impact, and build an
-              itinerary that&apos;s good for you — and the planet.
-            </p>
-          </div>
+    <main className="eco-inner-page">
+      <div className="container">
+        <div className="mb-4">
+          <h1 className="eco-page-title">Plan Your Green Journey</h1>
+          <p className="eco-lead">Discover sustainable destinations, compare eco-impact, and build an itinerary that&apos;s good for you — and the planet.</p>
         </div>
-      </div>
-
-      <div className="container itin-body">
 
         <ItineraryForm
           form={form}

@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 
 export default function PCard({ children, className }) {
   return (
-    <div className={['card border', className].filter(Boolean).join(' ')}>
-      <div className="card-body p-4">
+    <div className={['card-eco', className].filter(Boolean).join(' ')}>
+      <div className="p-4">
         {children}
       </div>
     </div>

@@ -63,7 +63,7 @@ export default function PersonalInfoSection({ profile, avatarSrc, onAvatarChange
           }
         </div>
         <div className="d-flex flex-column align-items-start gap-1">
-          <button type="button" className="btn btn-outline-secondary btn-sm" onClick={() => fileRef.current?.click()}>
+          <button type="button" className="btn-eco-outline" onClick={() => fileRef.current?.click()} style={{ fontSize: '0.8rem', padding: '0.3rem 0.75rem' }}>
             Change photo
           </button>
           <p className="mb-0 text-muted" style={{ fontSize: '0.76rem' }}>JPG, PNG or GIF. Max 2 MB.</p>
@@ -152,8 +152,8 @@ export default function PersonalInfoSection({ profile, avatarSrc, onAvatarChange
         </div>
 
         <div className="d-flex align-items-center gap-2 flex-wrap mt-1">
-          <button type="submit" className="btn btn-eco">{saved ? 'Saved!' : 'Save Changes'}</button>
-          <button type="button" className="btn btn-outline-secondary" onClick={handleDiscard}>Discard</button>
+          <button type="submit" className="btn-eco-dark">{saved ? 'Saved!' : 'Save Changes'}</button>
+          <button type="button" className="btn-eco-outline" onClick={handleDiscard}>Discard</button>
         </div>
       </form>
     </PCard>
