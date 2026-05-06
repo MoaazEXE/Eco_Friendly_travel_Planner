@@ -96,7 +96,7 @@ export default function Dashboard() {
           {/* Next trip card */}
           <div className="col-12 col-lg-8">
             {nextTrip ? (
-              <div className="rounded-3 overflow-hidden border db-card">
+              <div className="card-eco overflow-hidden">
                 <div className="db-trip-banner">
                   {nextTrip.imageUrl && (
                     <img src={nextTrip.imageUrl} alt={nextTrip.city} />
@@ -126,13 +126,13 @@ export default function Dashboard() {
                 </div>
               </div>
             ) : (
-              <div className="rounded-3 border d-flex flex-column align-items-center justify-content-center text-center p-5 db-empty" style={{ borderStyle: 'dashed' }}>
+              <div className="card-eco d-flex flex-column align-items-center justify-content-center text-center p-5 db-empty" style={{ borderStyle: 'dashed', borderColor: 'var(--gray-200)' }}>
                 <div className="db-empty-icon">
                   <MapPin size={20} color="var(--green-dark)" />
                 </div>
                 <p className="db-empty-title">No trips planned yet</p>
                 <p className="db-empty-sub">Start by exploring eco-friendly destinations</p>
-                <Link to="/eco-options" className="d-inline-flex align-items-center gap-2 text-decoration-none db-explore-btn">
+                <Link to="/eco-options" className="btn-eco-dark gap-2 text-decoration-none">
                   <Plus size={16} /> Explore destinations
                 </Link>
               </div>
@@ -141,7 +141,7 @@ export default function Dashboard() {
 
           {/* Quick actions */}
           <div className="col-12 col-lg-4">
-            <div className="rounded-3 border p-4 h-100 db-card">
+            <div className="card-eco p-4 h-100">
               <h3 className="db-qa-title">Quick Actions</h3>
               <div className="d-flex flex-column gap-2">
                 {[
@@ -177,7 +177,7 @@ export default function Dashboard() {
           <div className="row g-4">
             {RECOMMENDATIONS.map((r) => (
               <div key={r.id} className="col-12 col-md-4">
-                <div className="rounded-3 border overflow-hidden db-card">
+                <div className="card-eco overflow-hidden">
                   <div className="db-rec-banner">
                     <img src={r.image} alt={r.name} />
                     <span className="db-rec-badge">{r.category}</span>

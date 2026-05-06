@@ -1,7 +1,7 @@
 /* ── Itinerary Page ─────────────────────────────────── */
 
 .itin-page {
-  background: var(--green-subtle);
+  background: var(--green-surface);
 }
 
 /* ── Hero ── */
@@ -78,8 +78,9 @@
 /* ── Form Card ── */
 .itin-form-card {
   background: var(--white);
-  border-radius: 20px;
-  box-shadow: 0 4px 28px var(--shadow-card);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px var(--shadow-xs);
   overflow: hidden;
 }
 
@@ -301,7 +302,7 @@
 /* ── Empty states ── */
 .itin-empty {
   background: var(--white);
-  border-radius: 16px;
+  border-radius: 14px;
   padding: 3rem 2rem;
   text-align: center;
   border: 2px dashed var(--gray-200);
@@ -339,9 +340,9 @@
 
 .itin-rec-card {
   background: var(--white);
-  border-radius: 16px;
+  border-radius: 14px;
   padding: 1.25rem 1.5rem;
-  box-shadow: 0 2px 12px var(--shadow-xs);
+  box-shadow: 0 2px 10px var(--shadow-xs);
   border-left: 5px solid var(--green-success);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }

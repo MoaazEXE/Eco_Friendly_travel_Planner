@@ -305,10 +305,7 @@ export default function WeatherPage() {
   const bannerImage = BANNER_IMAGES[current.condition] ?? sunnyImg;
 
   return (
-    <main
-      className="py-4"
-      style={{ backgroundColor: "var(--green-bg)", flex: 1 }}
-    >
+    <main className="eco-inner-page">
       <div className="container" style={{ maxWidth: "1120px" }}>
         <header className="text-center mb-4">
           <h1 className="fw-bold mb-2" style={{ color: "var(--green-darker)" }}>
@@ -344,14 +341,10 @@ export default function WeatherPage() {
               />
             </div>
             <button
-              className="btn fw-semibold px-4"
+              className="btn-eco-primary"
               type="button"
               onClick={handleSearch}
-              style={{
-                backgroundColor: "var(--green-primary)",
-                color: "var(--white)",
-                minWidth: "124px",
-              }}
+              style={{ width: 'auto', minWidth: '124px' }}
             >
               <i className="bi bi-search me-2" />
               Search

@@ -39,9 +39,9 @@ export default function LoginPage() {
     <main className="container my-5" style={{ flex: 1 }}>
       <div className="row justify-content-center">
         <div className="col-md-6 col-lg-5">
-          <div className="card border-0 shadow">
-            <div className="card-body p-4 p-md-5">
-              <h2 className="card-title text-center mb-4">Welcome Back</h2>
+          <div className="card-eco">
+            <div className="p-4 p-md-5">
+              <h2 className="eco-page-title text-center mb-4">Welcome Back</h2>
 
               <form onSubmit={handleSubmit} noValidate>
                 <div className="mb-3">
@@ -99,5 +99,6 @@ export default function LoginPage() {
         </div>
       </div>
     </main>
+
   );
 }

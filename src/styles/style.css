@@ -1,7 +1,7 @@
 @import './colors.css';
 
 body {
-  background-color: var(--green-bg);
+  background-color: var(--green-surface);
   color: var(--green-darker);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
@@ -62,7 +62,6 @@ body {
   flex-shrink: 0;
 }
 
-
 .placeholder-section {
   min-height: 60vh;
   display: flex;
@@ -84,7 +83,23 @@ footer {
   margin-top: auto;
 }
 
-/* ── Shared primary action button ────────────────────────────── */
+/* ── Shared inner-page wrapper ───────────────────────────────── */
+.eco-inner-page {
+  flex: 1;
+  padding: 2.5rem 0 4rem;
+}
+
+/* ── Shared card ─────────────────────────────────────────────── */
+.card-eco {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px var(--shadow-xs);
+}
+
+/* ── Button system ───────────────────────────────────────────── */
+
+/* Primary — green fill, full width (forms) */
 .btn-eco-primary {
   display: inline-flex;
   align-items: center;
@@ -95,13 +110,110 @@ footer {
   color: var(--white);
   border: none;
   border-radius: 0.5rem;
-  font-size: 1rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   cursor: pointer;
+  text-decoration: none;
   transition: background-color 0.15s;
 }
 
 .btn-eco-primary:hover {
   background-color: var(--green-dark);
   color: var(--white);
+}
+
+/* Dark — charcoal fill, inline (CTAs, links) */
+.btn-eco-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.125rem;
+  background-color: var(--gray-900);
+  color: var(--white);
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s;
+}
+
+.btn-eco-dark:hover {
+  background-color: var(--gray-700);
+  color: var(--white);
+}
+
+/* Outline — for secondary/external actions */
+.btn-eco-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.125rem;
+  background-color: transparent;
+  color: var(--gray-700);
+  border: 1px solid var(--gray-300);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.btn-eco-outline:hover {
+  background-color: var(--gray-100);
+  border-color: var(--gray-400);
+  color: var(--gray-900);
+}
+
+/* Selector — toggle buttons (e.g. transport/accommodation picker) */
+.btn-eco-selector {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--white);
+  color: var(--gray-600);
+  border: 1.5px solid var(--gray-200);
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+}
+
+.btn-eco-selector:hover {
+  border-color: var(--green-light);
+  background-color: var(--green-subtle);
+  color: var(--green-dark);
+}
+
+.btn-eco-selector.active {
+  border-color: var(--green-success);
+  background-color: var(--impact-low-bg);
+  color: var(--green-dark);
+  font-weight: 600;
+}
+
+/* ── Typography scale ────────────────────────────────────────── */
+.eco-page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 0.375rem;
+}
+
+.eco-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0;
+}
+
+.eco-lead {
+  font-size: 1rem;
+  color: var(--gray-500);
+  margin: 0;
 }
