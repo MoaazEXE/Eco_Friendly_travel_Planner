@@ -1,5 +1,17 @@
 import { useState } from "react";
 import {
+  Plane,
+  Car,
+  Train,
+  Bus,
+  Hotel,
+  Leaf,
+  Home,
+  Tent,
+  Flame,
+  Sprout,
+} from "lucide-react";
+import {
   TRANSPORT_FACTORS,
   ACCOMMODATION_FACTORS,
   CREDIT_PRICE,
@@ -7,23 +19,23 @@ import {
 import "../styles/calculator.css";
 
 const TRANSPORT_OPTIONS = [
-  { key: "flight", label: "Flight", icon: "✈" },
-  { key: "car",    label: "Car",    icon: "🚗" },
-  { key: "train",  label: "Train",  icon: "🚆" },
-  { key: "bus",    label: "Bus",    icon: "🚌" },
+  { key: "flight", label: "Flight", icon: Plane },
+  { key: "car",    label: "Car",    icon: Car },
+  { key: "train",  label: "Train",  icon: Train },
+  { key: "bus",    label: "Bus",    icon: Bus },
 ];
 
 const ACCOMMODATION_OPTIONS = [
-  { key: "hotel",    label: "Hotel",    icon: "🏨" },
-  { key: "ecolodge", label: "Eco-Lodge", icon: "🌿" },
-  { key: "hostel",   label: "Hostel",   icon: "🏠" },
-  { key: "camping",  label: "Camping",  icon: "⛺" },
+  { key: "hotel",    label: "Hotel",    icon: Hotel },
+  { key: "ecolodge", label: "Eco-Lodge", icon: Leaf },
+  { key: "hostel",   label: "Hostel",   icon: Home },
+  { key: "camping",  label: "Camping",  icon: Tent },
 ];
 
 function impactLevel(total) {
-  if (total < 50)  return { label: "Low Impact 🌱",      alertClass: "alert-success" };
-  if (total < 150) return { label: "Moderate Impact 🌿", alertClass: "alert-warning" };
-  return               { label: "High Impact 🔥",        alertClass: "alert-danger"  };
+  if (total < 50)  return { level: "Low Impact",      icon: Sprout, alertClass: "alert-success" };
+  if (total < 150) return { level: "Moderate Impact", icon: Leaf,   alertClass: "alert-warning" };
+  return               { level: "High Impact",      icon: Flame,  alertClass: "alert-danger"  };
 }
 
 export default function CalculatorPage() {
@@ -46,7 +58,7 @@ export default function CalculatorPage() {
 
   const percent = result ? Math.min((result.total / 200) * 100, 100) : 0;
   const impact  = result ? impactLevel(result.total) : null;
-  const isLowImpact      = impact?.label.includes("Low Impact");
+  const isLowImpact      = impact?.level.includes("Low Impact");
   const carbonCredits    = result ? result.total / 1000 : 0;
   const carbonCreditsFixed  = carbonCredits.toFixed(2);
   const estimatedCostFixed  = (carbonCredits * CREDIT_PRICE).toFixed(2);
@@ -75,7 +87,8 @@ export default function CalculatorPage() {
                     className={`btn-eco-selector${form.transport === opt.key ? " active" : ""}`}
                     onClick={() => setForm((f) => ({ ...f, transport: opt.key }))}
                   >
-                    {opt.icon} {opt.label}
+                    <opt.icon size={20} className="me-2" style={{ display: "inline" }} />
+                    {opt.label}
                   </button>
                 </div>
               ))}
@@ -102,7 +115,8 @@ export default function CalculatorPage() {
                     className={`btn-eco-selector${form.accommodation === opt.key ? " active" : ""}`}
                     onClick={() => setForm((f) => ({ ...f, accommodation: opt.key }))}
                   >
-                    {opt.icon} {opt.label}
+                    <opt.icon size={20} className="me-2" style={{ display: "inline" }} />
+                    {opt.label}
                   </button>
                 </div>
               ))}
@@ -130,8 +144,9 @@ export default function CalculatorPage() {
           <>
             <div className="card-eco mt-4 p-4">
               <h4 className="eco-page-title mb-3">Results</h4>
-              <div className={`alert ${impact.alertClass}`}>
-                <strong>{impact.label}</strong>
+            <div className={`alert ${impact.alertClass}`}>
+                <impact.icon size={20} className="me-2" style={{ display: "inline-block", verticalAlign: "middle" }} />
+                <strong style={{ display: "inline-block", verticalAlign: "middle" }}>{impact.level}</strong>
               </div>
               <p><strong>Transport:</strong> {result.transportEmission.toFixed(2)} kg CO₂</p>
               <p><strong>Accommodation:</strong> {result.accommodationEmission.toFixed(2)} kg CO₂</p>
@@ -144,13 +159,20 @@ export default function CalculatorPage() {
             </div>
 
             <div className="card-eco mt-4 p-4">
-              <h4 className="eco-page-title mb-3">
-                {isLowImpact ? "Great Job 🌱" : "Offset Suggestions"}
-              </h4>
               {isLowImpact ? (
-                <p className="eco-lead">Your travel choices have a low environmental impact. Keep it up 🌿</p>
+                <>
+                  <h4 className="eco-page-title mb-3">
+                    <Sprout size={24} className="me-2" style={{ display: "inline", verticalAlign: "middle" }} />
+                    Great Job
+                  </h4>
+                  <p className="eco-lead">
+                    <Leaf size={20} className="me-2" style={{ display: "inline", verticalAlign: "middle" }} />
+                    Your travel choices have a low environmental impact. Keep it up
+                  </p>
+                </>
               ) : (
                 <>
+                  <h4 className="eco-page-title mb-3">Offset Suggestions</h4>
                   <p className="mb-2">
                     To offset <strong>{result.total.toFixed(2)} kg CO₂</strong>, you need about{" "}
                     <strong>{carbonCreditsFixed}</strong> carbon credits.

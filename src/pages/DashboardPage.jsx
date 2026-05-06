@@ -46,26 +46,29 @@ export default function Dashboard() {
     : null;
 
   return (
-    <main className="db-page">
-      <div className="container-xl px-4 px-lg-5 db-inner">
+    <main className="eco-inner-page">
+      <div className="container">
 
-        {/* ── Welcome header ─────────────────────────────── */}
-        <div className="d-flex flex-column flex-sm-row align-items-sm-center justify-content-sm-between gap-3 db-welcome">
-          <div>
+        {/* ── Hero section ───────────────────────────────── */}
+        <div className="mb-4">
+          <h1 className="eco-page-title">
             <div className="d-flex align-items-center gap-2" style={{ marginBottom: '0.25rem' }}>
               <div className="db-avatar">
                 {user.firstName[0].toUpperCase()}
               </div>
-              <h1 className="db-greeting">
+              <span>
                 {greeting}, {user.firstName}
-              </h1>
+              </span>
             </div>
-            <p className="db-date">
-              {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
-            </p>
-          </div>
+          </h1>
+          <p className="eco-lead">
+            {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+          </p>
+        </div>
 
-          {daysUntil !== null && daysUntil > 0 && (
+        {/* ── Trip badge ─────────────────────────────────── */}
+        {daysUntil !== null && daysUntil > 0 && (
+          <div style={{ marginBottom: '2rem' }}>
             <Link
               to="/itinerary"
               className="d-inline-flex align-items-center gap-2 text-decoration-none db-trip-badge"
@@ -74,8 +77,8 @@ export default function Dashboard() {
               {nextTrip.city} in {daysUntil} days
               <ChevronRight size={14} />
             </Link>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* ── Stats row ───────────────────────────────────── */}
         <div className="row g-3" style={{ marginBottom: '2rem' }}>
