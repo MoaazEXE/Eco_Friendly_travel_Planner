@@ -8,7 +8,7 @@ const APP_LINKS = [
   { to: '/eco-options', label: 'Eco Options' },
   { to: '/itinerary',   label: 'Itinerary' },
   { to: '/weather',     label: 'Weather' },
-  { to: '/calculator',  label: 'Carbon Calc' },
+  { to: '/calculator',  label: 'Carbon Calculator' },
   { to: '/profile',     label: 'Profile' },
 ];
 
@@ -46,7 +46,7 @@ export default function Navbar() {
 
         <div className="collapse navbar-collapse" id="mainNav">
           {/* Nav links — always visible */}
-          <ul className="navbar-nav mx-auto d-flex flex-row gap-1 mb-0">
+          <ul className="navbar-nav mx-auto gap-lg-1 mb-0">
             {APP_LINKS.map(({ to, label }) => (
               <li className="nav-item" key={to}>
                 <NavLink
