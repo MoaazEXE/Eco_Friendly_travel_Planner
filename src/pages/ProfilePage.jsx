@@ -49,7 +49,7 @@ export default function ProfilePage() {
 
   return (
     <div className="profile-page-wrap">
-      <div className="profile-container">
+      <div className="container-xl">
         <div className="d-flex flex-column flex-lg-row gap-4 align-items-lg-start">
 
           <ProfileSidebar

@@ -25,7 +25,7 @@ export default function ProfileSidebar({
       <div className="card border">
 
         {/* Avatar + identity */}
-        <div className="ps-avatar-area">
+        <div className="d-flex flex-column align-items-center text-center py-4 px-3">
           <div className="ps-avatar-circle">
             {avatarSrc
               ? <img src={avatarSrc} alt={profile.fullName} className="ps-avatar-img" />
@@ -41,8 +41,8 @@ export default function ProfileSidebar({
               />
             </label>
           </div>
-          <div className="ps-user-name">{profile.fullName}</div>
-          <div className="ps-user-email">{profile.email}</div>
+          <div className="fw-bold mb-1" style={{ fontSize: '1rem', color: 'var(--gray-900)' }}>{profile.fullName}</div>
+          <div className="text-muted small mb-2">{profile.email}</div>
           <div className="ps-eco-badge">
             <i className="bi bi-leaf" />
             Eco Traveller
@@ -50,25 +50,25 @@ export default function ProfileSidebar({
         </div>
 
         {/* Stats */}
-        <div className="ps-stats-row">
-          <div className="ps-stat">
-            <div className="ps-stat-value">{carbonSaved}</div>
-            <div className="ps-stat-label">CO₂ Saved</div>
+        <div className="d-flex justify-content-around py-3 border-top border-bottom">
+          <div className="text-center">
+            <div className="fw-bold mb-0" style={{ fontSize: '0.875rem', color: 'var(--gray-900)' }}>{carbonSaved}</div>
+            <div style={{ fontSize: '0.65rem', color: 'var(--gray-500)', marginTop: '0.1rem', whiteSpace: 'nowrap' }}>CO₂ Saved</div>
           </div>
           <div className="ps-stat-divider" />
-          <div className="ps-stat">
-            <div className="ps-stat-value">{tripsCount}</div>
-            <div className="ps-stat-label">Trips</div>
+          <div className="text-center">
+            <div className="fw-bold mb-0" style={{ fontSize: '0.875rem', color: 'var(--gray-900)' }}>{tripsCount}</div>
+            <div style={{ fontSize: '0.65rem', color: 'var(--gray-500)', marginTop: '0.1rem', whiteSpace: 'nowrap' }}>Trips</div>
           </div>
           <div className="ps-stat-divider" />
-          <div className="ps-stat">
-            <div className="ps-stat-value">{ecoScore}</div>
-            <div className="ps-stat-label">Eco Score</div>
+          <div className="text-center">
+            <div className="fw-bold mb-0" style={{ fontSize: '0.875rem', color: 'var(--gray-900)' }}>{ecoScore}</div>
+            <div style={{ fontSize: '0.65rem', color: 'var(--gray-500)', marginTop: '0.1rem', whiteSpace: 'nowrap' }}>Eco Score</div>
           </div>
         </div>
 
         {/* Internal nav */}
-        <nav className="ps-nav">
+        <nav className="d-flex flex-column gap-1 p-2">
           {SECTIONS.map(({ id, label, icon, danger }) => {
             const isActive = activeSection === id;
             const cls = [

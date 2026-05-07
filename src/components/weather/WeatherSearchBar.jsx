@@ -4,7 +4,7 @@ export default function WeatherSearchBar({ cityInput, onChange, onSearch, onKeyD
   return (
     <section className="card-eco mb-4 p-4">
       <div className="d-flex flex-column flex-lg-row gap-2 gap-lg-3">
-        <div className="input-group weather-search-input-group">
+        <div className="input-group flex-grow-1">
           <span className="input-group-text bg-white border-end-0">
             <i className="bi bi-geo-alt text-success" />
           </span>
@@ -19,8 +19,9 @@ export default function WeatherSearchBar({ cityInput, onChange, onSearch, onKeyD
           />
         </div>
         <button
-          className="btn-eco-dark weather-search-btn"
+          className="btn-eco-dark"
           type="button"
+          style={{ minWidth: '124px' }}
           onClick={onSearch}
         >
           <i className="bi bi-search me-2" />
@@ -28,7 +29,7 @@ export default function WeatherSearchBar({ cityInput, onChange, onSearch, onKeyD
         </button>
       </div>
       <div className="mt-3 d-flex align-items-center gap-2 flex-wrap">
-        <span className="weather-popular-label">Popular:</span>
+        <span className="text-muted small">Popular:</span>
         {popularCities.map((city) => (
           <button
             key={city}

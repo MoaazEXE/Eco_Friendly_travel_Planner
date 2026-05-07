@@ -36,13 +36,18 @@ export default function PreferencesSection() {
       <PCard>
         <h3 className="fw-semibold mb-1" style={{ fontSize: '1.05rem' }}>Notifications</h3>
         <p className="text-muted small mb-3">Choose which emails and alerts you&apos;d like to receive.</p>
-        <div className="ps-notif-list">
+        <div className="d-flex flex-column">
           {NOTIF_ITEMS.map(({ id, label, desc, icon }) => (
-            <div key={id} className="ps-notif-row">
-              <div className="ps-notif-icon"><i className={`bi ${icon}`} /></div>
-              <div className="ps-notif-text">
-                <div className="ps-notif-label">{label}</div>
-                <div className="ps-notif-desc">{desc}</div>
+            <div key={id} className="d-flex align-items-center gap-3 py-3 border-bottom">
+              <div
+                className="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
+                style={{ width: '36px', height: '36px', background: 'var(--gray-100)', color: 'var(--gray-500)' }}
+              >
+                <i className={`bi ${icon}`} />
+              </div>
+              <div className="flex-grow-1" style={{ minWidth: 0 }}>
+                <div className="fw-semibold small text-dark">{label}</div>
+                <div className="text-muted small">{desc}</div>
               </div>
               <Toggle checked={notifs[id]} onChange={val => setNotifs(prev => ({ ...prev, [id]: val }))} />
             </div>
@@ -53,9 +58,25 @@ export default function PreferencesSection() {
       <PCard>
         <h3 className="fw-semibold mb-1" style={{ fontSize: '1.05rem' }}>Measurement Units</h3>
         <p className="text-muted small mb-3">Choose your preferred units for distance and carbon output.</p>
-        <div className="ps-unit-row">
-          <button type="button" className={`ps-unit-btn${unit === 'km' ? ' ps-unit-btn--active' : ''}`} onClick={() => setUnit('km')}>Kilometres (km)</button>
-          <button type="button" className={`ps-unit-btn${unit === 'mi' ? ' ps-unit-btn--active' : ''}`} onClick={() => setUnit('mi')}>Miles (mi)</button>
+        <div className="row g-3">
+          <div className="col-6">
+            <button
+              type="button"
+              className={`btn w-100 ${unit === 'km' ? 'btn-success' : 'btn-outline-secondary'}`}
+              onClick={() => setUnit('km')}
+            >
+              Kilometres (km)
+            </button>
+          </div>
+          <div className="col-6">
+            <button
+              type="button"
+              className={`btn w-100 ${unit === 'mi' ? 'btn-success' : 'btn-outline-secondary'}`}
+              onClick={() => setUnit('mi')}
+            >
+              Miles (mi)
+            </button>
+          </div>
         </div>
       </PCard>
 

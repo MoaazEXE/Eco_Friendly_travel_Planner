@@ -3,25 +3,25 @@ import { Plus, Leaf, Wallet, Sprout, Zap, AlertTriangle } from 'lucide-react';
 import { capitalize } from '../../utils/capitalize';
 
 const IMPACT_CONFIG = {
-  Low:    { bg: 'var(--impact-low-bg)',   color: 'var(--impact-low-text)', borderColor: 'var(--impact-low-border)', Icon: Sprout,        label: 'Low Impact' },
-  Medium: { bg: 'var(--impact-med-bg)',   color: 'var(--impact-med-text)', borderColor: 'var(--impact-med-border)', Icon: Zap,           label: 'Medium Impact' },
-  High:   { bg: 'var(--danger-bg-hover)', color: 'var(--danger-dark)',     borderColor: 'var(--danger-border)',     Icon: AlertTriangle,  label: 'High Impact' },
+  Low:    { bg: 'var(--impact-low-bg)',   color: 'var(--impact-low-text)', borderColor: 'var(--impact-low-border)', Icon: Sprout,       label: 'Low Impact' },
+  Medium: { bg: 'var(--impact-med-bg)',   color: 'var(--impact-med-text)', borderColor: 'var(--impact-med-border)', Icon: Zap,          label: 'Medium Impact' },
+  High:   { bg: 'var(--danger-bg-hover)', color: 'var(--danger-dark)',     borderColor: 'var(--danger-border)',     Icon: AlertTriangle, label: 'High Impact' },
 };
 
 export default function RecommendationCard({ item, onAdd }) {
   const cfg = IMPACT_CONFIG[item.impact];
 
   return (
-    <div className="itin-rec-card" style={{ borderLeftColor: cfg.borderColor }}>
-      <div className="itin-rec-top">
+    <div className="card-eco itin-rec-card p-3" style={{ borderLeft: `5px solid ${cfg.borderColor}` }}>
+      <div className="d-flex align-items-start justify-content-between gap-3 mb-2">
         <div>
-          <h5 className="itin-rec-name">{item.name}</h5>
-          <div className="itin-tags">
-            <span className="itin-tag itin-budget-badge">
+          <h5 className="fw-bold mb-1" style={{ fontSize: '1rem', color: 'var(--gray-900)' }}>{item.name}</h5>
+          <div className="d-flex gap-2 flex-wrap align-items-center">
+            <span className="badge bg-light text-secondary fw-bold">
               <Wallet size={12} strokeWidth={2.5} className="me-1" />
               RM{item.budget}
             </span>
-            <span className="itin-tag">{capitalize(item.type)}</span>
+            <span className="badge bg-light text-secondary">{capitalize(item.type)}</span>
             <span
               className="itin-impact-tag sm"
               style={{ background: cfg.bg, color: cfg.color, borderColor: cfg.borderColor }}
@@ -31,14 +31,17 @@ export default function RecommendationCard({ item, onAdd }) {
             </span>
           </div>
         </div>
-        <button className="itin-add-btn" onClick={() => onAdd(item.id)}>
+        <button
+          className="btn btn-success btn-sm fw-bold d-flex align-items-center flex-shrink-0"
+          onClick={() => onAdd(item.id)}
+        >
           <Plus size={14} strokeWidth={2.5} className="me-1" />
           Add to My Plan
         </button>
       </div>
-      <p className="itin-rec-desc">{item.desc}</p>
-      <div className="itin-impact-note">
-        <Leaf size={13} strokeWidth={2.5} className="me-1" />
+      <p className="text-muted small mb-2" style={{ lineHeight: 1.55 }}>{item.desc}</p>
+      <div className="itin-impact-note d-flex align-items-start gap-1">
+        <Leaf size={13} strokeWidth={2.5} className="flex-shrink-0 mt-1" />
         {item.impactNote}
       </div>
     </div>

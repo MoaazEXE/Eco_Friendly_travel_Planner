@@ -47,24 +47,29 @@ export default function SecuritySection({ email }) {
       <PCard>
         <h3 className="fw-semibold mb-1" style={{ fontSize: '1.05rem' }}>Connected Accounts</h3>
         <p className="text-muted small mb-4">Manage your sign-in methods.</p>
-        <div className="ps-connected-list">
-          <div className="ps-connected-row">
+        <div className="d-flex flex-column">
+          <div className="d-flex align-items-center gap-3 py-3 border-bottom">
             <div className="ps-connected-avatar ps-connected-avatar--email">
               <i className="bi bi-envelope-fill" />
             </div>
-            <div className="ps-connected-info">
-              <div className="ps-connected-provider">Email &amp; Password</div>
-              <div className="ps-connected-detail">{email || 'Connected'}</div>
+            <div className="flex-grow-1" style={{ minWidth: 0 }}>
+              <div className="fw-semibold small text-dark">Email &amp; Password</div>
+              <div className="text-muted small">{email || 'Connected'}</div>
             </div>
-            <span className="ps-connected-badge">Primary</span>
+            <span
+              className="badge rounded-pill fw-semibold flex-shrink-0"
+              style={{ background: 'var(--green-subtle)', color: 'var(--green-dark)', fontSize: '0.72rem' }}
+            >
+              Primary
+            </span>
           </div>
-          <div className="ps-connected-row">
+          <div className="d-flex align-items-center gap-3 py-3">
             <div className="ps-connected-avatar ps-connected-avatar--google">G</div>
-            <div className="ps-connected-info">
-              <div className="ps-connected-provider">Google</div>
-              <div className="ps-connected-detail">{email || 'Connected'}</div>
+            <div className="flex-grow-1" style={{ minWidth: 0 }}>
+              <div className="fw-semibold small text-dark">Google</div>
+              <div className="text-muted small">{email || 'Connected'}</div>
             </div>
-            <button type="button" className="btn-eco-outline" style={{ fontSize: '0.8rem', padding: '0.3rem 0.75rem' }}>Disconnect</button>
+            <button type="button" className="btn-eco-outline flex-shrink-0" style={{ fontSize: '0.8rem', padding: '0.3rem 0.75rem' }}>Disconnect</button>
           </div>
         </div>
       </PCard>

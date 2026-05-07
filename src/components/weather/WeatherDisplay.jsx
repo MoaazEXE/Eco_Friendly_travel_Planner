@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 
 const METRIC_CONFIG = [
-  { icon: "bi-moisture",   label: "Humidity",   key: "humidity"   },
-  { icon: "bi-wind",       label: "Wind Speed", key: "wind"       },
-  { icon: "bi-eye",        label: "Visibility", key: "visibility" },
-  { icon: "bi-speedometer2", label: "Pressure", key: "pressure"   },
+  { icon: "bi-moisture",    label: "Humidity",   key: "humidity"   },
+  { icon: "bi-wind",        label: "Wind Speed", key: "wind"       },
+  { icon: "bi-eye",         label: "Visibility", key: "visibility" },
+  { icon: "bi-speedometer2",label: "Pressure",   key: "pressure"   },
 ];
 
 export default function WeatherDisplay({ current, bannerImage }) {
@@ -26,14 +26,14 @@ export default function WeatherDisplay({ current, bannerImage }) {
         </div>
       </div>
 
-      <div className="weather-metrics">
+      <div className="bg-light border-top p-4">
         <div className="row g-3">
           {METRIC_CONFIG.map((item) => (
             <div className="col-12 col-sm-6 col-lg-3" key={item.label}>
               <div className="d-flex align-items-center gap-3">
-                <i className={`bi ${item.icon} weather-metric-icon`} />
+                <i className={`bi ${item.icon} text-success fs-5`} />
                 <div>
-                  <p className="weather-metric-label">{item.label}</p>
+                  <p className="text-muted small mb-0">{item.label}</p>
                   <p className="weather-metric-value">{current[item.key]}</p>
                 </div>
               </div>
@@ -43,14 +43,14 @@ export default function WeatherDisplay({ current, bannerImage }) {
       </div>
 
       <div className="p-4">
-        <h3 className="fw-semibold mb-3 weather-forecast-heading">5-Day Forecast</h3>
+        <h3 className="fw-semibold mb-3" style={{ fontSize: '1.85rem' }}>5-Day Forecast</h3>
         <div className="row g-3">
           {current.forecast.slice(0, 5).map((item) => (
             <div className="col-12 col-sm-6 col-lg" key={item.day}>
-              <div className="text-center h-100 weather-forecast-card">
-                <p className="weather-forecast-day">{item.day}</p>
+              <div className="bg-light border rounded p-3 text-center h-100">
+                <p className="text-muted mb-1" style={{ fontSize: '1.1rem' }}>{item.day}</p>
                 <i className={`bi ${item.icon} weather-forecast-icon`} />
-                <p className="my-2 weather-forecast-condition">{item.condition}</p>
+                <p className="text-secondary my-2">{item.condition}</p>
                 <p className="weather-forecast-high">
                   {item.high}{" "}
                   <span className="weather-forecast-low">{item.low}</span>

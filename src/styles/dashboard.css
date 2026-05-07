@@ -1,47 +1,4 @@
-/* ── Dashboard page ─────────────────────────────────────────── */
-
-.db-page {
-  flex: 1;
-  background-color: var(--green-surface);
-}
-
-.db-inner {
-  padding-top: 2rem;
-  padding-bottom: 3rem;
-}
-
-/* Welcome header */
-.db-welcome {
-  margin-bottom: 2rem;
-}
-
-.db-avatar {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: var(--green-dark);
-  color: var(--white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.db-greeting {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--gray-900);
-  margin: 0;
-}
-
-.db-date {
-  font-size: 0.875rem;
-  color: var(--gray-500);
-  margin: 0;
-}
-
+/* ── Trip badge (project green palette) ──────────────────── */
 .db-trip-badge {
   padding: 0.5rem 1rem;
   background: var(--green-subtle);
@@ -53,39 +10,18 @@
   flex-shrink: 0;
 }
 
-/* Next trip card */
-.db-card {
-  background: var(--white);
-  border-color: var(--gray-200);
-  border-radius: 14px;
-  box-shadow: 0 2px 10px var(--shadow-xs);
-}
+/* ── Next-trip image banner ───────────────────────────────── */
+.db-trip-banner { position: relative; height: 11rem; overflow: hidden; }
+.db-trip-banner img { width: 100%; height: 100%; object-fit: cover; }
 
-.db-trip-banner {
-  position: relative;
-  height: 11rem;
-  overflow: hidden;
-}
-
-.db-trip-banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
+/* ── Gradient + text overlay (absolute positioning) ─────── */
 .db-trip-gradient {
   position: absolute;
   inset: 0;
   background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
 }
 
-.db-trip-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1rem;
-}
+.db-trip-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; }
 
 .db-trip-label {
   font-size: 0.75rem;
@@ -97,143 +33,18 @@
   margin-bottom: 0.25rem;
 }
 
-.db-trip-city {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--white);
-  margin: 0;
-}
-
-.db-trip-stop {
-  font-size: 0.8125rem;
-  color: var(--white-a70);
-  margin: 0.2rem 0 0;
-  line-height: 1.3;
-}
-
-.db-trip-date {
-  color: var(--white-a70);
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-}
-
-.db-trip-footer {
-  padding: 1rem;
-}
-
-.db-eco-label {
-  font-size: 0.8125rem;
-  color: var(--gray-600);
-}
-
-.db-trip-link {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--green-dark);
-}
-
-/* Empty next-trip state */
+/* ── Empty next-trip state (dashed border) ────────────────── */
 .db-empty {
-  background: var(--white);
-  border-color: var(--gray-200);
-  border-radius: 14px;
+  border-style: dashed !important;
+  border-color: var(--gray-200) !important;
   min-height: 14rem;
 }
 
-.db-empty-icon {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  background: var(--green-subtle);
-  border: 1px solid var(--green-pale);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
+/* ── Rec card image banner ────────────────────────────────── */
+.db-rec-banner { height: 9rem; position: relative; overflow: hidden; }
+.db-rec-banner img { width: 100%; height: 100%; object-fit: cover; }
 
-.db-empty-title {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--gray-700);
-  margin-bottom: 0.5rem;
-}
-
-.db-empty-sub {
-  font-size: 0.875rem;
-  color: var(--gray-400);
-  margin-bottom: 1.25rem;
-}
-
-.db-explore-btn {
-  padding: 0.5rem 1.25rem;
-  background: var(--gray-900);
-  color: var(--white);
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-/* Quick actions card */
-.db-qa-title {
-  font-size: 0.9375rem;
-  font-weight: 700;
-  color: var(--gray-900);
-  margin-bottom: 1.25rem;
-}
-
-.db-qa-link {
-  padding: 0.75rem;
-  border: 1px solid var(--gray-200);
-  color: var(--gray-700);
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: background 0.15s;
-  border-radius: 0.75rem;
-}
-
-.db-qa-link:hover {
-  background: var(--gray-50);
-}
-
-.db-qa-icon {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 0.5rem;
-  background: var(--green-subtle);
-  border: 1px solid var(--green-pale);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-/* Recommendations */
-.db-rec-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--gray-900);
-  margin: 0;
-}
-
-.db-see-all {
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--green-dark);
-}
-
-.db-rec-banner {
-  height: 9rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.db-rec-banner img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
+/* ── Rec category badge (absolute overlay on image) ─────── */
 .db-rec-badge {
   position: absolute;
   top: 0.75rem;
@@ -244,31 +55,4 @@
   font-weight: 600;
   padding: 0.25rem 0.625rem;
   border-radius: 9999px;
-}
-
-.db-rec-body {
-  padding: 1rem;
-}
-
-.db-rec-name {
-  font-size: 0.9375rem;
-  font-weight: 700;
-  color: var(--gray-900);
-}
-
-.db-rec-city {
-  font-size: 0.75rem;
-  color: var(--gray-500);
-}
-
-.db-rec-desc {
-  font-size: 0.8125rem;
-  color: var(--gray-500);
-  margin: 0;
-  line-height: 1.5;
-}
-
-/* Section heading row */
-.db-section-head {
-  margin-bottom: 1.25rem;
 }

@@ -4,7 +4,7 @@ import { CITY_LABELS } from "../../data/ecoOptions";
 
 export default function FavouriteItem({ item, onRemove }) {
   return (
-    <div className="p-3 border rounded-2 bg-light d-flex justify-content-between align-items-start gap-2">
+    <div className="eco-fav-item p-3 border rounded-2 bg-light d-flex justify-content-between align-items-start gap-2">
       <div className="flex-grow-1 min-width-0">
         <div className="fw-semibold small text-dark mb-1">{item.name}</div>
         <div className="text-muted small mb-1">{item.category}</div>

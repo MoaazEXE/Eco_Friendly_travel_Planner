@@ -67,7 +67,7 @@ export default function CalculationResults({ result }) {
                 href="https://www.goldstandard.org/take-action/offset-your-emissions"
                 target="_blank"
                 rel="noreferrer"
-                className="btn-eco-dark calc-link-btn"
+                className="btn-eco-dark"
               >
                 Offset with Gold Standard
               </a>

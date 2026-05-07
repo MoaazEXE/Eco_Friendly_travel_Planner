@@ -13,18 +13,17 @@ const INTERESTS = [
 
 export default function ItineraryForm({ form, onFormChange, onToggleInterest, onBudgetChange, onSubmit }) {
   return (
-    <div className="itin-form-card mb-5">
-      <div className="itin-form-head">
+    <div className="card-eco mb-5">
+      <div className="px-4 pt-4 pb-3 border-bottom">
         <span className="itin-step-pill">STEP 1</span>
-        <h4 className="itin-form-heading">
+        <h4 className="eco-section-title d-flex align-items-center mt-1">
           <ListChecks size={17} strokeWidth={2.5} className="me-2" />
           Plan a New Stop
         </h4>
       </div>
 
-      <form onSubmit={onSubmit} noValidate className="itin-form-body">
+      <form onSubmit={onSubmit} noValidate className="p-4">
 
-        {/* Row 1: Primary fields */}
         <div className="row g-3 mb-3">
           <div className="col-md-4">
             <label className="itin-label">Destination City</label>
@@ -32,7 +31,7 @@ export default function ItineraryForm({ form, onFormChange, onToggleInterest, on
               <MapPin size={14} className="itin-icon" strokeWidth={2.5} />
               <input
                 type="text"
-                className="itin-input"
+                className="form-control itin-input-icon"
                 placeholder="e.g. KL, Penang, Melaka, Sabah"
                 value={form.destination}
                 onChange={(e) => onFormChange('destination', e.target.value)}
@@ -46,7 +45,7 @@ export default function ItineraryForm({ form, onFormChange, onToggleInterest, on
               <Calendar size={14} className="itin-icon" strokeWidth={2.5} />
               <input
                 type="date"
-                className="itin-input"
+                className="form-control itin-input-icon"
                 value={form.travelDate}
                 onChange={(e) => onFormChange('travelDate', e.target.value)}
                 required
@@ -56,7 +55,7 @@ export default function ItineraryForm({ form, onFormChange, onToggleInterest, on
           <div className="col-md-4">
             <label className="itin-label">Notes for your itinerary</label>
             <textarea
-              className="itin-textarea"
+              className="form-control"
               placeholder="e.g. bring reusables, check opening hours, book in advance..."
               rows={2}
               value={form.notes}
@@ -65,16 +64,15 @@ export default function ItineraryForm({ form, onFormChange, onToggleInterest, on
           </div>
         </div>
 
-        {/* Row 2: Filters + Submit */}
         <div className="row g-3 align-items-end">
           <div className="col-md-4">
             <label className="itin-label">Interests</label>
-            <div className="itin-pills">
+            <div className="d-flex flex-wrap gap-2">
               {INTERESTS.map(({ value, label, Icon }) => (
                 <button
                   type="button"
                   key={value}
-                  className={`itin-pill${form.interests.includes(value) ? ' active' : ''}`}
+                  className={`btn btn-sm ${form.interests.includes(value) ? 'btn-success' : 'btn-outline-secondary'}`}
                   onClick={() => onToggleInterest(value)}
                 >
                   <Icon size={13} strokeWidth={2.5} className="me-1" />
@@ -86,7 +84,9 @@ export default function ItineraryForm({ form, onFormChange, onToggleInterest, on
           <div className="col-md-4">
             <label className="itin-label">
               Budget / Day
-              <span className="itin-budget-display">RM {form.budget}</span>
+              <span className="text-success fw-bold" style={{ textTransform: 'none', letterSpacing: 0, fontSize: '0.85rem' }}>
+                RM {form.budget}
+              </span>
             </label>
             <input
               type="range"
@@ -98,13 +98,13 @@ export default function ItineraryForm({ form, onFormChange, onToggleInterest, on
               onChange={onBudgetChange}
               style={{ '--slider-fill': `${(form.budget / 1000) * 100}%` }}
             />
-            <div className="itin-range-ends">
+            <div className="d-flex justify-content-between small text-muted mt-1">
               <span>Budget</span>
               <span>Luxury</span>
             </div>
           </div>
           <div className="col-md-4 d-flex justify-content-end align-items-end">
-            <button type="submit" className="itin-find-btn">
+            <button type="submit" className="btn btn-dark fw-bold d-flex align-items-center">
               <Search size={14} strokeWidth={2.5} className="me-2" />
               Find Spots
             </button>

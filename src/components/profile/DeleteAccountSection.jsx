@@ -18,10 +18,10 @@ export default function DeleteAccountSection({ email }) {
 
   return (
     <div className="ps-delete-card">
-      <div className="ps-delete-header">
-        <i className="bi bi-exclamation-triangle ps-delete-icon" />
-        <span className="ps-delete-header-title">Delete Account</span>
-        <span className="ps-delete-header-note">— permanent, cannot be undone</span>
+      <div className="d-flex align-items-center gap-2 pb-3 mb-3" style={{ borderBottom: '1px solid var(--danger-border)' }}>
+        <i className="bi bi-exclamation-triangle text-danger flex-shrink-0" />
+        <span className="fw-bold" style={{ fontSize: '0.95rem', color: 'var(--danger-dark)' }}>Delete Account</span>
+        <span className="small" style={{ color: 'var(--danger)' }}>— permanent, cannot be undone</span>
       </div>
       <p className="text-secondary mb-4" style={{ fontSize: '0.875rem', lineHeight: '1.65' }}>
         Deleting your account will permanently erase all your itineraries, saved places,

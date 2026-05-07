@@ -55,7 +55,7 @@ export default function EcoOptionsPage() {
   }
 
   return (
-    <main className="eco-options-page eco-inner-page">
+    <main className="eco-inner-page">
       <div className="container-lg">
         <div className="mb-4">
           <h1 className="eco-page-title">Discover Eco Options</h1>
@@ -65,8 +65,8 @@ export default function EcoOptionsPage() {
           </p>
         </div>
 
-        <div className="card-eco eco-search-section mb-4 p-4">
-          <div className="eco-search-wrapper mx-auto mb-4" style={{ maxWidth: "800px" }}>
+        <div className="card-eco mb-4 p-4">
+          <div className="position-relative mx-auto mb-4" style={{ maxWidth: "800px" }}>
             <div className="input-group">
               <span className="input-group-text bg-white border-end-0">
                 <Search size={18} className="text-secondary" />

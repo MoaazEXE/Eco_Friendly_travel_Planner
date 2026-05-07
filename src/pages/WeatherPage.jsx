@@ -45,8 +45,8 @@ export default function WeatherPage() {
         <WeatherDisplay current={current} bannerImage={bannerImage} />
 
         <section className="card-eco p-4 text-center">
-          <span className="weather-note-label">Note:</span>{" "}
-          <span className="weather-note-text">
+          <span className="fw-bold text-dark">Note:</span>{" "}
+          <span className="text-secondary">
             This is a demo using mock data. In production, this would integrate
             with a real weather API like OpenWeatherMap or WeatherAPI.
           </span>
