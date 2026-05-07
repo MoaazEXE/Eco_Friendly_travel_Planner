@@ -85,7 +85,7 @@ export default function HomePage() {
               </motion.div>
 
               <motion.div className="trust-badges justify-content-center justify-content-lg-start" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.4 }}>
-                {['2,400+ eco destinations', 'Free to use', 'No account required'].map((label) => (
+                {['2,400+ eco destinations', 'Free to use'].map((label) => (
                   <div key={label} className="trust-badge">
                     <Check size={14} color="var(--green-success)" />
                     <span>{label}</span>
