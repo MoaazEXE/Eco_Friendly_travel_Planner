@@ -1,21 +1,9 @@
-/**
- * api/profile.js
- *
- * User profile endpoints — fetch and update profile data.
- *
- * PLACEHOLDER — returns mock data until a real backend exists.
- */
+// Profile endpoints — mocked until backend is up.
 
 import { request } from './client';
 
-/**
- * Get the authenticated user's profile.
- * @returns {Promise<object>}
- */
 export async function getProfile() {
-  // TODO: uncomment when backend is ready
-  // return request('/profile');
-
+  // backend: return request('/profile');
   return Promise.resolve({
     fullName: 'Moaaz Khamis',
     email:    'traveller@example.com',
@@ -27,43 +15,17 @@ export async function getProfile() {
   });
 }
 
-/**
- * Update the authenticated user's profile.
- * @param {object} profileData
- * @returns {Promise<object>} updated profile
- */
 export async function updateProfile(profileData) {
-  // TODO: uncomment when backend is ready
-  // return request('/profile', {
-  //   method: 'PUT',
-  //   body: JSON.stringify(profileData),
-  // });
-
+  // backend: return request('/profile', { method: 'PUT', body: JSON.stringify(profileData) });
   return Promise.resolve(profileData);
 }
 
-/**
- * Change the authenticated user's password.
- * @param {{ currentPassword: string, newPassword: string }} data
- * @returns {Promise<{ message: string }>}
- */
 export async function changePassword(data) {
-  // TODO: uncomment when backend is ready
-  // return request('/profile/password', {
-  //   method: 'PUT',
-  //   body: JSON.stringify(data),
-  // });
-
+  // backend: return request('/profile/password', { method: 'PUT', body: JSON.stringify(data) });
   return Promise.resolve({ message: 'Password updated successfully' });
 }
 
-/**
- * Delete the authenticated user's account.
- * @returns {Promise<null>}
- */
 export async function deleteAccount() {
-  // TODO: uncomment when backend is ready
-  // return request('/profile', { method: 'DELETE' });
-
+  // backend: return request('/profile', { method: 'DELETE' });
   return Promise.resolve(null);
 }
