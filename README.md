@@ -2,31 +2,30 @@
 
 **WIF2003 Web Programming** · Group 8
 
-A React + Vite single-page application for planning eco-friendly travel. Users can browse sustainable travel options, build a day-by-day itinerary, check weather forecasts, and manage their profile.
+A React + Vite single-page application for planning eco-friendly travel in Malaysia. Users can browse a curated set of sustainable destinations, build a day-by-day itinerary, estimate the carbon footprint of a trip, check weather forecasts, and manage their profile.
 
 ---
 
 ## Tech Stack
 
-| Layer      | Technology |
-|------------|------------|
-| Framework  | React 18 |
-| Bundler    | Vite 5 |
-| Routing    | React Router v6 |
-| UI / CSS   | Bootstrap 5.3 (npm) + Bootstrap Icons (CDN) |
-| Animations | Framer Motion (`framer-motion`) |
-| Icons      | Lucide React (`lucide-react`) |
-| HTTP layer | Native `fetch` API (wrapped in `src/api/`) |
-| Language   | JavaScript (JSX) |
+| Layer       | Technology |
+|-------------|------------|
+| Framework   | React 18 |
+| Bundler     | Vite 5 |
+| Routing     | React Router v6 |
+| UI / CSS    | Bootstrap 5.3 (npm) + Bootstrap Icons (CDN) |
+| Animations  | Framer Motion |
+| Icons       | Lucide React |
+| Typography  | Playfair Display (Google Fonts) for landing-page headlines |
+| HTTP layer  | Native `fetch` wrapped in `src/api/` |
+| Language    | JavaScript (JSX) |
 
 ---
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) v18 or higher
-- npm v9 or higher (comes with Node)
-
-Check your versions:
+- npm v9 or higher (ships with Node)
 
 ```bash
 node -v
@@ -40,27 +39,27 @@ npm -v
 ```bash
 # 1. Clone the repository
 git clone <your-repo-url>
-cd eco-travel-frontend/client
+cd eco-travel-frontend
 
 # 2. Install dependencies
 npm install
-
-Main dependencies:
-
-- React ^18.3.1
-- React DOM ^18.3.1
-- React Router DOM ^6.22.3
-- Bootstrap ^5.3.3
-
-## Dev Dependencies
-
-- Vite ^5.4.2
-- @vitejs/plugin-react ^4.3.1
 
 # 3. Set up environment variables
 cp .env.example .env
 # Then open .env and fill in values (see Environment Variables section)
 ```
+
+### Main dependencies
+
+- `react` ^18.3.1, `react-dom` ^18.3.1
+- `react-router-dom` ^6.22.3
+- `bootstrap` ^5.3.3
+- `framer-motion`, `lucide-react`, `prop-types`
+
+### Dev dependencies
+
+- `vite` ^5.4.2
+- `@vitejs/plugin-react` ^4.3.1
 
 ---
 
@@ -72,7 +71,7 @@ cp .env.example .env
 npm run dev
 ```
 
-Opens at **http://localhost:5173** with hot-module replacement enabled.
+Opens at **http://localhost:5173** with hot-module replacement.
 
 ### Production build
 
@@ -91,49 +90,66 @@ npm run preview
 ## Project Structure
 
 ```
-client/
+eco-travel-frontend/
 ├── public/                  # Static assets served as-is
 ├── src/
-│   ├── api/                 # Backend service layer (fetch wrappers)
+│   ├── api/                 # Backend service layer (fetch wrappers — mocked)
 │   │   ├── client.js        # Base fetch client — base URL, auth headers
 │   │   ├── auth.js          # Login, register, logout
-│   │   ├── profile.js       # Get/update profile, change password, delete account
-│   │   ├── itinerary.js     # Recommendations, saved plan CRUD
-│   │   └── weather.js       # Weather data fetching
+│   │   └── profile.js       # Get/update profile, change password, delete account
 │   │
-│   ├── components/          # Shared UI components
+│   ├── components/          # Shared UI components, grouped by feature
 │   │   ├── Navbar.jsx           # Responsive navbar — logged-in / logged-out states
 │   │   ├── Footer.jsx           # Site footer
-│   │   └── LeafCompassGuide.jsx # Logo placeholder (swap src when image is ready)
+│   │   ├── LeafCompassGuide.jsx # Brand mark used in hero + dashboard
+│   │   ├── auth/                # LoginForm, RegisterForm
+│   │   ├── calculator/          # OptionSelector, CalculationResults
+│   │   ├── eco/                 # EcoCard, FavouriteItem
+│   │   ├── itinerary/           # ItineraryForm, RecommendationsList, SavedItinerary, …
+│   │   ├── profile/             # ProfileSidebar, PersonalInfoSection, SecuritySection, …
+│   │   ├── weather/             # WeatherSearchBar, WeatherDisplay
+│   │   └── ui/                  # StarRating, EmptyState, StatCard, UserAvatar
+│   │
+│   ├── constants/
+│   │   └── calculatorConfig.js  # CO₂ emission factors (DEFRA-aligned)
 │   │
 │   ├── context/
-│   │   └── AppContext.jsx       # Global state: user, itineraries, favourites (placeholder data)
+│   │   └── AppContext.jsx       # Global state: user, saved itinerary, favourites
 │   │
-│   ├── pages/               # One component per route
-│   │   ├── HomePage.jsx         # Marketing landing page (scroll-animated sections)
-│   │   ├── Dashboard.jsx        # Logged-in home — stats, next trip, recommendations
-│   │   ├── LoginPage.jsx        # Login form with client-side validation
-│   │   ├── RegisterPage.jsx     # Registration form with validation
-│   │   ├── ProfilePage.jsx      # Tabbed profile (details / security / settings)
-│   │   ├── EcoOptionsPage.jsx   # Eco travel options (placeholder)
-│   │   ├── ItineraryPage.jsx    # Trip preferences, recommendations, saved plan
-│   │   ├── WeatherPage.jsx      # City weather search + 5-day forecast
-│   │   └── CalculatorPage.jsx   # Carbon footprint calculator (placeholder)
+│   ├── data/
+│   │   ├── ecoOptions.js        # 15 curated destinations across 4 Malaysian cities
+│   │   └── weatherData.js       # Mock weather payloads
 │   │
-│   ├── styles/              # Global CSS
+│   ├── pages/                   # One component per route
+│   │   ├── HomePage.jsx         # Landing page — dark hero, feature grid, methodology chart
+│   │   ├── DashboardPage.jsx    # Logged-in home — stats, next trip, recommendations
+│   │   ├── LoginPage.jsx
+│   │   ├── RegisterPage.jsx
+│   │   ├── ProfilePage.jsx      # Tabbed profile (details / security / preferences)
+│   │   ├── EcoOptionsPage.jsx   # Browse + filter destinations, manage favourites
+│   │   ├── ItineraryPage.jsx    # Filter recommendations, build a saved plan
+│   │   ├── WeatherPage.jsx      # City search + 5-day forecast
+│   │   └── CalculatorPage.jsx   # Trip carbon estimator
+│   │
+│   ├── styles/
 │   │   ├── colors.css       # CSS custom properties (design tokens)
-│   │   ├── style.css        # Global layout, navbar styles
-│   │   ├── home.css         # Homepage + dashboard shared styles
-│   │   ├── itinerary.css    # Itinerary page — timeline, cards, slider
-│   │   └── profile.css      # Profile page — layout, tabs, modal
+│   │   ├── style.css        # Global layout, typography, navbar
+│   │   ├── home.css         # Landing page (.lp-* design system)
+│   │   ├── dashboard.css
+│   │   ├── eco-options.css
+│   │   ├── itinerary.css
+│   │   ├── calculator.css
+│   │   ├── weather.css
+│   │   └── profile.css
 │   │
 │   ├── assets/              # Images, icons, static files imported by JS
 │   ├── App.jsx              # Route definitions (React Router v6)
 │   └── main.jsx             # App entry point — Bootstrap imported here
 │
-├── .env.example             # Template for required environment variables
+├── .env.example
 ├── .gitignore
-├── index.html               # Vite HTML entry — Bootstrap Icons CDN loaded here
+├── index.html               # Vite entry — Bootstrap Icons + Playfair Display loaded here
+├── vercel.json              # SPA rewrite rule for client-side routing on Vercel
 ├── package.json
 └── vite.config.js
 ```
@@ -142,17 +158,17 @@ client/
 
 ## Routes
 
-| Path           | Page             | Status |
-|----------------|------------------|--------|
-| `/`            | Home (marketing) | Done |
-| `/dashboard`   | Dashboard        | Done |
-| `/login`       | Login            | Done |
-| `/register`    | Register         | Done |
-| `/profile`     | Profile          | Done |
-| `/eco-options` | Eco Options      | Placeholder |
-| `/itinerary`   | Itinerary        | Done |
-| `/weather`     | Weather          | Done |
-| `/calculator`  | Calculator       | Placeholder |
+| Path           | Page         | Status |
+|----------------|--------------|--------|
+| `/`            | Home         | Done |
+| `/dashboard`   | Dashboard    | Done |
+| `/login`       | Login        | Done |
+| `/register`    | Register     | Done |
+| `/profile`     | Profile      | Done |
+| `/eco-options` | Eco Options  | Done |
+| `/itinerary`   | Itinerary    | Done |
+| `/weather`     | Weather      | Done |
+| `/calculator`  | Calculator   | Done |
 
 ---
 
@@ -174,62 +190,39 @@ VITE_WEATHER_API_KEY=your_key_here
 
 ## Backend Integration
 
-The `src/api/` folder contains one file per domain area. Each function is currently a **placeholder** that returns mock data — the real API call is commented in directly above it.
+The `src/api/` folder contains one file per domain area. Each function returns mock data today; the real `fetch` call is left as a single-line `// backend:` comment directly above the mock.
 
 **When the backend is ready:**
 
 1. Set `VITE_API_BASE_URL` in your `.env` file.
 2. Open the relevant file in `src/api/` (e.g. `auth.js`).
-3. Uncomment the `request(...)` call and delete the mock block below it.
+3. Replace the `Promise.resolve(...)` body with the `request(...)` call from the `// backend:` comment.
 
 ### API modules
 
-| File | Endpoints covered |
+| File | Endpoints planned |
 |------|-------------------|
-| `api/client.js` | Base fetch client, JWT header injection |
-| `api/auth.js` | `POST /auth/login`, `POST /auth/register`, `POST /auth/logout` |
+| `api/client.js`  | Base fetch client, JWT header injection |
+| `api/auth.js`    | `POST /auth/login`, `POST /auth/register`, `POST /auth/logout` |
 | `api/profile.js` | `GET/PUT /profile`, `PUT /profile/password`, `DELETE /profile` |
-| `api/itinerary.js` | `GET /itinerary/recommendations`, `GET/POST/DELETE /itinerary/plan` |
-| `api/weather.js` | `GET /weather?city=` |
 
-### Expected backend response shapes
+### Mock response shapes
 
 **`POST /auth/login`**
 ```json
-{ "token": "jwt-string", "user": { "id": 1, "email": "...", "fullName": "..." } }
+{ "token": "jwt-string", "user": { "id": 1, "email": "...", "fullName": "Eleanor Vance" } }
 ```
 
 **`GET /profile`**
 ```json
 {
-  "fullName": "Eleanor Vance",
-  "email": "eleanor@example.com",
-  "phone": "+1 (555) 123-4567",
-  "location": "Portland, USA",
-  "bio": "...",
-  "stats": { "carbonSaved": "120 kg CO2", "tripsTaken": 14 }
-}
-```
-
-**`GET /itinerary/recommendations`**
-```json
-[
-  { "id": 1, "name": "KLCC Park", "type": "nature", "budget": 0, "weather": "Sunny", "impact": "Low" }
-]
-```
-
-**`GET /weather?city=kuala+lumpur`**
-```json
-{
-  "city": "Kuala Lumpur",
-  "condition": "Partly Cloudy",
-  "humidity": "72%",
-  "wind": "12 km/h",
-  "temp": "31 C",
-  "advice": "Bring a reusable water bottle.",
-  "forecast": [
-    { "day": "Mon", "icon": "bi-cloud-sun", "condition": "Partly Cloudy", "high": "32 C", "low": "25 C" }
-  ]
+  "fullName": "Moaaz Khamis",
+  "email": "traveller@example.com",
+  "phone": "+62 123-4567",
+  "location": "Kuala Lumpur, Malaysia",
+  "bio": "Passionate about sustainable travel and discovering eco-friendly experiences around the world.",
+  "stats": { "carbonSaved": "120 kg CO₂", "tripsTaken": 14 },
+  "ecoScore": 78
 }
 ```
 
@@ -237,17 +230,32 @@ The `src/api/` folder contains one file per domain area. Each function is curren
 
 ## Design System
 
-All colors are defined as CSS custom properties in `src/styles/colors.css` and used across every component via `var(--token-name)`.
+Colors live as CSS custom properties in [`src/styles/colors.css`](src/styles/colors.css) and are referenced via `var(--token-name)` everywhere.
 
-Key tokens:
+A representative slice — the green scale runs from darkest to most subtle:
 
 | Token | Value | Used for |
 |-------|-------|----------|
-| `--green-primary` | `#2e7d32` | Navbar, footer, headings, buttons |
-| `--green-secondary` | `#66bb6a` | Hover states, accents |
-| `--green-bg` | `#f1f8e9` | Page background |
-| `--green-dark` | `#2d6a4f` | Profile UI, active states |
-| `--earth-cream` | `#fefae0` | Edit button, stats badge |
+| `--green-darkest`   | `#1b4332` | Landing hero, final CTA backgrounds |
+| `--green-darker`    | `#1b5e20` | Dark text on cream |
+| `--green-dark`      | `#2d6a4f` | Section accents, eco labels |
+| `--green-primary`   | `#2e7d32` | Navbar brand, primary buttons |
+| `--green-secondary` | `#66bb6a` | Highlighted accents, primary CTA fill |
+| `--green-mid`       | `#40916c` | Chart gradients, eyebrow text |
+| `--green-light`     | `#74c69d` | Accent borders, decorative dots |
+| `--green-pale`      | `#d8f3dc` | Card borders on cream sections |
+| `--green-subtle`    | `#e9f5ee` | Pill / chip backgrounds |
+| `--green-surface`   | `#f8f9f6` | Section background (cream) |
+| `--gray-50` … `--gray-900` | — | Neutral scale for text, borders, surfaces |
+
+The landing page also uses Playfair Display (Google Fonts) for the serif headlines under the `.lp-hero-h1`, `.lp-section-h2`, and `.lp-quote-text` classes defined in [`src/styles/home.css`](src/styles/home.css).
+
+---
+
+## Data Sources
+
+- **Destinations** (`src/data/ecoOptions.js`) — 15 hand-curated entries across Kuala Lumpur, Penang, Melaka, and Sabah. Each includes category, eco rating (1–5), impact level, and a short note on what makes it lower-footprint.
+- **Carbon factors** (`src/constants/calculatorConfig.js`) — per-kilometre CO₂ values for flight / car / train / bus and per-night values for hotel / eco-lodge / hostel / camping, aligned with the UK DEFRA conversion factors used in the calculator and on the landing page.
 
 ---
 
