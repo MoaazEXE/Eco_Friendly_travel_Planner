@@ -1,14 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { getMe, logout as apiLogout } from '../api/auth';
 
 const AppContext = createContext(null);
-
-const PLACEHOLDER_USER = {
-  firstName: 'Moaaz',
-  lastName: 'Khamis',
-  email: 'traveller@example.com',
-  avatarUrl: null,
-  carbonSaved: 142,
-};
 
 const PLACEHOLDER_FAVOURITES = [
   { id: 1, name: 'Faroe Islands', country: 'Denmark' },
@@ -17,10 +10,10 @@ const PLACEHOLDER_FAVOURITES = [
 ];
 
 export function AppProvider({ children }) {
-  const [user] = useState(PLACEHOLDER_USER);
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [favourites] = useState(PLACEHOLDER_FAVOURITES);
 
-  // savedPlan is shared across Dashboard and ItineraryPage, persisted in localStorage
   const [savedPlan, setSavedPlan] = useState(() => {
     try {
       const stored = localStorage.getItem('ecoSavedPlan');
@@ -31,11 +24,31 @@ export function AppProvider({ children }) {
   });
 
   useEffect(() => {
+    (async () => {
+      try {
+        const data = await getMe();
+        if (data?.user) setUser(data.user);
+      } catch {
+        // network error or unexpected response — stay logged out silently
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem('ecoSavedPlan', JSON.stringify(savedPlan));
   }, [savedPlan]);
 
+  async function logout() {
+    await apiLogout().catch(() => {});
+    setUser(null);
+  }
+
+  if (isLoading) return null;
+
   return (
-    <AppContext.Provider value={{ user, favourites, savedPlan, setSavedPlan }}>
+    <AppContext.Provider value={{ user, setUser, logout, favourites, savedPlan, setSavedPlan }}>
       {children}
     </AppContext.Provider>
   );

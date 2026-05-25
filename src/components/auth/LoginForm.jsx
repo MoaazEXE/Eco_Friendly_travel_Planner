@@ -1,14 +1,19 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { EMAIL_REGEX } from "../../utils/validators";
+import { login } from "../../api/auth";
+import { useAppContext } from "../../context/AppContext";
 
 export default function LoginForm({ onSuccess }) {
+  const { setUser } = useAppContext();
   const [fields, setFields] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState("");
 
   function handleChange(e) {
     setFields((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
+    setServerError("");
   }
 
   function validate() {
@@ -22,18 +27,29 @@ export default function LoginForm({ onSuccess }) {
     return next;
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const next = validate();
     if (Object.keys(next).length > 0) {
       setErrors(next);
       return;
     }
-    onSuccess();
+
+    try {
+      const data = await login({ email: fields.email.trim(), password: fields.password });
+      setUser(data.user);
+      onSuccess();
+    } catch (err) {
+      setServerError(err.message || "Login failed. Please try again.");
+    }
   }
 
   return (
     <form onSubmit={handleSubmit} noValidate>
+      {serverError && (
+        <div className="alert alert-danger py-2" role="alert">{serverError}</div>
+      )}
+
       <div className="mb-3">
         <label htmlFor="email" className="form-label">Email Address</label>
         <input

@@ -1,22 +1,45 @@
-// Auth endpoints — mocked until backend is up.
+const BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000/api';
 
-import { request } from './client';
+async function handleResponse(res) {
+  if (res.status === 204) return null;
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.message ?? `HTTP ${res.status}`);
+  return data;
+}
 
 export async function login(credentials) {
-  // backend: return request('/auth/login', { method: 'POST', body: JSON.stringify(credentials) });
-  return Promise.resolve({
-    token: 'mock-jwt-token',
-    user: { id: 1, email: credentials.email, fullName: 'Eleanor Vance' },
+  const res = await fetch(`${BASE}/auth/login`, {
+    method:      'POST',
+    credentials: 'include',
+    headers:     { 'Content-Type': 'application/json' },
+    body:        JSON.stringify(credentials),
   });
+  return handleResponse(res);
 }
 
 export async function register(data) {
-  // backend: return request('/auth/register', { method: 'POST', body: JSON.stringify(data) });
-  return Promise.resolve({ message: 'Registration successful' });
+  const res = await fetch(`${BASE}/auth/register`, {
+    method:      'POST',
+    credentials: 'include',
+    headers:     { 'Content-Type': 'application/json' },
+    body:        JSON.stringify(data),
+  });
+  return handleResponse(res);
 }
 
 export async function logout() {
-  // backend: return request('/auth/logout', { method: 'POST' });
-  localStorage.removeItem('token');
-  return Promise.resolve(null);
+  const res = await fetch(`${BASE}/auth/logout`, {
+    method:      'POST',
+    credentials: 'include',
+  });
+  return handleResponse(res);
+}
+
+export async function getMe() {
+  const res = await fetch(`${BASE}/auth/me`, {
+    method:      'GET',
+    credentials: 'include',
+  });
+  if (res.status === 401) return null;
+  return handleResponse(res);
 }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { EMAIL_REGEX } from "../../utils/validators";
+import { register } from "../../api/auth";
 
 export default function RegisterForm() {
   const [fields, setFields] = useState({
@@ -10,11 +11,13 @@ export default function RegisterForm() {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState("");
   const [success, setSuccess] = useState(false);
 
   function handleChange(e) {
     setFields((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
+    setServerError("");
   }
 
   function validate() {
@@ -34,14 +37,24 @@ export default function RegisterForm() {
     return next;
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const next = validate();
     if (Object.keys(next).length > 0) {
       setErrors(next);
       return;
     }
-    setSuccess(true);
+
+    try {
+      await register({
+        fullName: fields.fullName.trim(),
+        email:    fields.email.trim(),
+        password: fields.password,
+      });
+      setSuccess(true);
+    } catch (err) {
+      setServerError(err.message || "Registration failed. Please try again.");
+    }
   }
 
   if (success) {
@@ -55,6 +68,10 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
+      {serverError && (
+        <div className="alert alert-danger py-2" role="alert">{serverError}</div>
+      )}
+
       <div className="mb-3">
         <label htmlFor="fullName" className="form-label">Full Name</label>
         <input
