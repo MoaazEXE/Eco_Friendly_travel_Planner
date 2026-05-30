@@ -37,7 +37,7 @@ export default function PlanCard({ item, isEditing, editForm, onEdit, onSave, on
           </div>
         </div>
         <div className="d-flex gap-2">
-          <button className="btn btn-success btn-sm fw-bold d-flex align-items-center" onClick={() => onSave(item.id, item.plannedDate)}>
+          <button className="btn btn-success btn-sm fw-bold d-flex align-items-center" onClick={() => onSave(item._id)}>
             <Check size={13} strokeWidth={2.5} className="me-1" />Save
           </button>
           <button className="btn btn-outline-secondary btn-sm" onClick={onCancel}>Cancel</button>
@@ -79,7 +79,7 @@ export default function PlanCard({ item, isEditing, editForm, onEdit, onSave, on
         <button
           className="btn btn-sm btn-outline-danger rounded-circle d-flex align-items-center justify-content-center p-0"
           style={{ width: 30, height: 30 }}
-          onClick={() => onRemove(item.id, item.plannedDate)}
+          onClick={() => onRemove(item._id)}
           aria-label="Remove stop"
         >
           <Trash2 size={13} strokeWidth={2.5} />
@@ -91,6 +91,7 @@ export default function PlanCard({ item, isEditing, editForm, onEdit, onSave, on
 
 PlanCard.propTypes = {
   item: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     city: PropTypes.string.isRequired,

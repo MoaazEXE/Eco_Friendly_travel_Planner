@@ -7,7 +7,7 @@ import SavedItinerary from '../components/itinerary/SavedItinerary';
 import '../styles/itinerary.css';
 
 export default function ItineraryPage() {
-  const { savedPlan, setSavedPlan } = useAppContext();
+  const { savedPlan, addStop, removeStop, updateStop } = useAppContext();
 
   const [form, setForm] = useState({
     destination: '',
@@ -52,45 +52,44 @@ export default function ItineraryPage() {
     setPlanError('');
   }
 
-  function addToPlan(id) {
+  async function addToPlan(id) {
     if (!form.travelDate) {
       setPlanError('Please select a Date of Visit first!');
       return;
     }
-    const item = ECO_OPTIONS.find((d) => d.id === id);
     const duplicate = savedPlan.some((p) => p.id === id && p.plannedDate === form.travelDate);
     if (duplicate) {
       setPlanError('This activity is already in your plan for this date!');
       return;
     }
     setPlanError('');
-    setSavedPlan((prev) =>
-      [...prev, { ...item, plannedDate: form.travelDate, notes: form.notes }].sort(
-        (a, b) => new Date(a.plannedDate) - new Date(b.plannedDate)
-      )
-    );
+    try {
+      await addStop({ ecoOptionId: id, plannedDate: form.travelDate, notes: form.notes });
+    } catch (err) {
+      setPlanError(err.message || 'Failed to add stop. Please try again.');
+    }
   }
 
-  function removeFromPlan(id, plannedDate) {
-    setSavedPlan((prev) => prev.filter((p) => !(p.id === id && p.plannedDate === plannedDate)));
+  async function removeFromPlan(_id) {
+    try {
+      await removeStop(_id);
+    } catch {
+      setPlanError('Failed to remove stop. Please try again.');
+    }
   }
 
   function startEdit(item) {
-    setEditingKey(`${item.id}-${item.plannedDate}`);
+    setEditingKey(item._id);
     setEditForm({ notes: item.notes || '', plannedDate: item.plannedDate });
   }
 
-  function saveEdit(id, oldPlannedDate) {
-    setSavedPlan((prev) =>
-      prev
-        .map((p) =>
-          p.id === id && p.plannedDate === oldPlannedDate
-            ? { ...p, notes: editForm.notes, plannedDate: editForm.plannedDate }
-            : p
-        )
-        .sort((a, b) => new Date(a.plannedDate) - new Date(b.plannedDate))
-    );
-    setEditingKey(null);
+  async function saveEdit(_id) {
+    try {
+      await updateStop(_id, editForm);
+      setEditingKey(null);
+    } catch {
+      setPlanError('Failed to update stop. Please try again.');
+    }
   }
 
   function handleEditChange(field, value) {
@@ -115,7 +114,6 @@ export default function ItineraryPage() {
 
         <div className="row g-4 align-items-start">
           <div className="col-lg-7">
-
             <RecommendationsList
               recommendations={recommendations}
               planError={planError}
@@ -123,7 +121,6 @@ export default function ItineraryPage() {
             />
           </div>
           <div className="col-lg-5">
-            
             <SavedItinerary
               savedPlan={savedPlan}
               editingKey={editingKey}

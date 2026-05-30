@@ -43,22 +43,19 @@ export default function SavedItinerary({ savedPlan, editingKey, editForm, onEdit
                     RM{totalBudget} total
                   </span>
                 </div>
-                {stops.map((item) => {
-                  const key = `${item.id}-${item.plannedDate}`;
-                  return (
-                    <PlanCard
-                      key={key}
-                      item={item}
-                      isEditing={editingKey === key}
-                      editForm={editForm}
-                      onEdit={onEdit}
-                      onSave={onSave}
-                      onCancel={onCancel}
-                      onRemove={onRemove}
-                      onEditChange={onEditChange}
-                    />
-                  );
-                })}
+                {stops.map((item) => (
+                  <PlanCard
+                    key={item._id}
+                    item={item}
+                    isEditing={editingKey === item._id}
+                    editForm={editForm}
+                    onEdit={onEdit}
+                    onSave={onSave}
+                    onCancel={onCancel}
+                    onRemove={onRemove}
+                    onEditChange={onEditChange}
+                  />
+                ))}
               </div>
             );
           })}
