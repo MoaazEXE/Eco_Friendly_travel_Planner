@@ -1,18 +1,17 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { getMe, logout as apiLogout } from '../api/auth';
+import {
+  getFavourites,
+  addFavourite as apiAddFavourite,
+  removeFavourite as apiRemoveFavourite,
+} from '../api/favourites';
 
 const AppContext = createContext(null);
-
-const PLACEHOLDER_FAVOURITES = [
-  { id: 1, name: 'Faroe Islands', country: 'Denmark' },
-  { id: 2, name: 'Costa Rica', country: 'Central America' },
-  { id: 3, name: 'Bhutan', country: 'Himalayas' },
-];
 
 export function AppProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [favourites] = useState(PLACEHOLDER_FAVOURITES);
+  const [favourites, setFavourites] = useState([]);
 
   const [savedPlan, setSavedPlan] = useState(() => {
     try {
@@ -27,9 +26,13 @@ export function AppProvider({ children }) {
     (async () => {
       try {
         const data = await getMe();
-        if (data?.user) setUser(data.user);
+        if (data?.user) {
+          setUser(data.user);
+          const favs = await getFavourites().catch(() => []);
+          setFavourites(favs);
+        }
       } catch {
-        // network error or unexpected response — stay logged out silently
+        // network error — stay logged out silently
       } finally {
         setIsLoading(false);
       }
@@ -43,12 +46,25 @@ export function AppProvider({ children }) {
   async function logout() {
     await apiLogout().catch(() => {});
     setUser(null);
+    setFavourites([]);
   }
+
+  const addFavourite = useCallback(async (ecoOptionId) => {
+    const saved = await apiAddFavourite(ecoOptionId);
+    setFavourites((prev) => [...prev, saved]);
+  }, []);
+
+  const removeFavourite = useCallback(async (id) => {
+    await apiRemoveFavourite(id);
+    setFavourites((prev) => prev.filter((f) => f._id !== id));
+  }, []);
 
   if (isLoading) return null;
 
   return (
-    <AppContext.Provider value={{ user, setUser, logout, favourites, savedPlan, setSavedPlan }}>
+    <AppContext.Provider
+      value={{ user, setUser, logout, favourites, addFavourite, removeFavourite, savedPlan, setSavedPlan }}
+    >
       {children}
     </AppContext.Provider>
   );
