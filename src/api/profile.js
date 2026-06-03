@@ -1,31 +1,49 @@
-// Profile endpoints — mocked until backend is up.
+/**
+ * api/profile.js
+ *
+ * User profile endpoints — fetch and update profile data.
+ * All requests use session cookies via credentials: 'include' (set in client.js).
+ */
 
 import { request } from './client';
 
+/**
+ * Get the authenticated user's profile.
+ * @returns {Promise<object>}
+ */
 export async function getProfile() {
-  // backend: return request('/profile');
-  return Promise.resolve({
-    fullName: 'Moaaz Khamis',
-    email:    'traveller@example.com',
-    phone:    '+62 123-4567',
-    location: 'Kuala Lumpur, Malaysia',
-    bio:      'Passionate about sustainable travel and discovering eco-friendly experiences around the world.',
-    stats:    { carbonSaved: '120 kg CO₂', tripsTaken: 14 },
-    ecoScore: 78,
+  return request('/profile');
+}
+
+/**
+ * Update the authenticated user's profile.
+ * @param {{ fullName?: string, location?: string, bio?: string }} profileData
+ * @returns {Promise<object>} updated profile
+ */
+export async function updateProfile(profileData) {
+  return request('/profile', {
+    method: 'PUT',
+    body:   JSON.stringify(profileData),
   });
 }
 
-export async function updateProfile(profileData) {
-  // backend: return request('/profile', { method: 'PUT', body: JSON.stringify(profileData) });
-  return Promise.resolve(profileData);
-}
-
+/**
+ * Change the authenticated user's password.
+ * @param {{ current: string, newPass: string }} data
+ * @returns {Promise<{ message: string }>}
+ */
 export async function changePassword(data) {
-  // backend: return request('/profile/password', { method: 'PUT', body: JSON.stringify(data) });
-  return Promise.resolve({ message: 'Password updated successfully' });
+  return request('/profile/password', {
+    method: 'PUT',
+    body:   JSON.stringify(data),
+  });
 }
 
+/**
+ * Delete the authenticated user's account.
+ * Backend destroys the session and returns 204 — no response body.
+ * @returns {Promise<null>}
+ */
 export async function deleteAccount() {
-  // backend: return request('/profile', { method: 'DELETE' });
-  return Promise.resolve(null);
+  return request('/profile', { method: 'DELETE' });
 }

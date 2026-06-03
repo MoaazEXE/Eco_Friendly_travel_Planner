@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PCard from './PCard';
 import CustomSelect from './CustomSelect';
-import { splitName, getInitials } from '../../utils/profileHelpers';
+import { splitName } from '../../utils/profileHelpers';
+import { updateProfile } from '../../api/profile';
 
 const TRAVEL_STYLES = [
   'Slow Travel & Nature',
@@ -12,85 +13,112 @@ const TRAVEL_STYLES = [
   'Family Travel',
 ];
 
-export default function PersonalInfoSection({ profile, avatarSrc, onAvatarChange, onSave }) {
+export default function PersonalInfoSection({ profile, onSave }) {
   const { firstName: initFirst, lastName: initLast } = splitName(profile.fullName);
+
   const [form, setForm] = useState({
     firstName:   initFirst,
     lastName:    initLast,
-    location:    profile.location || '',
-    bio:         profile.bio || '',
-    travelStyle: TRAVEL_STYLES[0],
+    phone:       profile.phone       || '',
+    location:    profile.location    || '',
+    bio:         profile.bio         || '',
+    travelStyle: profile.travelStyle || TRAVEL_STYLES[0],
   });
-  const [saved, setSaved] = useState(false);
-  const fileRef = useRef(null);
+  const [saved,     setSaved]     = useState(false);
+  const [saving,    setSaving]    = useState(false);
+  const [saveError, setSaveError] = useState('');
 
+  // Sync form when profile prop changes (e.g. after a successful save returns server data)
   useEffect(() => {
     const { firstName, lastName } = splitName(profile.fullName);
-    setForm(prev => ({ ...prev, firstName, lastName, location: profile.location || '', bio: profile.bio || '' }));
+    setForm(prev => ({
+      ...prev,
+      firstName,
+      lastName,
+      phone:       profile.phone       || '',
+      location:    profile.location    || '',
+      bio:         profile.bio         || '',
+      travelStyle: profile.travelStyle || TRAVEL_STYLES[0],
+    }));
   }, [profile]);
 
   function handleChange(e) {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    if (saveError) setSaveError('');
   }
 
-  function handleSave(e) {
+  async function handleSave(e) {
     e.preventDefault();
-    onSave({
-      ...profile,
-      fullName: [form.firstName.trim(), form.lastName.trim()].filter(Boolean).join(' '),
-      location: form.location.trim(),
-      bio:      form.bio.trim(),
-    });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2500);
+    if (!form.firstName.trim()) {
+      setSaveError('First name cannot be empty.');
+      return;
+    }
+    setSaving(true);
+    setSaveError('');
+    try {
+      const updated = await updateProfile({
+        fullName:    [form.firstName.trim(), form.lastName.trim()].filter(Boolean).join(' '),
+        phone:       form.phone.trim(),
+        location:    form.location.trim(),
+        bio:         form.bio.trim(),
+        travelStyle: form.travelStyle,
+      });
+      // Pass the server-confirmed object up so ProfilePage syncs context too.
+      onSave(updated);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+    } catch (err) {
+      setSaveError(err.message || 'Failed to save. Please try again.');
+    } finally {
+      setSaving(false);
+    }
   }
 
   function handleDiscard() {
     const { firstName, lastName } = splitName(profile.fullName);
-    setForm(prev => ({ ...prev, firstName, lastName, location: profile.location || '', bio: profile.bio || '' }));
+    setForm(prev => ({
+      ...prev,
+      firstName,
+      lastName,
+      phone:       profile.phone       || '',
+      location:    profile.location    || '',
+      bio:         profile.bio         || '',
+      travelStyle: profile.travelStyle || TRAVEL_STYLES[0],
+    }));
+    setSaveError('');
   }
-
-  const initials = getInitials(profile.fullName);
 
   return (
     <PCard>
-      {/* Photo row */}
-      <div className="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
-        <div className="ps-photo-thumb">
-          {avatarSrc
-            ? <img src={avatarSrc} alt="Profile" />
-            : <span className="ps-initials-sm">{initials}</span>
-          }
-        </div>
-        <div className="d-flex flex-column align-items-start gap-1">
-          <button type="button" className="btn-eco-outline" onClick={() => fileRef.current?.click()} style={{ fontSize: '0.8rem', padding: '0.3rem 0.75rem' }}>
-            Change photo
-          </button>
-          <p className="mb-0 text-muted" style={{ fontSize: '0.76rem' }}>JPG, PNG or GIF. Max 2 MB.</p>
-        </div>
-        <input
-          ref={fileRef}
-          type="file"
-          accept="image/jpeg,image/png,image/gif"
-          style={{ display: 'none' }}
-          onChange={onAvatarChange}
-        />
-      </div>
-
       <form onSubmit={handleSave} className="vstack gap-3">
+
         {/* Name */}
         <div className="row g-3">
           <div className="col-md-6">
             <label className="form-label label-caps" htmlFor="firstName">FIRST NAME</label>
-            <input type="text" id="firstName" name="firstName" className="form-control" value={form.firstName} onChange={handleChange} />
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              className="form-control"
+              value={form.firstName}
+              onChange={handleChange}
+            />
           </div>
           <div className="col-md-6">
             <label className="form-label label-caps" htmlFor="lastName">LAST NAME</label>
-            <input type="text" id="lastName" name="lastName" className="form-control" value={form.lastName} onChange={handleChange} />
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              className="form-control"
+              value={form.lastName}
+              onChange={handleChange}
+            />
           </div>
         </div>
 
-        {/* Email — locked */}
+        {/* Email — read-only */}
         <div>
           <label className="form-label label-caps" htmlFor="profileEmail">EMAIL ADDRESS</label>
           <div className="position-relative">
@@ -106,6 +134,23 @@ export default function PersonalInfoSection({ profile, avatarSrc, onAvatarChange
             <span className="ps-input__icon"><i className="bi bi-lock" /></span>
           </div>
           <div className="form-text">Contact support to change your email.</div>
+        </div>
+
+        {/* Phone */}
+        <div>
+          <label className="form-label label-caps" htmlFor="phone">PHONE NUMBER</label>
+          <div className="position-relative">
+            <span className="ps-input__icon ps-input__icon--left"><i className="bi bi-telephone" /></span>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              className="form-control ps-input--padl"
+              placeholder="+60 12-345 6789"
+              value={form.phone}
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
         {/* Base Location */}
@@ -140,7 +185,7 @@ export default function PersonalInfoSection({ profile, avatarSrc, onAvatarChange
           />
         </div>
 
-        {/* Travel Style */}
+        {/* Travel Style — persisted to database */}
         <div>
           <label className="form-label label-caps" htmlFor="travelStyle">TRAVEL STYLE</label>
           <CustomSelect
@@ -151,10 +196,19 @@ export default function PersonalInfoSection({ profile, avatarSrc, onAvatarChange
           />
         </div>
 
+        {saveError && (
+          <p className="text-danger small mb-0">{saveError}</p>
+        )}
+
         <div className="d-flex align-items-center gap-2 flex-wrap mt-1">
-          <button type="submit" className="btn-eco-dark">{saved ? 'Saved!' : 'Save Changes'}</button>
-          <button type="button" className="btn-eco-outline" onClick={handleDiscard}>Discard</button>
+          <button type="submit" className="btn-eco-dark" disabled={saving}>
+            {saving ? 'Saving…' : saved ? 'Saved!' : 'Save Changes'}
+          </button>
+          <button type="button" className="btn-eco-outline" onClick={handleDiscard} disabled={saving}>
+            Discard
+          </button>
         </div>
+
       </form>
     </PCard>
   );
@@ -162,16 +216,12 @@ export default function PersonalInfoSection({ profile, avatarSrc, onAvatarChange
 
 PersonalInfoSection.propTypes = {
   profile: PropTypes.shape({
-    fullName: PropTypes.string,
-    email:    PropTypes.string,
-    location: PropTypes.string,
-    bio:      PropTypes.string,
+    fullName:    PropTypes.string,
+    email:       PropTypes.string,
+    phone:       PropTypes.string,
+    location:    PropTypes.string,
+    bio:         PropTypes.string,
+    travelStyle: PropTypes.string,
   }).isRequired,
-  avatarSrc:      PropTypes.string,
-  onAvatarChange: PropTypes.func.isRequired,
-  onSave:         PropTypes.func.isRequired,
-};
-
-PersonalInfoSection.defaultProps = {
-  avatarSrc: null,
+  onSave: PropTypes.func.isRequired,
 };

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
 import { getProfile } from '../api/profile';
 import ProfileSidebar from '../components/profile/ProfileSidebar';
 import PersonalInfoSection from '../components/profile/PersonalInfoSection';
@@ -15,24 +17,52 @@ const SECTION_META = {
 };
 
 export default function ProfilePage() {
+  const { setUser } = useAppContext();
+  const navigate    = useNavigate();
+
   const [activeSection, setActiveSection] = useState('personal');
   const [profile,       setProfile]       = useState(null);
-  const [avatarSrc,     setAvatarSrc]     = useState(null);
   const [loading,       setLoading]       = useState(true);
+  const [error,         setError]         = useState('');
+  const [retryCount,    setRetryCount]    = useState(0);
 
   useEffect(() => {
-    getProfile().then(data => {
-      setProfile(data);
-      setLoading(false);
-    });
-  }, []);
+    let cancelled = false;
+    setLoading(true);
+    setError('');
 
-  function handleAvatarChange(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => setAvatarSrc(ev.target.result);
-    reader.readAsDataURL(file);
+    (async () => {
+      try {
+        const data = await getProfile();
+        if (cancelled) return;
+        setProfile(data);
+        setLoading(false);
+      } catch (err) {
+        if (cancelled) return;
+        if (err.message === 'Unauthorized') {
+          navigate('/login');
+        } else {
+          setError(err.message || 'Failed to load profile. Please try again.');
+          setLoading(false);
+        }
+      }
+    })();
+
+    return () => { cancelled = true; };
+  }, [navigate, retryCount]);
+
+  /**
+   * Shared save handler — called by both PersonalInfoSection and PreferencesSection
+   * after a successful PUT /api/profile. Updates local profile state AND syncs the
+   * Navbar greeting via context.
+   */
+  function handleProfileSave(updatedProfile) {
+    setProfile(updatedProfile);
+    setUser(prev => ({
+      ...prev,
+      fullName:  updatedProfile.fullName,
+      firstName: updatedProfile.fullName.split(' ')[0],
+    }));
   }
 
   if (loading) {
@@ -40,6 +70,19 @@ export default function ProfilePage() {
       <div className="profile-page-wrap d-flex align-items-center justify-content-center">
         <div className="spinner-border text-success" role="status">
           <span className="visually-hidden">Loading…</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="profile-page-wrap d-flex align-items-center justify-content-center">
+        <div className="text-center">
+          <p className="text-danger mb-3">{error}</p>
+          <button className="btn-eco-outline" onClick={() => setRetryCount(c => c + 1)}>
+            Try again
+          </button>
         </div>
       </div>
     );
@@ -54,8 +97,6 @@ export default function ProfilePage() {
 
           <ProfileSidebar
             profile={profile}
-            avatarSrc={avatarSrc}
-            onAvatarChange={handleAvatarChange}
             activeSection={activeSection}
             onSectionChange={setActiveSection}
           />
@@ -69,14 +110,17 @@ export default function ProfilePage() {
             {activeSection === 'personal' && (
               <PersonalInfoSection
                 profile={profile}
-                avatarSrc={avatarSrc}
-                onAvatarChange={handleAvatarChange}
-                onSave={setProfile}
+                onSave={handleProfileSave}
               />
             )}
             {activeSection === 'security' && <SecuritySection email={profile.email} />}
-            {activeSection === 'prefs'    && <PreferencesSection />}
-            {activeSection === 'delete'   && <DeleteAccountSection email={profile.email} />}
+            {activeSection === 'prefs'    && (
+              <PreferencesSection
+                profile={profile}
+                onSave={handleProfileSave}
+              />
+            )}
+            {activeSection === 'delete' && <DeleteAccountSection email={profile.email} />}
           </main>
 
         </div>
