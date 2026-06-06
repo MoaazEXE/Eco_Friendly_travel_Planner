@@ -111,7 +111,7 @@ export const WEATHER_DATA = {
   },
 };
 
-export const POPULAR_CITIES = ["Kuala Lumpur", "Penang", "London", "Tokyo", "Paris"];
+export const POPULAR_CITIES = ["New York", "Paris", "Tokyo", "Dubai", "Sydney", "Bangkok", "London", "Rome"];
 
 export const DEFAULT_CITY = "penang";
 
