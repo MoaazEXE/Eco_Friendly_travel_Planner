@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Heart, Search, Filter } from "lucide-react";
 import { ECO_OPTIONS, CITY_LABELS } from "../data/ecoOptions";
+import { useAppContext } from "../context/AppContext";
 import EcoCard from "../components/eco/EcoCard";
 import FavouriteItem from "../components/eco/FavouriteItem";
 import "../styles/eco-options.css";
@@ -10,15 +11,7 @@ const CATEGORIES = ["All", "Accommodation", "Restaurant", "Transportation", "Act
 export default function EcoOptionsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-
-  const [favourites, setFavourites] = useState(() => {
-    try {
-      const saved = localStorage.getItem("ecoFavourites");
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
+  const { favourites, addFavourite, removeFavourite } = useAppContext();
 
   const filteredResults = useMemo(() => {
     const query = searchTerm.toLowerCase().trim();
@@ -35,23 +28,33 @@ export default function EcoOptionsPage() {
     });
   }, [searchTerm, selectedCategory]);
 
-  function addToFavourites(item) {
-    if (favourites.some((f) => f.id === item.id)) return;
-    const updated = [...favourites, item];
-    setFavourites(updated);
-    localStorage.setItem("ecoFavourites", JSON.stringify(updated));
+  // Merge DB favourite records with static eco option data for sidebar display
+  const sidebarItems = useMemo(
+    () =>
+      favourites
+        .map((f) => {
+          const option = ECO_OPTIONS.find((e) => e.id === f.ecoOptionId);
+          return option ? { ...option, _id: f._id } : null;
+        })
+        .filter(Boolean),
+    [favourites]
+  );
+
+  function isFavourite(item) {
+    return favourites.some((f) => f.ecoOptionId === item.id);
   }
 
-  function removeFromFavourites(id) {
-    const updated = favourites.filter((f) => f.id !== id);
-    setFavourites(updated);
-    localStorage.setItem("ecoFavourites", JSON.stringify(updated));
-  }
-
-  function toggleFavourite(item) {
-    favourites.some((f) => f.id === item.id)
-      ? removeFromFavourites(item.id)
-      : addToFavourites(item);
+  async function toggleFavourite(item) {
+    const existing = favourites.find((f) => f.ecoOptionId === item.id);
+    try {
+      if (existing) {
+        await removeFavourite(existing._id);
+      } else {
+        await addFavourite(item.id);
+      }
+    } catch {
+      // silently ignore network errors — UI stays consistent with context state
+    }
   }
 
   return (
@@ -118,7 +121,7 @@ export default function EcoOptionsPage() {
                   <div key={item.id} className="col-lg-6 col-xl-4">
                     <EcoCard
                       item={item}
-                      isFavourite={favourites.some((f) => f.id === item.id)}
+                      isFavourite={isFavourite(item)}
                       onToggleFavourite={() => toggleFavourite(item)}
                     />
                   </div>
@@ -136,21 +139,21 @@ export default function EcoOptionsPage() {
                 <div className="d-flex align-items-center gap-2 mb-3">
                   <Heart size={20} fill="var(--green-primary)" color="var(--green-primary)" />
                   <span className="fw-bold text-dark">My Favourites</span>
-                  <span className="badge bg-success ms-auto">{favourites.length}</span>
+                  <span className="badge bg-success ms-auto">{sidebarItems.length}</span>
                 </div>
               </div>
               <div className="card-body">
-                {favourites.length === 0 ? (
+                {sidebarItems.length === 0 ? (
                   <div className="text-center text-muted small py-5">
                     No favourites saved yet.
                   </div>
                 ) : (
                   <div className="d-flex flex-column gap-3">
-                    {favourites.map((item) => (
+                    {sidebarItems.map((item) => (
                       <FavouriteItem
-                        key={item.id}
+                        key={item._id}
                         item={item}
-                        onRemove={removeFromFavourites}
+                        onRemove={removeFavourite}
                       />
                     ))}
                   </div>

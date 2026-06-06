@@ -12,7 +12,7 @@ export default function FavouriteItem({ item, onRemove }) {
       </div>
       <button
         className="btn btn-sm btn-link p-0 text-danger flex-shrink-0"
-        onClick={() => onRemove(item.id)}
+        onClick={() => onRemove(item._id)}
         title="Remove"
       >
         <Trash2 size={16} />
@@ -23,7 +23,7 @@ export default function FavouriteItem({ item, onRemove }) {
 
 FavouriteItem.propTypes = {
   item: PropTypes.shape({
-    id:       PropTypes.number.isRequired,
+    _id:      PropTypes.string.isRequired,
     name:     PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
     city:     PropTypes.string.isRequired,
