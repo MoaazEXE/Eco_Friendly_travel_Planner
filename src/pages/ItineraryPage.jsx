@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
-import { ECO_OPTIONS, CITY_LABELS } from '../data/ecoOptions';
+import { CITY_LABELS } from '../data/ecoOptions';
+import { getEcoOptions } from '../api/ecoOptions';
 import ItineraryForm from '../components/itinerary/ItineraryForm';
 import RecommendationsList from '../components/itinerary/RecommendationsList';
 import SavedItinerary from '../components/itinerary/SavedItinerary';
@@ -8,6 +9,11 @@ import '../styles/itinerary.css';
 
 export default function ItineraryPage() {
   const { savedPlan, setSavedPlan } = useAppContext();
+  const [allOptions, setAllOptions] = useState([]);
+
+  useEffect(() => {
+    getEcoOptions().then(setAllOptions).catch(() => {});
+  }, []);
 
   const [form, setForm] = useState({
     destination: '',
@@ -43,7 +49,7 @@ export default function ItineraryPage() {
   function handleSubmit(e) {
     e.preventDefault();
     const input = form.destination.toLowerCase().trim();
-    const filtered = ECO_OPTIONS.filter((item) => {
+    const filtered = allOptions.filter((item) => {
       const cityLabel = (CITY_LABELS[item.city] || '').toLowerCase();
       const matchesCity = item.city === input || cityLabel === input;
       return matchesCity && item.budget <= form.budget && form.interests.includes(item.type);
@@ -57,7 +63,7 @@ export default function ItineraryPage() {
       setPlanError('Please select a Date of Visit first!');
       return;
     }
-    const item = ECO_OPTIONS.find((d) => d.id === id);
+    const item = allOptions.find((d) => d.id === id);
     const duplicate = savedPlan.some((p) => p.id === id && p.plannedDate === form.travelDate);
     if (duplicate) {
       setPlanError('This activity is already in your plan for this date!');
