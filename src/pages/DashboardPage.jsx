@@ -19,7 +19,7 @@ const CITY_IMAGE = {
 };
 const IMPACT_ECO = { Low: 5, Medium: 3, High: 1 };
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const { user, favourites, savedPlan } = useAppContext();
 
   const hour     = new Date().getHours();
@@ -52,12 +52,11 @@ export default function Dashboard() {
         {/* ── Hero section ───────────────────────────────── */}
         <div className="mb-4">
           <h1 className="eco-page-title">
-            <div className="d-flex align-items-center gap-2" style={{ marginBottom: '0.25rem' }}>
+            <div className="d-flex align-items-center gap-2 db-greeting-row">
               <div
-                className="d-flex align-items-center justify-content-center rounded-circle fw-bold flex-shrink-0"
-                style={{ width: '2rem', height: '2rem', background: 'var(--green-dark)', color: 'var(--white)', fontSize: '0.75rem' }}
+                className="d-flex align-items-center justify-content-center rounded-circle fw-bold flex-shrink-0 db-avatar"
               >
-                {user.firstName[0].toUpperCase()}
+                {user.firstName?.[0]?.toUpperCase() ?? '?'}
               </div>
               <span>{greeting}, {user.firstName}</span>
             </div>
@@ -69,7 +68,7 @@ export default function Dashboard() {
 
         {/* ── Trip badge ─────────────────────────────────── */}
         {daysUntil !== null && daysUntil > 0 && (
-          <div style={{ marginBottom: '2rem' }}>
+          <div className="db-mb-section">
             <Link to="/itinerary" className="d-inline-flex align-items-center gap-2 text-decoration-none db-trip-badge">
               <Calendar size={16} />
               {nextTrip.city} in {daysUntil} days
@@ -79,7 +78,7 @@ export default function Dashboard() {
         )}
 
         {/* ── Stats row ───────────────────────────────────── */}
-        <div className="row g-3" style={{ marginBottom: '2rem' }}>
+        <div className="row g-3 db-mb-section">
           <div className="col-12 col-sm-4">
             <StatCard value={`${user.carbonSaved} kg`} label="CO₂ Saved" sub="vs. avg itinerary" icon={<Leaf size={18} />} accent />
           </div>
@@ -92,7 +91,7 @@ export default function Dashboard() {
         </div>
 
         {/* ── Main grid ───────────────────────────────────── */}
-        <div className="row g-4" style={{ marginBottom: '2rem' }}>
+        <div className="row g-4 db-mb-section">
 
           {/* Next trip card */}
           <div className="col-12 col-lg-8">
@@ -104,8 +103,8 @@ export default function Dashboard() {
                   <div className="db-trip-overlay">
                     <span className="db-trip-label">Next Trip</span>
                     <h2 className="fw-bold text-white fs-5 m-0">{nextTrip.city}</h2>
-                    <p className="mb-0 mt-1 small" style={{ color: 'var(--white-a70)' }}>{nextTrip.stopName}</p>
-                    <div className="d-flex align-items-center gap-1 mt-1 small" style={{ color: 'var(--white-a70)' }}>
+                    <p className="mb-0 mt-1 small db-overlay-muted">{nextTrip.stopName}</p>
+                    <div className="d-flex align-items-center gap-1 mt-1 small db-overlay-muted">
                       <Calendar size={12} />
                       <span>{formatDate(nextTrip.date)}</span>
                     </div>
@@ -127,8 +126,7 @@ export default function Dashboard() {
             ) : (
               <div className="card-eco db-empty d-flex flex-column align-items-center justify-content-center text-center p-5">
                 <div
-                  className="d-flex align-items-center justify-content-center rounded-circle mb-3"
-                  style={{ width: '3rem', height: '3rem', background: 'var(--green-subtle)', border: '1px solid var(--green-pale)' }}
+                  className="d-flex align-items-center justify-content-center rounded-circle mb-3 db-empty-icon"
                 >
                   <MapPin size={20} color="var(--green-dark)" />
                 </div>
@@ -144,7 +142,7 @@ export default function Dashboard() {
           {/* Quick actions */}
           <div className="col-12 col-lg-4">
             <div className="card-eco p-4 h-100">
-              <h3 className="fw-bold mb-4" style={{ fontSize: '0.9375rem', color: 'var(--gray-900)' }}>Quick Actions</h3>
+              <h3 className="fw-bold mb-4 db-card-heading">Quick Actions</h3>
               <div className="d-flex flex-column gap-2">
                 {[
                   { to: '/eco-options', label: 'Browse eco destinations',  icon: <MapPin    size={16} color="var(--green-dark)" /> },
@@ -155,19 +153,17 @@ export default function Dashboard() {
                   <Link
                     key={to}
                     to={to}
-                    className="d-flex align-items-center gap-3 text-decoration-none p-3 rounded-3 border text-secondary fw-medium small"
-                    style={{ transition: 'background 0.15s', fontSize: '0.875rem' }}
+                    className="d-flex align-items-center gap-3 text-decoration-none p-3 rounded-3 border text-secondary fw-medium small db-action-link"
                     onMouseEnter={e => e.currentTarget.style.background = 'var(--gray-50)'}
                     onMouseLeave={e => e.currentTarget.style.background = ''}
                   >
                     <div
-                      className="d-flex align-items-center justify-content-center rounded-2 flex-shrink-0"
-                      style={{ width: '2rem', height: '2rem', background: 'var(--green-subtle)', border: '1px solid var(--green-pale)' }}
+                      className="d-flex align-items-center justify-content-center rounded-2 flex-shrink-0 db-icon-box"
                     >
                       {icon}
                     </div>
                     {label}
-                    <ChevronRight size={14} color="var(--gray-400)" style={{ marginLeft: 'auto' }} />
+                    <ChevronRight size={14} color="var(--gray-400)" className="db-ml-auto" />
                   </Link>
                 ))}
               </div>
@@ -195,12 +191,12 @@ export default function Dashboard() {
                   <div className="p-3">
                     <div className="d-flex align-items-start justify-content-between mb-1">
                       <div>
-                        <div className="fw-bold mb-0" style={{ fontSize: '0.9375rem', color: 'var(--gray-900)' }}>{r.name}</div>
+                        <div className="fw-bold mb-0 db-card-heading">{r.name}</div>
                         <div className="text-muted small mb-0">{CITY_LABELS[r.city] || r.city}</div>
                       </div>
                       <StarRating count={r.eco} />
                     </div>
-                    <p className="text-muted small mb-0" style={{ lineHeight: 1.5 }}>{r.desc}</p>
+                    <p className="text-muted small mb-0 db-rec-desc">{r.desc}</p>
                   </div>
                 </div>
               </div>

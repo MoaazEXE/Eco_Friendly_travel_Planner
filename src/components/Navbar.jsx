@@ -8,7 +8,6 @@ const APP_LINKS = [
   { to: '/itinerary',   label: 'Itinerary' },
   { to: '/weather',     label: 'Weather' },
   { to: '/calculator',  label: 'Carbon Calculator' },
-  { to: '/profile',     label: 'Profile' },
 ];
 
 export default function Navbar() {
@@ -43,20 +42,22 @@ export default function Navbar() {
         </button>
 
         <div className="collapse navbar-collapse" id="mainNav">
-          <ul className="navbar-nav mx-auto gap-lg-1 mb-0">
-            {APP_LINKS.map(({ to, label }) => (
-              <li className="nav-item" key={to}>
-                <NavLink
-                  className={({ isActive }) =>
-                    `nav-link eco-nav-link${isActive ? ' active' : ''}`
-                  }
-                  to={to}
-                >
-                  {label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
+          {isLoggedIn && (
+            <ul className="navbar-nav mx-auto gap-lg-1 mb-0">
+              {APP_LINKS.map(({ to, label }) => (
+                <li className="nav-item" key={to}>
+                  <NavLink
+                    className={({ isActive }) =>
+                      `nav-link eco-nav-link${isActive ? ' active' : ''}`
+                    }
+                    to={to}
+                  >
+                    {label}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          )}
 
           {isLoggedIn ? (
             <div className="d-flex align-items-center gap-2 ms-auto">

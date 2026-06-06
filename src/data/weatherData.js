@@ -6,7 +6,7 @@ import rainImg from "../assets/weather/rain.jpg";
 export const WEATHER_DATA = {
   "kuala lumpur": {
     city: "Kuala Lumpur, Malaysia",
-    date: "Friday, April 10, 2026",
+    date: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
     condition: "Partly Cloudy",
     currentIcon: "bi-cloud-sun",
     temp: "32°C",
@@ -27,7 +27,7 @@ export const WEATHER_DATA = {
   },
   penang: {
     city: "Penang, Malaysia",
-    date: "Friday, April 10, 2026",
+    date: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
     condition: "Rain",
     currentIcon: "bi-cloud-rain",
     temp: "28°C",
@@ -48,7 +48,7 @@ export const WEATHER_DATA = {
   },
   london: {
     city: "London, United Kingdom",
-    date: "Friday, April 10, 2026",
+    date: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
     condition: "Cloudy",
     currentIcon: "bi-cloud",
     temp: "12°C",
@@ -69,7 +69,7 @@ export const WEATHER_DATA = {
   },
   tokyo: {
     city: "Tokyo, Japan",
-    date: "Friday, April 10, 2026",
+    date: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
     condition: "Sunny",
     currentIcon: "bi-sun",
     temp: "26°C",
@@ -90,7 +90,7 @@ export const WEATHER_DATA = {
   },
   paris: {
     city: "Paris, France",
-    date: "Friday, April 10, 2026",
+    date: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
     condition: "Partly Cloudy",
     currentIcon: "bi-cloud-sun",
     temp: "18°C",
@@ -111,7 +111,7 @@ export const WEATHER_DATA = {
   },
 };
 
-export const POPULAR_CITIES = ["Kuala Lumpur", "Penang", "London", "Tokyo", "Paris"];
+export const POPULAR_CITIES = ["New York", "Paris", "Tokyo", "Dubai", "Sydney", "Bangkok", "London", "Rome"];
 
 export const DEFAULT_CITY = "penang";
 

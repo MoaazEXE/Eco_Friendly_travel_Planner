@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import HomePage from './pages/HomePage';
 import Dashboard from './pages/DashboardPage';
@@ -19,15 +20,16 @@ export default function App() {
     <AppProvider>
       <Navbar />
       <Routes>
-        <Route path="/"             element={<HomePage />} />
-        <Route path="/dashboard"    element={<Dashboard />} />
-        <Route path="/login"        element={<LoginPage />} />
-        <Route path="/register"     element={<RegisterPage />} />
-        <Route path="/profile"      element={<ProfilePage />} />
-        <Route path="/eco-options"  element={<EcoOptionsPage />} />
-        <Route path="/itinerary"    element={<ItineraryPage />} />
-        <Route path="/weather"      element={<WeatherPage />} />
-        <Route path="/calculator"   element={<CalculatorPage />} />
+        <Route path="/"            element={<HomePage />} />
+        <Route path="/login"       element={<LoginPage />} />
+        <Route path="/register"    element={<RegisterPage />} />
+
+        <Route path="/dashboard"   element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/profile"     element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+        <Route path="/eco-options" element={<ProtectedRoute><EcoOptionsPage /></ProtectedRoute>} />
+        <Route path="/itinerary"   element={<ProtectedRoute><ItineraryPage /></ProtectedRoute>} />
+        <Route path="/weather"     element={<ProtectedRoute><WeatherPage /></ProtectedRoute>} />
+        <Route path="/calculator"  element={<ProtectedRoute><CalculatorPage /></ProtectedRoute>} />
       </Routes>
       <Footer />
     </AppProvider>
