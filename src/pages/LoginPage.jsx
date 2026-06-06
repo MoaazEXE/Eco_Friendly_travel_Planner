@@ -4,10 +4,10 @@ import { useAppContext } from "../context/AppContext";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { loadPlan } = useAppContext();
+  const { loadPlan, loadFavourites } = useAppContext();
 
   async function handleLoginSuccess() {
-    await loadPlan();
+    await Promise.all([loadPlan(), loadFavourites()]);
     navigate("/");
   }
 

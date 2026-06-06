@@ -137,7 +137,7 @@
   --weather-condition:    #5d7c60;
   --weather-dim:          #88a993;
   --weather-note:         #6b916f;
-  --weather-overlay:      rgba(27, 67, 50, 0.82);
+  --weather-overlay:      rgba(27, 67, 50, 0.55);
 
   /* ─────────────────────────────────────
      BACKWARD-COMPAT ALIASES

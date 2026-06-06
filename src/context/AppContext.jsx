@@ -70,6 +70,11 @@ export function AppProvider({ children }) {
     setFavourites((prev) => prev.filter((f) => f._id !== id));
   }, []);
 
+  const loadFavourites = useCallback(async () => {
+    const favs = await getFavourites().catch(() => null);
+    if (favs) setFavourites(favs);
+  }, []);
+
   // Itinerary
   const loadPlan = useCallback(async () => {
     const plan = await getItinerary().catch(() => null);
@@ -105,6 +110,7 @@ export function AppProvider({ children }) {
         removeFavourite,
         savedPlan,
         setSavedPlan,
+        loadFavourites,
         loadPlan,
         addStop,
         removeStop,
