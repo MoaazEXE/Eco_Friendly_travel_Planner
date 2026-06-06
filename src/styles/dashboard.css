@@ -56,3 +56,57 @@
   padding: 0.25rem 0.625rem;
   border-radius: 9999px;
 }
+
+/* ── Utility classes extracted from inline styles ─────────── */
+
+/* Hero greeting row bottom spacing */
+.db-greeting-row { margin-bottom: 0.25rem; }
+
+/* Avatar / initials circle */
+.db-avatar {
+  width: 2rem;
+  height: 2rem;
+  background: var(--green-dark);
+  color: var(--white);
+  font-size: 0.75rem;
+}
+
+/* Generic 2rem bottom margin used in several section wrappers */
+.db-mb-section { margin-bottom: 2rem; }
+
+/* Overlay text: muted white (stop-name, date row) */
+.db-overlay-muted { color: var(--white-a70); }
+
+/* Card heading: "Quick Actions" and rec-card name */
+.db-card-heading {
+  font-size: 0.9375rem;
+  color: var(--gray-900);
+}
+
+/* Quick-action link row */
+.db-action-link {
+  transition: background 0.15s;
+  font-size: 0.875rem;
+}
+
+/* Quick-action icon wrapper */
+.db-icon-box {
+  width: 2rem;
+  height: 2rem;
+  background: var(--green-subtle);
+  border: 1px solid var(--green-pale);
+}
+
+/* Empty-state icon circle (3rem variant) */
+.db-empty-icon {
+  width: 3rem;
+  height: 3rem;
+  background: var(--green-subtle);
+  border: 1px solid var(--green-pale);
+}
+
+/* Push chevron to the far right inside flex rows */
+.db-ml-auto { margin-left: auto; }
+
+/* Rec-card description line-height */
+.db-rec-desc { line-height: 1.5; }
