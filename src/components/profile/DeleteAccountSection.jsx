@@ -1,19 +1,34 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useAppContext } from '../../context/AppContext';
+import { deleteAccount } from '../../api/profile';
 
 export default function DeleteAccountSection({ email }) {
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [emailInput,  setEmailInput]  = useState('');
-  const [deleteMsg,   setDeleteMsg]   = useState('');
+  const { logout }     = useAppContext();
+  const navigate       = useNavigate();
+
+  const [showConfirm,  setShowConfirm]  = useState(false);
+  const [emailInput,   setEmailInput]   = useState('');
+  const [deleting,     setDeleting]     = useState(false);
+  const [deleteError,  setDeleteError]  = useState('');
 
   const canDelete = Boolean(email) && emailInput.trim() === email.trim();
 
-  function handleDelete(e) {
+  async function handleDelete(e) {
     e.preventDefault();
     if (!canDelete) return;
-    setDeleteMsg('Account deletion requested. No backend is connected — this is a demo-only action.');
-    setShowConfirm(false);
-    setEmailInput('');
+    setDeleting(true);
+    setDeleteError('');
+    try {
+      await deleteAccount();
+      // Clear client-side session state then redirect to home.
+      await logout();
+      navigate('/');
+    } catch (err) {
+      setDeleteError(err.message || 'Failed to delete account. Please try again.');
+      setDeleting(false);
+    }
   }
 
   return (
@@ -29,8 +44,8 @@ export default function DeleteAccountSection({ email }) {
         <strong>There is no recovery path after deletion.</strong>
       </p>
 
-      {deleteMsg && (
-        <p className="text-success small mb-3">{deleteMsg}</p>
+      {deleteError && (
+        <p className="text-danger small mb-3">{deleteError}</p>
       )}
 
       {!showConfirm && (
@@ -54,18 +69,24 @@ export default function DeleteAccountSection({ email }) {
               className="form-control"
               placeholder={email || 'your@email.com'}
               value={emailInput}
-              onChange={e => setEmailInput(e.target.value)}
+              onChange={e => { setEmailInput(e.target.value); setDeleteError(''); }}
+              disabled={deleting}
             />
           </div>
           <div className="d-flex gap-2 flex-wrap">
-            <button type="submit" className="btn btn-danger d-inline-flex align-items-center gap-1" disabled={!canDelete}>
+            <button
+              type="submit"
+              className="btn btn-danger d-inline-flex align-items-center gap-1"
+              disabled={!canDelete || deleting}
+            >
               <i className="bi bi-trash" />
-              Permanently delete
+              {deleting ? 'Deleting…' : 'Permanently delete'}
             </button>
             <button
               type="button"
               className="btn-eco-outline"
-              onClick={() => { setShowConfirm(false); setEmailInput(''); }}
+              onClick={() => { setShowConfirm(false); setEmailInput(''); setDeleteError(''); }}
+              disabled={deleting}
             >
               Cancel
             </button>
