@@ -55,6 +55,7 @@ export default function CalculatorPage() {
             />
             <label className="form-label fw-semibold">Total Distance (km)</label>
             <input
+              aria-label="Total Distance"
               type="number"
               className="form-control form-control-lg mb-4"
               placeholder="e.g. 1000"
@@ -73,6 +74,7 @@ export default function CalculatorPage() {
             />
             <label className="form-label fw-semibold">Number of Nights</label>
             <input
+              aria-label="Number of Nights"
               type="number"
               className="form-control form-control-lg"
               placeholder="e.g. 5"
@@ -80,7 +82,6 @@ export default function CalculatorPage() {
               value={form.nights}
               onChange={(e) => setForm((f) => ({ ...f, nights: e.target.value }))}
             />
-
             <div className="d-grid mt-4">
               <button type="submit" className="btn-eco-dark">
                 Calculate Emissions
