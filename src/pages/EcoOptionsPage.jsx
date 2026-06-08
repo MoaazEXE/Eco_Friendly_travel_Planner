@@ -1,6 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Heart, Search, Filter } from "lucide-react";
-import { ECO_OPTIONS, CITY_LABELS } from "../data/ecoOptions";
+import { CITY_LABELS } from "../data/ecoOptions";
+import { getEcoOptions } from "../api/ecoOptions";
 import { useAppContext } from "../context/AppContext";
 import EcoCard from "../components/eco/EcoCard";
 import FavouriteItem from "../components/eco/FavouriteItem";
@@ -11,11 +12,20 @@ const CATEGORIES = ["All", "Accommodation", "Restaurant", "Transportation", "Act
 export default function EcoOptionsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [ecoOptions, setEcoOptions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { favourites, addFavourite, removeFavourite } = useAppContext();
+
+  useEffect(() => {
+    getEcoOptions()
+      .then(setEcoOptions)
+      .catch(() => {})
+      .finally(() => setIsLoading(false));
+  }, []);
 
   const filteredResults = useMemo(() => {
     const query = searchTerm.toLowerCase().trim();
-    return ECO_OPTIONS.filter((item) => {
+    return ecoOptions.filter((item) => {
       const cityLabel = (CITY_LABELS[item.city] || "").toLowerCase();
       const matchesSearch =
         !query ||
@@ -26,18 +36,18 @@ export default function EcoOptionsPage() {
         selectedCategory === "All" || item.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
-  }, [searchTerm, selectedCategory]);
+  }, [ecoOptions, searchTerm, selectedCategory]);
 
-  // Merge DB favourite records with static eco option data for sidebar display
+  // Merge DB favourite records with fetched eco option data for sidebar display
   const sidebarItems = useMemo(
     () =>
       favourites
         .map((f) => {
-          const option = ECO_OPTIONS.find((e) => e.id === f.ecoOptionId);
+          const option = ecoOptions.find((e) => e.id === f.ecoOptionId);
           return option ? { ...option, _id: f._id } : null;
         })
         .filter(Boolean),
-    [favourites]
+    [favourites, ecoOptions]
   );
 
   function isFavourite(item) {
@@ -108,7 +118,13 @@ export default function EcoOptionsPage() {
         <div className="row g-4">
           <div className="col-lg-9">
             <div className="row g-4">
-              {filteredResults.length === 0 ? (
+              {isLoading ? (
+                <div className="col-12">
+                  <div className="text-center py-5">
+                    <div className="spinner-border text-success" role="status" />
+                  </div>
+                </div>
+              ) : filteredResults.length === 0 ? (
                 <div className="col-12">
                   <div className="text-center py-5">
                     <p className="text-muted fs-5">
