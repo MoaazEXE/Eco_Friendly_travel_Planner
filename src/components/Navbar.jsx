@@ -8,6 +8,7 @@ const APP_LINKS = [
   { to: '/itinerary',   label: 'Itinerary' },
   { to: '/weather',     label: 'Weather' },
   { to: '/calculator',  label: 'Carbon Calculator' },
+  { to: '/profile',     label: 'Profile' },
 ];
 
 export default function Navbar() {
